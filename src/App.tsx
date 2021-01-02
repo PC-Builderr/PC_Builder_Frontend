@@ -1,6 +1,6 @@
 import React, { useEffect, Suspense } from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
-import { ProductCard } from './components/ProductCard'
+import { ProductCard } from './components/Product/ProductCard'
 import { useFetch } from './hooks/Fetch/useFetch'
 import { Product } from './interfaces/Product'
 import { ProductArrayResponse } from './interfaces/ProductArrayResponse'

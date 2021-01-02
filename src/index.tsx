@@ -6,7 +6,7 @@ import { App } from './App'
 import { BrowserRouter } from 'react-router-dom'
 import { ThemeProvider } from '@material-ui/core'
 import { theme } from './theme'
-import { Layout } from './components/Layout'
+import { Layout } from './components/Layout/Layout'
 import { CartContextProvider } from './context/Cart/CartContextProvider'
 
 ReactDOM.render(

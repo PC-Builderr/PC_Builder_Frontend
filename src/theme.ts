@@ -33,7 +33,7 @@ export const theme: Theme = createMuiTheme({
         },
         h6: {
             fontSize: '1.2rem',
-            fontWeight: 500,
+            fontWeight: 400,
             lineHeight: 1
         },
         subtitle1: {},

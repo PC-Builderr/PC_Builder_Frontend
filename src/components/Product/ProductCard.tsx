@@ -11,8 +11,8 @@ import {
 } from '@material-ui/core'
 import React, { useContext } from 'react'
 import { useHistory } from 'react-router-dom'
-import { CartContext } from '../context/Cart/CartContext'
-import { Product } from '../interfaces/Product'
+import { CartContext } from '../../context/Cart/CartContext'
+import { Product } from '../../interfaces/Product'
 
 interface Props {
     product: Product
@@ -21,14 +21,20 @@ interface Props {
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
-            maxWidth: 300
+            maxWidth: 260,
+            minHeight: 330,
+            display: 'inline-block',
+            margin: '4px'
         },
         image: {
             padding: '5%',
             boxSizing: 'border-box'
         },
         content: {
-            padding: '0.5rem 1rem'
+            minHeight: 78,
+            padding: '0.5rem 1rem',
+            display: 'flex',
+            alignItems: 'center'
         },
         actions: {
             display: 'flex',
@@ -54,7 +60,7 @@ export const ProductCard: React.FC<Props> = ({ product }) => {
     const inCart = products.find(p => p.id === product.id)
 
     return (
-        <Card className={classes.root}>
+        <Card className={classes.root} variant='outlined'>
             <CardActionArea onClick={() => history.push(`${product.type}/${product.id}`)}>
                 <CardMedia
                     className={classes.image}
@@ -73,12 +79,7 @@ export const ProductCard: React.FC<Props> = ({ product }) => {
                 <Typography variant='h5' className={classes.price}>
                     {product.price}лв.
                 </Typography>
-                <Button
-                    onClick={() => modifyProducts(product)}
-                    color={inCart ? 'secondary' : 'primary'}
-                >
-                    {inCart ? 'remove from card' : 'add to cart'}
-                </Button>
+                <Button color='primary'>add to cart</Button>
             </div>
         </Card>
     )
