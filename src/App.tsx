@@ -1,37 +1,64 @@
-import React, { useEffect, Suspense } from 'react'
+import React, { Suspense, useEffect } from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
-import { ProductCard } from './components/ProductCard'
-import { useFetch } from './hooks/useFetch'
-import { Product } from './interfaces/product.interface'
-import { SignIn } from './pages/SignIn'
+import { Layout } from './components/Layout'
+import { ProductCard } from './components/Products/ProductCard'
+import { useFetch } from './hooks/Fetch/useFetch'
+import { Product } from './interfaces/Product'
+import { ProductArrayResponse } from './interfaces/ProductArrayResponse'
 
 interface Props {}
 
 export const App: React.FC<Props> = () => {
-    const [data, loading, error, fetchData] = useFetch()
+    const {
+        state: { data, error, loading },
+        fetchData
+    } = useFetch<ProductArrayResponse>()
 
     useEffect(() => {
-        fetchData(`${process.env.REACT_APP_API_URL}/product`)
+        fetchData('http://localhost:4000/api/product')
     }, [fetchData])
 
-    useEffect(() => {
-        console.log(`Data: ${data} --- Loading: ${loading} --- Error: ${error}`)
-    }, [data, loading, error])
-
-    const products = data?.products?.map((product: Product) => (
-        <ProductCard key={product.id} product={product} />
-    ))
+    let products: Product[] = []
+    if (data) {
+        products = data.products
+    }
 
     return (
-        <Switch>
-            <Route path='/' exact>
-                <Suspense fallback={'Loading...'}>
-                    {error ? <Redirect to='/error' /> : products}
-                </Suspense>
-            </Route>
-            <Route path='/sign-in' exact>
-                <SignIn />
-            </Route>
-        </Switch>
+        <Layout>
+            <Switch>
+                <Route path='/' exact>
+                    <Suspense fallback={'...Loading'}>
+                        {error ? (
+                            <Redirect to='error' />
+                        ) : (
+                            products.map((product: Product) => (
+                                <ProductCard key={product.id} product={product} />
+                            ))
+                        )}
+                    </Suspense>
+                </Route>
+                <Route path='/sign-in' exact>
+                    <h3>sign in</h3>
+                </Route>
+                <Route path='/sign-up' exact>
+                    <h3>sign up</h3>
+                </Route>
+                <Route path='/cart' exact>
+                    <h3>cart</h3>
+                </Route>
+                <Route path='/products' exact>
+                    <h3>All Products</h3>
+                </Route>
+                <Route path='/products/:type' exact>
+                    <h3>Products with type</h3>
+                </Route>
+                <Route path='/products/:type/:id' exact>
+                    <h3>id</h3>
+                </Route>
+                <Route path='/error' exact>
+                    <h3>Error</h3>
+                </Route>
+            </Switch>
+        </Layout>
     )
 }

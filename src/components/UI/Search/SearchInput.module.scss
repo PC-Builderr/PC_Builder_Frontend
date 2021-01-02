@@ -1,0 +1,24 @@
+.Search {
+    display: flex;
+    align-items: center;
+
+    & .Icon {
+        font-weight: 500;
+        font-size: 1.25rem;
+        margin-right: 0.25rem;
+        color: #2e425a;
+    }
+
+    & input {
+        font-weight: 500;
+        font-size: 1rem;
+        border: none;
+        outline: none;
+
+        &::placeholder {
+            color: #2e425a;
+            opacity: 0.8;
+            font-weight: 500;
+        }
+    }
+}

@@ -1,17 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { Product } from '../interfaces/product.interface'
+import { CartContext } from './CartContext'
+import { Product } from '../../interfaces/Product'
 
-interface Context {
-    products: Product[]
-    modifyProducts: (product: Product) => void
+interface Props {
+    children: React.ReactNode
 }
-
-export const CartContext = React.createContext<Context>({
-    products: [],
-    modifyProducts: (product: Product) => {}
-})
-
-interface Props {}
 
 export const CartContextProvider: React.FC<Props> = props => {
     const [products, setProducts] = useState<Product[]>(() => {
@@ -23,7 +16,7 @@ export const CartContextProvider: React.FC<Props> = props => {
     }, [products])
 
     const modifyProducts = (product: Product) =>
-        setProducts(oldProducts => {
+        setProducts((oldProducts: Product[]) => {
             return oldProducts.find(p => p.id === product.id)
                 ? oldProducts.filter(p => p.id !== product.id)
                 : [...oldProducts, product]
