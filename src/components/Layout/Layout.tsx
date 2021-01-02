@@ -6,15 +6,21 @@ interface Props {
     children: React.ReactElement
 }
 
-const useStyles = makeStyles((theme: Theme) => createStyles({}))
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        main: {
+            marginTop: '4rem'
+        }
+    })
+)
 
 export const Layout: React.FC<Props> = props => {
-    const classes = useStyles()
+    const styles = useStyles()
 
     return (
         <>
             <Header />
-            <Container component='main' maxWidth='lg'>
+            <Container className={styles.main} component='main' maxWidth='lg'>
                 {props.children}
             </Container>
             <footer></footer>

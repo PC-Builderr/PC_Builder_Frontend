@@ -9,9 +9,8 @@ import {
     Theme,
     Typography
 } from '@material-ui/core'
-import React, { useContext } from 'react'
+import React from 'react'
 import { useHistory } from 'react-router-dom'
-import { CartContext } from '../../context/Cart/CartContext'
 import { Product } from '../../interfaces/Product'
 
 interface Props {
@@ -21,17 +20,16 @@ interface Props {
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
-            maxWidth: 260,
-            minHeight: 330,
-            display: 'inline-block',
-            margin: '4px'
+            maxWidth: '16.5rem',
+            minHeight: '20.5rem',
+            display: 'inline-block'
         },
         image: {
             padding: '5%',
             boxSizing: 'border-box'
         },
         content: {
-            minHeight: 78,
+            minHeight: '5rem',
             padding: '0.5rem 1rem',
             display: 'flex',
             alignItems: 'center'
@@ -51,32 +49,28 @@ const useStyles = makeStyles((theme: Theme) =>
 )
 
 export const ProductCard: React.FC<Props> = ({ product }) => {
-    const classes = useStyles()
+    const styles = useStyles()
 
     const history = useHistory()
 
-    const { products, modifyProducts } = useContext(CartContext)
-
-    const inCart = products.find(p => p.id === product.id)
-
     return (
-        <Card className={classes.root} variant='outlined'>
+        <Card className={styles.root} variant='outlined'>
             <CardActionArea onClick={() => history.push(`${product.type}/${product.id}`)}>
                 <CardMedia
-                    className={classes.image}
+                    className={styles.image}
                     component='img'
                     alt={product.name}
                     title={product.name}
                     src={process.env.REACT_APP_API_URL + product.images[0].url}
                 />
-                <CardContent className={classes.content}>
+                <CardContent className={styles.content}>
                     <Typography variant='h6' color='primary'>
                         {product.name}
                     </Typography>
                 </CardContent>
             </CardActionArea>
-            <div className={classes.actions}>
-                <Typography variant='h5' className={classes.price}>
+            <div className={styles.actions}>
+                <Typography variant='h5' className={styles.price}>
                     {product.price}лв.
                 </Typography>
                 <Button color='primary'>add to cart</Button>
