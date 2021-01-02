@@ -8,7 +8,7 @@ import {
     Typography
 } from '@material-ui/core'
 import React, { useState } from 'react'
-import { useFetch } from '../hooks/useFetch'
+import { useFetch } from '../hooks/Fetch/useFetch'
 
 interface Props {}
 
@@ -48,7 +48,10 @@ export const SignIn: React.FC<Props> = props => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
-    const [data, loading, error, fetchData] = useFetch()
+    const {
+        fetchData,
+        state: { data, error, loading }
+    } = useFetch()
 
     const onSubmit = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
         event.preventDefault()

@@ -1,14 +1,18 @@
 import React, { useEffect, Suspense } from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
 import { ProductCard } from './components/ProductCard'
-import { useFetch } from './hooks/useFetch'
-import { Product } from './interfaces/product.interface'
+import { useFetch } from './hooks/Fetch/useFetch'
+import { Product } from './interfaces/Product'
+import { ProductArrayResponse } from './interfaces/ProductArrayResponse'
 import { SignIn } from './pages/SignIn'
 
 interface Props {}
 
 export const App: React.FC<Props> = () => {
-    const [data, loading, error, fetchData] = useFetch()
+    const {
+        fetchData,
+        state: { data, error, loading }
+    } = useFetch<ProductArrayResponse>()
 
     useEffect(() => {
         fetchData(`${process.env.REACT_APP_API_URL}/product`)

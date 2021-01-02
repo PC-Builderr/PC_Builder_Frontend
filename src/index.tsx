@@ -3,11 +3,11 @@ import ReactDOM from 'react-dom'
 import './index.css'
 import reportWebVitals from './reportWebVitals'
 import { App } from './App'
-import { CartContextProvider } from './context/CartContext'
 import { BrowserRouter } from 'react-router-dom'
 import { ThemeProvider } from '@material-ui/core'
 import { theme } from './theme'
 import { Layout } from './components/Layout'
+import { CartContextProvider } from './context/Cart/CartContextProvider'
 
 ReactDOM.render(
     <React.StrictMode>

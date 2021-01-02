@@ -11,8 +11,8 @@ import {
 } from '@material-ui/core'
 import React, { useContext } from 'react'
 import { useHistory } from 'react-router-dom'
-import { CartContext } from '../context/CartContext'
-import { Product } from '../interfaces/product.interface'
+import { CartContext } from '../context/Cart/CartContext'
+import { Product } from '../interfaces/Product'
 
 interface Props {
     product: Product
