@@ -5,9 +5,11 @@ import {
     createStyles,
     Theme,
     Box,
-    Typography
+    Typography,
+    Link
 } from '@material-ui/core'
 import React, { useState } from 'react'
+import { Link as RouterLink } from 'react-router-dom'
 import { useFetch } from '../hooks/Fetch/useFetch'
 
 interface Props {}
@@ -15,7 +17,8 @@ interface Props {}
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
-            marginTop: theme.spacing(8),
+            maxWidth: '26rem',
+            margin: '8rem auto',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
@@ -23,27 +26,32 @@ const useStyles = makeStyles((theme: Theme) =>
             textAlign: 'center',
 
             '& > *': {
-                marginTop: theme.spacing(1),
-                marginBottom: theme.spacing(1)
+                margin: '0.5rem'
             },
+
             [theme.breakpoints.up('sm')]: {
-                padding: theme.spacing(4),
-                paddingTop: theme.spacing(3),
                 border: '1px solid',
                 borderColor: theme.palette.divider,
                 borderRadius: theme.shape.borderRadius,
                 textAlign: 'start',
-
-                '& > *': {
-                    margin: theme.spacing(1)
-                }
+                padding: '1.5rem 2rem 1rem'
+            }
+        },
+        heading: {
+            marginBottom: '1rem'
+        },
+        signUp: {
+            textAlign: 'center',
+            marginTop: '1rem',
+            '& a': {
+                fontWeight: 600
             }
         }
     })
 )
 
 export const SignIn: React.FC<Props> = props => {
-    const classes = useStyles()
+    const styles = useStyles()
 
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -53,7 +61,7 @@ export const SignIn: React.FC<Props> = props => {
         state: { data, error, loading }
     } = useFetch()
 
-    const onSubmit = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+    const onSubmit = (event: React.ChangeEvent<HTMLInputElement>) => {
         event.preventDefault()
         if (!username || !password) {
             return alert('please enter all the fields')
@@ -61,8 +69,10 @@ export const SignIn: React.FC<Props> = props => {
     }
 
     return (
-        <Box className={classes.root} component='form' onSubmit={onSubmit}>
-            <Typography variant='h4'>Sign In.</Typography>
+        <Box className={styles.root} component='form' onSubmit={onSubmit}>
+            <Typography variant='h4' className={styles.heading}>
+                Sign In.
+            </Typography>
             <TextField
                 label='Username'
                 size='small'
@@ -81,6 +91,12 @@ export const SignIn: React.FC<Props> = props => {
             <Button variant='contained' type='submit' color='primary'>
                 Sign In
             </Button>
+            <Typography variant='caption' color='textSecondary' className={styles.signUp}>
+                Dont have an acconut?{' '}
+                <Link component={RouterLink} to='/sign-up' underline='none'>
+                    Sign up.
+                </Link>
+            </Typography>
         </Box>
     )
 }

@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
             maxWidth: '16.5rem',
-            minHeight: '20.5rem',
+            minHeight: '20.75rem',
             display: 'inline-block'
         },
         image: {
@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme: Theme) =>
             boxSizing: 'border-box'
         },
         content: {
-            minHeight: '5rem',
+            minHeight: '5.5rem',
             padding: '0.5rem 1rem',
             display: 'flex',
             alignItems: 'center'
