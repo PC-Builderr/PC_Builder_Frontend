@@ -35,22 +35,6 @@ export const theme: Theme = createMuiTheme({
             fontSize: '1.2rem',
             fontWeight: 400,
             lineHeight: 1.2
-        },
-        subtitle1: {},
-        subtitle2: {},
-        body1: {
-            fontSize: '1.1rem',
-            fontWeight: 300
-        },
-        body2: {
-            fontSize: '1rem',
-            fontWeight: 300
-        },
-        caption: {
-            fontSize: '0.8rem',
-            fontWeight: 300,
-            lineHeight: 1
-        },
-        overline: {}
+        }
     }
 })

@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core'
 import React, { useState } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
-import { useFetch } from '../hooks/Fetch/useFetch'
+// import { useFetch } from '../hooks/Fetch/useFetch'
 
 interface Props {}
 
@@ -56,10 +56,10 @@ export const SignIn: React.FC<Props> = props => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
-    const {
-        fetchData,
-        state: { data, error, loading }
-    } = useFetch()
+    // const {
+    //     fetchData,
+    //     state: { data, error, loading }
+    // } = useFetch()
 
     const onSubmit = (event: React.ChangeEvent<HTMLInputElement>) => {
         event.preventDefault()
