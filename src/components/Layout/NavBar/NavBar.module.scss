@@ -37,30 +37,6 @@
     }
 }
 
-.DropDown {
-    display: flex;
-    align-items: center;
-
-    & button {
-        border: none;
-        font-size: 1rem;
-        font-weight: 500;
-        background-color: transparent;
-        display: flex;
-        align-items: center;
-    }
-
-    & .Icon {
-        margin-top: 0.1rem;
-        margin-left: 0.25rem;
-        transition: 0.1s;
-    }
-
-    & .Open {
-        transform: rotate(180deg);
-    }
-}
-
 .Nav {
     background-color: white;
     max-width: 1432px;
@@ -70,18 +46,17 @@
     align-items: center;
     justify-content: space-between;
     padding: 0 1rem;
+    height: 100%;
 
     & ul {
         display: flex;
+        align-items: center;
+        height: 100%;
     }
 
     & li a {
         font-weight: 500;
         height: 100%;
-        color: #2e425a;
-    }
-
-    & li button {
         color: #2e425a;
     }
 }

@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { RiShoppingCartLine } from 'react-icons/ri'
-import { IoIosArrowDown } from 'react-icons/io'
 import { SearchInput } from '../../UI/Search'
 import classes from './NavBar.module.scss'
 import { ProductArrayResponse } from '../../../interfaces/ProductArrayResponse'
 import { useFetch } from '../../../hooks/Fetch/useFetch'
+import { DropDown } from '../../UI/DropDown'
 
 interface Props {}
 
 export const NavBar: React.FC<Props> = props => {
-    const [isOpen, setIsOpen] = useState<boolean>(false)
-    const [search, setSearch] = useState('')
+    const [search, setSearch] = useState<string>('')
     const {
         state: { data, error, loading },
         fetchData
@@ -39,18 +38,32 @@ export const NavBar: React.FC<Props> = props => {
         <header className={classes.Header}>
             <nav className={classes.Nav}>
                 <ul>
-                    <li className={classes.DropDown}>
-                        <button
-                            onClick={() => {
-                                setIsOpen(f => !f)
-                            }}
-                        >
-                            Products
-                            <IoIosArrowDown
-                                className={[classes.Icon, !isOpen ? '' : classes.Open].join(' ')}
-                            />
-                        </button>
+                    <li>
+                        <Link to='/'>Home</Link>
                     </li>
+                    <DropDown label='Products'>
+                        <li>
+                            <Link to='/products/cpu'>CPU</Link>
+                        </li>
+                        <li>
+                            <Link to='/products/gpu'>Graphics Card</Link>
+                        </li>
+                        <li>
+                            <Link to='/products/case'>Case</Link>
+                        </li>
+                        <li>
+                            <Link to='/products/motherboard'>Motherboard</Link>
+                        </li>
+                        <li>
+                            <Link to='/products/psu'>Power Supply</Link>
+                        </li>
+                        <li>
+                            <Link to='/products/ram'>RAM</Link>
+                        </li>
+                        <li>
+                            <Link to='/products/storage'>Storage</Link>
+                        </li>
+                    </DropDown>
                     <li>
                         <Link to='/pc-builder'>Build your PC</Link>
                     </li>
@@ -58,22 +71,18 @@ export const NavBar: React.FC<Props> = props => {
                 <SearchInput onChange={searchProductsHandler} value={search} />
                 <ul>
                     <li>
-                        <Link to='/pc-builder'>
+                        <Link to='/cart'>
                             <RiShoppingCartLine />
                         </Link>
                     </li>
-                    <li className={classes.DropDown}>
-                        <button
-                            onClick={() => {
-                                setIsOpen(f => !f)
-                            }}
-                        >
-                            Profile
-                            <IoIosArrowDown
-                                className={[classes.Icon, !isOpen ? '' : classes.Open].join(' ')}
-                            />
-                        </button>
-                    </li>
+                    <DropDown label='Profile'>
+                        <li>
+                            <Link to='/profile'>Profile</Link>
+                        </li>
+                        <li>
+                            <Link to='/sign-in'>Sign in</Link>
+                        </li>
+                    </DropDown>
                 </ul>
             </nav>
         </header>
