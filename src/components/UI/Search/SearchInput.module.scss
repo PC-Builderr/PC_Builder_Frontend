@@ -1,8 +1,8 @@
-.Search {
+.root {
     display: flex;
     align-items: center;
 
-    & .Icon {
+    & svg {
         font-weight: 500;
         font-size: 1.25rem;
         margin-right: 0.25rem;

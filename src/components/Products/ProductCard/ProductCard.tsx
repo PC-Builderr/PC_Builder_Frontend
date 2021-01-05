@@ -9,7 +9,7 @@ interface Props {
 
 export const ProductCard: React.FC<Props> = ({ product }) => {
     return (
-        <article className={classes.ProductCard}>
+        <article className={classes.root}>
             <Link to={`/${product.type}/${product.id}`}>
                 <img
                     src={process.env.REACT_APP_API_URL + product.images[0].url}
@@ -17,7 +17,7 @@ export const ProductCard: React.FC<Props> = ({ product }) => {
                 />
                 <p>{product.name}</p>
             </Link>
-            <div className={classes.Content}>
+            <div>
                 <p>{product.price}лв.</p>
                 <button>Add To Cart</button>
             </div>

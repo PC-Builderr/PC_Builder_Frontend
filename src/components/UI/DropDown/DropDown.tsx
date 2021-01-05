@@ -1,11 +1,11 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { IoIosArrowDown } from 'react-icons/io'
 import styles from './DropDown.module.scss'
 
 interface Props {
     open?: boolean
     label: string
-    children: React.ReactNode | React.ReactNode[]
+    children: React.ReactNode[]
 }
 
 export const DropDown: React.FC<Props> = props => {
@@ -35,7 +35,13 @@ export const DropDown: React.FC<Props> = props => {
                     }}
                 />
             </button>
-            {isOpen ? <ul onClick={close}>{props.children}</ul> : null}
+            {isOpen ? (
+                <ul onClick={close}>
+                    {props.children.map((child: React.ReactNode, index: number) => (
+                        <li key={index}>{child}</li>
+                    ))}
+                </ul>
+            ) : null}
         </li>
     )
 }

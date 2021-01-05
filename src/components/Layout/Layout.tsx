@@ -12,7 +12,7 @@ export const Layout: React.FC<Props> = props => {
     return (
         <>
             <NavBar />
-            <main className={classes.Main}>{props.children}</main>
+            <main className={classes.root}>{props.children}</main>
             {/* <Footer /> */}
         </>
     )

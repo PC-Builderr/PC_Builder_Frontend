@@ -35,34 +35,20 @@ export const NavBar: React.FC<Props> = props => {
     }, [data, error, loading])
 
     return (
-        <header className={classes.Header}>
-            <nav className={classes.Nav}>
+        <header className={classes.root}>
+            <nav>
                 <ul>
                     <li>
                         <Link to='/'>Home</Link>
                     </li>
                     <DropDown label='Products'>
-                        <li>
-                            <Link to='/products/cpu'>CPU</Link>
-                        </li>
-                        <li>
-                            <Link to='/products/gpu'>Graphics Card</Link>
-                        </li>
-                        <li>
-                            <Link to='/products/case'>Case</Link>
-                        </li>
-                        <li>
-                            <Link to='/products/motherboard'>Motherboard</Link>
-                        </li>
-                        <li>
-                            <Link to='/products/psu'>Power Supply</Link>
-                        </li>
-                        <li>
-                            <Link to='/products/ram'>RAM</Link>
-                        </li>
-                        <li>
-                            <Link to='/products/storage'>Storage</Link>
-                        </li>
+                        <Link to='/products/cpu'>CPU</Link>
+                        <Link to='/products/gpu'>Graphics Card</Link>
+                        <Link to='/products/case'>Case</Link>
+                        <Link to='/products/motherboard'>Motherboard</Link>
+                        <Link to='/products/psu'>Power Supply</Link>
+                        <Link to='/products/ram'>RAM</Link>
+                        <Link to='/products/storage'>Storage</Link>
                     </DropDown>
                     <li>
                         <Link to='/pc-builder'>Build your PC</Link>
@@ -76,12 +62,8 @@ export const NavBar: React.FC<Props> = props => {
                         </Link>
                     </li>
                     <DropDown label='Profile'>
-                        <li>
-                            <Link to='/profile'>Profile</Link>
-                        </li>
-                        <li>
-                            <Link to='/sign-in'>Sign in</Link>
-                        </li>
+                        <Link to='/profile'>Profile</Link>
+                        <Link to='/sign-in'>Sign in</Link>
                     </DropDown>
                 </ul>
             </nav>
