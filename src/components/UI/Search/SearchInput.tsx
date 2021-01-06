@@ -14,20 +14,16 @@ interface Props {}
 
 export const SearchInput: React.FC<Props> = props => {
     const [search, setSearch] = useState<string>('')
-
     const { isOpen, close, open } = useClickAway()
-
     const location = useLocation()
-
-    const searchProductsHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSearch(event.target.value)
-    }
-
     const {
         state: { data, error, loading },
         fetchData
     } = useFetch<ProductArrayResponse>()
 
+    const searchProductsHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearch(event.target.value)
+    }
     const inputClickHandler = useCallback(
         (event: React.MouseEvent<HTMLInputElement, MouseEvent>) => {
             if (search) open(event)
@@ -46,9 +42,8 @@ export const SearchInput: React.FC<Props> = props => {
                 open()
             }
         }, 1000)
-
         if (!search) close()
-
+        
         return () => clearTimeout(timeout)
     }, [search, fetchData, open, close])
 
@@ -68,14 +63,15 @@ export const SearchInput: React.FC<Props> = props => {
                     {data?.products.slice(0, 3).map((product: Product) => {
                         return <SearchResult key={product.id} product={product} />
                     })}
-                    {data ? (
+                    {error ? (
+                        <NotFound />
+                    ) : (
                         <li className={styles.allProducts}>
                             <Link to={`/products?filters=${search}`}>
-                                See all {data.products.length} results.
+                                See all {data?.products.length} results.
                             </Link>
                         </li>
-                    ) : null}
-                    {error ? <NotFound /> : null}
+                    )}
                 </ul>
             ) : null}
         </div>

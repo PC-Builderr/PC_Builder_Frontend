@@ -11,16 +11,17 @@ export const CartContextProvider: React.FC<Props> = props => {
         return JSON.parse(localStorage.getItem('products') || '[]')
     })
 
-    useEffect(() => {
-        localStorage.setItem('products', JSON.stringify(products))
-    }, [products])
-
     const modifyProducts = (product: Product) =>
         setProducts((oldProducts: Product[]) => {
             return oldProducts.find(p => p.id === product.id)
                 ? oldProducts.filter(p => p.id !== product.id)
                 : [...oldProducts, product]
         })
+
+    useEffect(() => {
+        localStorage.setItem('products', JSON.stringify(products))
+    }, [products])
+
     return (
         <CartContext.Provider value={{ products, modifyProducts }}>
             {props.children}
