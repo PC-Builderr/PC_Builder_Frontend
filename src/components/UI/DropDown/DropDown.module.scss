@@ -1,0 +1,59 @@
+.root {
+    display: flex;
+    align-items: center;
+    flex-flow: column;
+    justify-content: space-between;
+    position: relative;
+    z-index: 100;
+    padding: 1rem;
+    border-radius: 4px;
+
+    & button {
+        border: none;
+        font-size: 1rem;
+        font-weight: 500;
+        background-color: transparent;
+        display: flex;
+        align-items: center;
+        padding: 0;
+        color: #2e425a;
+    }
+
+    & svg {
+        margin-top: 0.1rem;
+        margin-left: 0.25rem;
+        transition: 0.1s;
+    }
+
+    & ul {
+        min-width: 100%;
+        background-color: rgb(255, 255, 255);
+        position: absolute;
+        height: auto;
+        top: 90%;
+        left: 0;
+        display: flex;
+        flex-flow: column;
+        z-index: 1000;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        z-index: 10;
+        border-radius: 4px;
+        padding: 0.5rem;
+
+        & li {
+            flex-grow: 1;
+            height: min-content;
+            margin: 0;
+            width: 100%;
+            color: #2e425a;
+            white-space: nowrap;
+
+            & * {
+                font-weight: 500;
+                padding: 0.5rem 0.75rem;
+                height: 100%;
+                color: #2e425a;
+            }
+        }
+    }
+}

@@ -1,41 +1,45 @@
-import React, { useEffect, Suspense } from 'react'
-import { Redirect, Route, Switch } from 'react-router-dom'
-import { ProductCard } from './components/Product/ProductCard'
-import { useFetch } from './hooks/Fetch/useFetch'
-import { Product } from './interfaces/Product'
-import { ProductArrayResponse } from './interfaces/ProductArrayResponse'
-import { SignIn } from './pages/SignIn'
+import React, { lazy, Suspense } from 'react'
+import { Route, Switch } from 'react-router-dom'
+import { Layout } from './components/Layout'
+import { Loader } from './components/UI/Loader'
+
+const Home: React.LazyExoticComponent<React.FC<Props>> = lazy(() => import('./pages/Home'))
+const SignIn: React.LazyExoticComponent<React.FC<Props>> = lazy(() => import('./pages/SignIn'))
+const SignUp: React.LazyExoticComponent<React.FC<Props>> = lazy(() => import('./pages/SignUp'))
+const Product: React.LazyExoticComponent<React.FC<Props>> = lazy(() => import('./pages/Product'))
+const Products: React.LazyExoticComponent<React.FC<Props>> = lazy(() => import('./pages/Products'))
+const Error: React.LazyExoticComponent<React.FC<Props>> = lazy(() => import('./pages/Error'))
 
 interface Props {}
 
 export const App: React.FC<Props> = () => {
-    const {
-        fetchData,
-        state: { data, error, loading }
-    } = useFetch<ProductArrayResponse>()
-
-    useEffect(() => {
-        fetchData(`${process.env.REACT_APP_API_URL}/product`)
-    }, [fetchData])
-
-    useEffect(() => {
-        console.log(`Data: ${data} --- Loading: ${loading} --- Error: ${error}`)
-    }, [data, loading, error])
-
-    const products = data?.products?.map((product: Product) => (
-        <ProductCard key={product.id} product={product} />
-    ))
-
     return (
-        <Switch>
-            <Route path='/' exact>
-                <Suspense fallback={'Loading...'}>
-                    {error ? <Redirect to='/error' /> : products}
-                </Suspense>
-            </Route>
-            <Route path='/sign-in' exact>
-                <SignIn />
-            </Route>
-        </Switch>
+        <Layout>
+            <Suspense fallback={<Loader />}>
+                <Switch>
+                    <Route path='/' exact>
+                        <Home />
+                    </Route>
+                    <Route path='/sign-in' exact>
+                        <SignIn />
+                    </Route>
+                    <Route path='/sign-up' exact>
+                        <SignUp />
+                    </Route>
+                    <Route path='/cart' exact>
+                        <h3>cart</h3>
+                    </Route>
+                    <Route path='/products/:type' exact>
+                        <Products />
+                    </Route>
+                    <Route path='/products/:type/:id' exact>
+                        <Product />
+                    </Route>
+                    <Route path='/error'>
+                        <Error />
+                    </Route>
+                </Switch>
+            </Suspense>
+        </Layout>
     )
 }

@@ -13,7 +13,7 @@ export const useFetch = <T>(): {
         return () => (isVisible.current = false)
     }, [])
 
-    const [state, setState] = useState<FetchState<T>>({ data: null, loading: true, error: null })
+    const [state, setState] = useState<FetchState<T>>({ data: null, loading: false, error: null })
 
     const fetchData = useCallback(
         async (url: string, options: RequestOptions = defaultOptions): Promise<void> => {

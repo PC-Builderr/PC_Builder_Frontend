@@ -1,0 +1,17 @@
+.root {
+    width: 18rem;
+    height: 3rem;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin: 0;
+    background-color: white;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    & p {
+        color: #2e425a;
+        font-weight: 500;
+        font-size: 0.9rem;
+    }
+}
