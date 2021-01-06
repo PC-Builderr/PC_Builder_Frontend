@@ -13,6 +13,18 @@
         }
     }
 
+    & .burger {
+        display: none;
+        border: none;
+        background-color: transparent;
+        color: #2e425a;
+        padding: 0;
+
+        & svg {
+            font-size: 1.3rem;
+        }
+    }
+
     &::after {
         content: '';
         display: block;
@@ -56,6 +68,33 @@
             font-weight: 500;
             height: 100%;
             color: #2e425a;
+        }
+    }
+}
+
+@media (max-width: 1000px) {
+    .root {
+        & nav > ul:first-of-type {
+            display: none;
+        }
+
+        & .burger {
+            display: block;
+        }
+    }
+}
+@media (max-width: 550px) {
+    .root {
+        & nav {
+            justify-content: flex-start;
+        }
+
+        & .burger {
+            margin-right: 1rem;
+        }
+
+        & nav > ul:last-of-type {
+            display: none;
         }
     }
 }

@@ -55,7 +55,7 @@
 
 .spinner {
     position: absolute;
-    left: 100%;
+    left: 90%;
     -webkit-transform: translateZ(0);
     -ms-transform: translateZ(0);
     transform: translateZ(0);
@@ -81,5 +81,20 @@
     100% {
         -webkit-transform: rotate(360deg);
         transform: rotate(360deg);
+    }
+}
+
+@media (max-width: 390px) {
+    .allProducts {
+        width: 16rem;
+
+        & a {
+            font-size: 0.8rem;
+        }
+    }
+
+    .root input {
+        font-size: 0.9rem;
+        max-width: 13rem;
     }
 }

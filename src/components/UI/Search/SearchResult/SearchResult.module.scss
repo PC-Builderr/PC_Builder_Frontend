@@ -32,3 +32,15 @@
         height: 100%;
     }
 }
+
+@media (max-width: 390px) {
+    .root {
+        width: 16rem;
+        height: 9rem;
+        font-size: 0.9rem;
+
+        & img {
+            height: 70%;
+        }
+    }
+}

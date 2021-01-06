@@ -15,3 +15,13 @@
         font-size: 0.9rem;
     }
 }
+
+@media (max-width: 390px) {
+    .root {
+        width: 16rem;
+
+        & p {
+            font-size: 0.8rem;
+        }
+    }
+}
