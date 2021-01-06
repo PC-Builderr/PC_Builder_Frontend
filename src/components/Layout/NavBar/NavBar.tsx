@@ -2,14 +2,14 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { RiShoppingCartLine } from 'react-icons/ri'
 import { SearchInput } from '../../UI/Search'
-import classes from './NavBar.module.scss'
+import styles from './NavBar.module.scss'
 import { DropDown } from '../../UI/DropDown'
 
 interface Props {}
 
 export const NavBar: React.FC<Props> = props => {
     return (
-        <header className={classes.root}>
+        <header className={styles.root}>
             <nav>
                 <ul>
                     <li>

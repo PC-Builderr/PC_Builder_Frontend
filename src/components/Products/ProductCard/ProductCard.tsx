@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Product } from '../../../interfaces/Product'
-import classes from './ProductCard.module.scss'
+import styles from './ProductCard.module.scss'
 
 interface Props {
     product: Product
@@ -9,7 +9,7 @@ interface Props {
 
 export const ProductCard: React.FC<Props> = ({ product }) => {
     return (
-        <article className={classes.root}>
+        <article className={styles.root}>
             <Link to={`/${product.type}/${product.id}`}>
                 <img
                     src={process.env.REACT_APP_API_URL + product.images[0].url}
