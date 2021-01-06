@@ -5,7 +5,7 @@
     flex-flow: column;
     padding-top: 2px;
 
-    & li {
+    & > li {
         margin-left: 1.5rem;
 
         &:first-of-type {

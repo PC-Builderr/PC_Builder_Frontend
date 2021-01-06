@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import { IoIosArrowDown } from 'react-icons/io'
+import { useClickAway } from '../../../hooks/ClickAway/useClickAway'
 import styles from './DropDown.module.scss'
 
 interface Props {
@@ -9,21 +10,7 @@ interface Props {
 }
 
 export const DropDown: React.FC<Props> = props => {
-    const [isOpen, setIsOpen] = useState<boolean>(props.open || false)
-
-    const close = useCallback(() => {
-        setIsOpen(false)
-        window.removeEventListener('click', close)
-    }, [])
-
-    const open = useCallback(
-        (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-            event.stopPropagation()
-            setIsOpen((state: boolean) => !state)
-            window.addEventListener('click', close)
-        },
-        [close]
-    )
+    const { isOpen, close, open } = useClickAway(props.open)
 
     return (
         <li className={styles.root}>

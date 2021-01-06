@@ -1,6 +1,8 @@
 .root {
     display: flex;
     align-items: center;
+    position: relative;
+    padding: 1rem;
 
     & svg {
         font-weight: 500;
@@ -14,11 +16,39 @@
         font-size: 1rem;
         border: none;
         outline: none;
+        color: #2e425a;
 
         &::placeholder {
             color: #2e425a;
             opacity: 0.8;
             font-weight: 500;
         }
+    }
+
+    & ul {
+        position: absolute;
+        display: flex;
+        flex-flow: column;
+        top: 100%;
+        left: 0;
+        right: 0;
+        border-radius: 4px;
+    }
+}
+
+.allProducts {
+    width: 20rem;
+    height: 2.5rem;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin: 0;
+    background-color: white;
+
+    border-radius: 4px;
+
+    & a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.9rem;
     }
 }

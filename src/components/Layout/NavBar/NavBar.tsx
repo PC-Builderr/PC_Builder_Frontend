@@ -1,39 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import { RiShoppingCartLine } from 'react-icons/ri'
 import { SearchInput } from '../../UI/Search'
 import classes from './NavBar.module.scss'
-import { ProductArrayResponse } from '../../../interfaces/ProductArrayResponse'
-import { useFetch } from '../../../hooks/Fetch/useFetch'
 import { DropDown } from '../../UI/DropDown'
 
 interface Props {}
 
 export const NavBar: React.FC<Props> = props => {
-    const [search, setSearch] = useState<string>('')
-    const {
-        state: { data, error, loading },
-        fetchData
-    } = useFetch<ProductArrayResponse>()
-
-    const searchProductsHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSearch(event.target.value)
-    }
-
-    useEffect(() => {
-        const timeout = setTimeout(() => {
-            if (search) fetchData(`${process.env.REACT_APP_API_URL}/product?filters=${search}`)
-        }, 1000)
-
-        return () => {
-            clearTimeout(timeout)
-        }
-    }, [search, fetchData])
-
-    useEffect(() => {
-        console.log(data, error, loading)
-    }, [data, error, loading])
-
     return (
         <header className={classes.root}>
             <nav>
@@ -54,7 +28,7 @@ export const NavBar: React.FC<Props> = props => {
                         <Link to='/pc-builder'>Build your PC</Link>
                     </li>
                 </ul>
-                <SearchInput onChange={searchProductsHandler} value={search} />
+                <SearchInput />
                 <ul>
                     <li>
                         <Link to='/cart'>
