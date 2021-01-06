@@ -62,7 +62,7 @@ export const SearchInput: React.FC<Props> = props => {
                 onChange={searchProductsHandler}
                 onClick={inputClickHandler}
             />
-            {loading ? <BiLoaderAlt style={{ position: 'absolute', left: '100%' }} /> : null}
+            {loading ? <BiLoaderAlt className={styles.spinner} /> : null}
             {isOpen ? (
                 <ul onClick={close}>
                     {data?.products.slice(0, 3).map((product: Product) => {
