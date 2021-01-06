@@ -15,7 +15,7 @@ interface Props {}
 export const SearchInput: React.FC<Props> = props => {
     const [search, setSearch] = useState<string>('')
 
-    const { isOpen, close, open } = useClickAway(false)
+    const { isOpen, close, open } = useClickAway()
 
     const location = useLocation()
 

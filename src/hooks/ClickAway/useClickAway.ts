@@ -11,9 +11,8 @@ export const useClickAway = (initialState: boolean = false): ClickAwayState => {
 
     const open = useCallback(
         (event?: React.MouseEvent<HTMLButtonElement | HTMLInputElement, MouseEvent>) => {
-            if (event) {
-                event.stopPropagation()
-            }
+            if (event) event.stopPropagation()
+
             setIsOpen((state: boolean) => !state)
             window.addEventListener('click', close)
         },
