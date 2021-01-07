@@ -1,6 +1,12 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
-import { FetchState } from './FetchState'
+import { useCallback, useState } from 'react'
 import { RequestOptions } from './RequestOptions'
+import { useIsMounted } from '../useIsMounted/useIsMounted'
+
+interface FetchState<T> {
+    data: T | null
+    loading: boolean
+    error: Error | null
+}
 
 const defaultOptions = { method: 'GET', headers: null, body: null }
 
@@ -8,10 +14,7 @@ export const useFetch = <T>(): {
     state: FetchState<T>
     fetchData: (url: string, options?: RequestOptions) => void
 } => {
-    let isVisible = useRef<boolean>(true)
-    useEffect((): (() => void) => {
-        return () => (isVisible.current = false)
-    }, [])
+    const isMounted: React.MutableRefObject<boolean> = useIsMounted()
 
     const [state, setState] = useState<FetchState<T>>({ data: null, loading: false, error: null })
 
@@ -28,7 +31,7 @@ export const useFetch = <T>(): {
             })
             const resData: any = await response.json()
 
-            if (!isVisible.current) return
+            if (!isMounted.current) return
             if (!response.ok) {
                 setState({ data: null, loading: false, error: resData })
                 return
@@ -36,7 +39,7 @@ export const useFetch = <T>(): {
 
             setState({ data: resData, loading: false, error: null })
         },
-        []
+        [isMounted]
     )
     return { state, fetchData }
 }

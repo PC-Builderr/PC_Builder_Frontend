@@ -2,8 +2,8 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { IoSearchSharp } from 'react-icons/io5'
 import { BiLoaderAlt } from 'react-icons/bi'
 import { Link, useLocation } from 'react-router-dom'
-import { useClickAway } from '../../../hooks/ClickAway/useClickAway'
-import { useFetch } from '../../../hooks/Fetch/useFetch'
+import { useClickAway } from '../../../hooks/useClickAway'
+import { useFetch } from '../../../hooks/useFetch'
 import { Product } from '../../../interfaces/Product'
 import { ProductArrayResponse } from '../../../interfaces/ProductArrayResponse'
 import { NotFound } from './NotFound'
@@ -43,7 +43,7 @@ export const SearchInput: React.FC<Props> = props => {
             }
         }, 1000)
         if (!search) close()
-        
+
         return () => clearTimeout(timeout)
     }, [search, fetchData, open, close])
 
@@ -57,8 +57,8 @@ export const SearchInput: React.FC<Props> = props => {
                 onChange={searchProductsHandler}
                 onClick={inputClickHandler}
             />
-            {loading ? <BiLoaderAlt className={styles.spinner} /> : null}
-            {isOpen ? (
+            {loading && <BiLoaderAlt className={styles.spinner} />}
+            {isOpen && (
                 <ul onClick={close}>
                     {data?.products.slice(0, 3).map((product: Product) => {
                         return <SearchResult key={product.id} product={product} />
@@ -73,7 +73,7 @@ export const SearchInput: React.FC<Props> = props => {
                         </li>
                     )}
                 </ul>
-            ) : null}
+            )}
         </div>
     )
 }

@@ -1,5 +1,10 @@
 import { useCallback, useState } from 'react'
-import { ClickAwayState } from './ClickAwayState'
+
+interface ClickAwayState {
+    isOpen: boolean
+    open: (event?: React.MouseEvent<HTMLButtonElement | HTMLInputElement, MouseEvent>) => void
+    close: () => void
+}
 
 export const useClickAway = (initialState: boolean = false): ClickAwayState => {
     const [isOpen, setIsOpen] = useState<boolean>(initialState)

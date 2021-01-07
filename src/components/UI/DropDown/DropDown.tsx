@@ -1,6 +1,6 @@
-import React, { useCallback, useState } from 'react'
+import React from 'react'
 import { IoIosArrowDown } from 'react-icons/io'
-import { useClickAway } from '../../../hooks/ClickAway/useClickAway'
+import { useClickAway } from '../../../hooks/useClickAway'
 import styles from './DropDown.module.scss'
 
 interface Props {
@@ -22,13 +22,13 @@ export const DropDown: React.FC<Props> = props => {
                     }}
                 />
             </button>
-            {isOpen ? (
+            {isOpen && (
                 <ul onClick={close}>
                     {props.children.map((child: React.ReactNode, index: number) => (
                         <li key={index}>{child}</li>
                     ))}
                 </ul>
-            ) : null}
+            )}
         </li>
     )
 }

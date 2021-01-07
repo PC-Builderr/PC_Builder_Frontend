@@ -1,0 +1,11 @@
+.root {
+    & > ul {
+        & > li {
+            & > ul {
+                & > li {
+                    padding: 0.1rem;
+                }
+            }
+        }
+    }
+}

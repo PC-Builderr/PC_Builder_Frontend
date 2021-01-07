@@ -9,10 +9,7 @@ interface Props {
 
 export const SideDrawer: React.FC<Props> = props => {
     return (
-        <aside
-            className={styles.root}
-            style={{ transform: !props.isOpen ? 'translateX(-100%)' : '' }}
-        >
+        <aside className={props.isOpen ? styles.root : [styles.root, styles.open].join(' ')}>
             <button onClick={props.onClose}>
                 <AiOutlineClose />
             </button>

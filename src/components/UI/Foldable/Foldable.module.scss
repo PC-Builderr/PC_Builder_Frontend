@@ -1,0 +1,18 @@
+.root {
+    padding: 0.5rem;
+
+    & > p {
+        color: #2e425a;
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+
+    & > ul {
+        margin-left: 0.75rem;
+        padding: 0.25rem;
+
+        & > li {
+            padding: 0.1rem;
+        }
+    }
+}

@@ -14,7 +14,7 @@ export const Layout: React.FC<Props> = props => {
         <>
             <NavBar openSideDrawerHandler={() => setIsOpen(true)} />
             <SideDrawer isOpen={isOpen} onClose={() => setIsOpen(false)} />
-            <main className={styles.root}></main>
+            <main className={styles.root}>{props.children}</main>
         </>
     )
 }
