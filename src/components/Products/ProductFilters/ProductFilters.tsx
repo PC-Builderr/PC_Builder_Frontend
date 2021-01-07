@@ -1,50 +1,37 @@
-import React, { useEffect, useState } from 'react'
-import { useFetch } from '../../../hooks/useFetch'
-import { Brand } from '../../../interfaces/Brand'
+import React from 'react'
+import { Brand } from '../../../types/Brand'
 import { Checkbox } from '../../UI/Checkbox'
-import { Foldable } from '../../UI/Foldable'
+import { Filter } from './Filter'
+import { ChangeHandler } from '../../../types/Handlers'
 import styles from './ProductFilters.module.scss'
 
-interface Props {}
+interface Props {
+    type: string
+}
+interface Data {
+    brands: Brand[]
+}
 
 export const ProductFilters: React.FC<Props> = props => {
-    const [options, setOptions] = useState<string[]>([])
-
-    const check = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const value = event.target.value
-        if (options.includes(value)) {
-            setOptions((s: string[]) => s.filter(v => v !== value))
-            return
-        }
-        setOptions(s => [...s, value])
-    }
-
-    const {
-        fetchData,
-        state: { data, error, loading }
-    } = useFetch<{ brands: Brand[] }>()
-
-    useEffect(() => {
-        fetchData(`${process.env.REACT_APP_API_URL}/brand`)
-    }, [fetchData])
-
     return (
         <aside className={styles.root}>
             <ul>
-                <Foldable name='Brands'>
-                    {data &&
+                <Filter filter='brand' name='Brands' url={`${process.env.REACT_APP_API_URL}/brand`}>
+                    {(data: Data, changeHandler: ChangeHandler<HTMLInputElement>) =>
+                        data &&
                         data.brands.map((brand: Brand) => {
                             return (
                                 <Checkbox
                                     key={brand.id}
                                     id={brand.name}
                                     name={brand.name}
-                                    onChange={check}
+                                    onChange={changeHandler}
                                     value={brand.name}
                                 />
                             )
-                        })}
-                </Foldable>
+                        })
+                    }
+                </Filter>
             </ul>
         </aside>
     )
