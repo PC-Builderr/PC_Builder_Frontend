@@ -2,7 +2,6 @@ import React, { lazy, Suspense } from 'react'
 import { Route, Switch } from 'react-router-dom'
 import { Layout } from './components/Layout'
 import { Loader } from './components/UI/Loader'
-import { ProductFilterContextProvider } from './context/ProductFilter'
 
 const Home: React.LazyExoticComponent<React.FC<Props>> = lazy(() => import('./pages/Home'))
 const SignIn: React.LazyExoticComponent<React.FC<Props>> = lazy(() => import('./pages/SignIn'))
@@ -31,9 +30,7 @@ export const App: React.FC<Props> = () => {
                         <h3>cart</h3>
                     </Route>
                     <Route path='/products/:type' exact>
-                        <ProductFilterContextProvider>
-                            <Products />
-                        </ProductFilterContextProvider>
+                        <Products />
                     </Route>
                     <Route path='/products/:type/:id' exact>
                         <Product />

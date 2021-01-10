@@ -1,0 +1,32 @@
+.root {
+    grid-area: pagination;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+
+    & > a {
+        color: #2e425a;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        border-radius: 4px;
+        display: block;
+        width: 2.5rem;
+        height: 2.5rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0.3rem;
+        font-size: 0.8rem;
+        font-weight: 500;
+
+        &:hover {
+            background-color: #2e425a;
+            color: white !important;
+        }
+    }
+}
+
+.active {
+    background-color: #2e425a;
+    color: white !important;
+}

@@ -46,6 +46,17 @@
         background-position: 0 0;
         background-size: 268% 100%;
     }
+    .animate {
+        animation: rainbow 10s linear infinite;
+    }
+    @keyframes rainbow {
+        0% {
+            background-position: 0;
+        }
+        100% {
+            background-position: 800% 0;
+        }
+    }
 
     & nav {
         background-color: white;
