@@ -9,13 +9,9 @@ interface Props {
 }
 
 export const ImageSlider: React.FC<Props> = props => {
-    const { length } = props.images
-
     const sliderRef = useRef<HTMLUListElement>(null)
 
     const [index, setIndex] = useState<number>(0)
-
-    const { width } = useWindowSize()
 
     const clickHandler = useCallback((index: number) => {
         setIndex(index)
@@ -23,7 +19,7 @@ export const ImageSlider: React.FC<Props> = props => {
 
     return (
         <>
-            {width > 800 ? (
+            <WithMediaQuery maxWidth={800}>
                 <>
                     <ul className={styles.root} ref={sliderRef}>
                         {props.images.map((image: Image) => {
@@ -61,14 +57,15 @@ export const ImageSlider: React.FC<Props> = props => {
                         })}
                     </ul>
                 </>
-            ) : (
+            </WithMediaQuery>
+            <WithMediaQuery minWidth={800}>
                 <div className={styles.mobile}>
                     <img
                         src={`${process.env.REACT_APP_API_URL}${props.images[0].url}`}
                         alt='product'
                     />
                 </div>
-            )}
+            </WithMediaQuery>
         </>
     )
 }
