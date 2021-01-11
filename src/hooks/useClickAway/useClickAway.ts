@@ -1,8 +1,9 @@
 import { useCallback, useState } from 'react'
+import { Click } from '../../types/Events'
 
 interface ClickAwayState {
     isOpen: boolean
-    open: (event?: React.MouseEvent<HTMLButtonElement | HTMLInputElement, MouseEvent>) => void
+    open: (event?: Click<HTMLInputElement | HTMLButtonElement>) => void
     close: () => void
 }
 
@@ -15,7 +16,7 @@ export const useClickAway = (initialState: boolean = false): ClickAwayState => {
     }, [setIsOpen])
 
     const open = useCallback(
-        (event?: React.MouseEvent<HTMLButtonElement | HTMLInputElement, MouseEvent>) => {
+        (event?: Click<HTMLButtonElement | HTMLInputElement>) => {
             if (event) event.stopPropagation()
 
             setIsOpen((state: boolean) => !state)

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { IoSearchSharp } from 'react-icons/io5'
 import { BiLoaderAlt } from 'react-icons/bi'
 import { Link, useLocation } from 'react-router-dom'
@@ -21,31 +21,41 @@ export const SearchInput: React.FC<Props> = props => {
         fetchData
     } = useFetch<ProductArrayResponse>()
 
-    const searchProductsHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSearch(event.target.value)
-    }
+    const searchProductsHandler = useCallback(
+        (event: React.ChangeEvent<HTMLInputElement>) => {
+            setSearch(event.target.value)
+        },
+        [setSearch]
+    )
     const inputClickHandler = useCallback(
         (event: React.MouseEvent<HTMLInputElement, MouseEvent>) => {
             if (search) open(event)
         },
         [open, search]
     )
+    const urlSearchParams: URLSearchParams = useMemo(() => {
+        return new URLSearchParams([
+            ['count', '3'],
+            ['page', '1']
+        ])
+    }, [])
 
     useEffect(() => {
         setSearch('')
     }, [location])
 
     useEffect(() => {
-        const timeout = setTimeout(() => {
+        const timeout: NodeJS.Timeout = setTimeout(() => {
             if (search) {
-                fetchData(`${process.env.REACT_APP_API_URL}/product?filters=${search}`)
+                urlSearchParams.set('search', search)
+                fetchData(`${process.env.REACT_APP_API_URL}/product?${urlSearchParams.toString()}`)
                 open()
             }
         }, 1000)
         if (!search) close()
 
         return () => clearTimeout(timeout)
-    }, [search, fetchData, open, close])
+    }, [search, fetchData, open, urlSearchParams, close])
 
     return (
         <div className={styles.root}>
@@ -60,15 +70,15 @@ export const SearchInput: React.FC<Props> = props => {
             {loading && <BiLoaderAlt className={styles.spinner} />}
             {isOpen && (
                 <ul onClick={close}>
-                    {data?.products.slice(0, 3).map((product: Product) => {
+                    {data?.products.map((product: Product) => {
                         return <SearchResult key={product.id} product={product} />
                     })}
                     {error ? (
                         <NotFound />
                     ) : (
                         <li className={styles.allProducts}>
-                            <Link to={`/products?filters=${search}`}>
-                                See all {data?.products.length} results.
+                            <Link to={`/products?search=${search}`}>
+                                See all {data?.total} results.
                             </Link>
                         </li>
                     )}

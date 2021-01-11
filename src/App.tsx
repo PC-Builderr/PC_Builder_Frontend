@@ -7,6 +7,9 @@ const Home: React.LazyExoticComponent<React.FC<Props>> = lazy(() => import('./pa
 const SignIn: React.LazyExoticComponent<React.FC<Props>> = lazy(() => import('./pages/SignIn'))
 const SignUp: React.LazyExoticComponent<React.FC<Props>> = lazy(() => import('./pages/SignUp'))
 const Product: React.LazyExoticComponent<React.FC<Props>> = lazy(() => import('./pages/Product'))
+const CPUProduct: React.LazyExoticComponent<React.FC<Props>> = lazy(
+    () => import('./pages/Product/CPUProduct')
+)
 const Products: React.LazyExoticComponent<React.FC<Props>> = lazy(() => import('./pages/Products'))
 const Error: React.LazyExoticComponent<React.FC<Props>> = lazy(() => import('./pages/Error'))
 
@@ -31,6 +34,12 @@ export const App: React.FC<Props> = () => {
                     </Route>
                     <Route path='/products/:type' exact>
                         <Products />
+                    </Route>
+                    <Route path='/products/:type' exact>
+                        <Products />
+                    </Route>
+                    <Route path='/products/cpu/:id' exact>
+                        <CPUProduct />
                     </Route>
                     <Route path='/products/:type/:id' exact>
                         <Product />

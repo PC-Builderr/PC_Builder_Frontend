@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
 import { Pagination } from '../../components/Products/Pagination'
 import { ProductFilters } from '../../components/Products/ProductFilters'
@@ -22,9 +22,11 @@ export const Products: React.FC<Props> = props => {
 
     const [filters, setFilters] = useState({})
 
-    const { search } = useLocation()
-    const urlSearchParams = new URLSearchParams(search)
-    const page = Number(urlSearchParams.get('page')) || 1
+    const { search } = useLocation<Location>()
+
+    const page: number = useMemo(() => {
+        return Number(new URLSearchParams(search).get('page')) || 1
+    }, [search])
 
     useEffect(() => {
         fetchData(`${process.env.REACT_APP_API_URL}/${type}`, {
