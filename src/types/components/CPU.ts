@@ -1,39 +1,19 @@
-import { Product } from '../Product'
+import { Component } from './Component'
 
-export interface CPU {
-    id: number
-
-    productId: number
-
-    product: Product
-
+export interface CPU extends Component {
     model: string
-
     generation: string
-
     series: string
-
     socket: string
-
     core: number
-
     thread: number
-
     speed: number
-
     turboSpeed: number
-
     ramCapacity: number
-
     maxRamSpeed: number
-
     ramChannels: number
-
     ramType: string
-
     cache: string
-
-    integratedGraphics: string | null
-
+    integratedGraphics: string
     consumption: number
 }

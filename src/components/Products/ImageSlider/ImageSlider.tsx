@@ -1,6 +1,5 @@
 import React, { useCallback, useRef, useState } from 'react'
 import { WithMediaQuery } from '../../../hoc/WithMediaQuery'
-import { useWindowSize } from '../../../hooks/useWindowSize'
 import { Image } from '../../../types/Image'
 import styles from './ImageSlider.module.scss'
 
