@@ -26,7 +26,7 @@ export const CPUProduct: React.FC<Props> = props => {
         <div className={styles.root}>
             {data && (
                 <>
-                    <ImageSlider images={data.cpu.product.images}></ImageSlider>
+                    <ImageSlider images={data.cpu.product.images} />
                 </>
             )}
             {/* {data && <pre>{JSON.stringify(data, null, 2)}</pre>} */}

@@ -1,4 +1,6 @@
 import React, { useCallback, useRef, useState } from 'react'
+import { WithMediaQuery } from '../../../hoc/WithMediaQuery'
+import { useWindowSize } from '../../../hooks/useWindowSize'
 import { Image } from '../../../types/Image'
 import styles from './ImageSlider.module.scss'
 
@@ -8,51 +10,65 @@ interface Props {
 
 export const ImageSlider: React.FC<Props> = props => {
     const { length } = props.images
+
     const sliderRef = useRef<HTMLUListElement>(null)
 
     const [index, setIndex] = useState<number>(0)
 
-    const nextImageHandler = useCallback(() => {
-        setIndex((currentIndex: number) => {
-            if (currentIndex === length - 1) {
-                return currentIndex
-            }
-            return currentIndex + 1
-        })
-    }, [length])
+    const { width } = useWindowSize()
 
-    const prevImageHandler = useCallback(() => {
-        setIndex((currentIndex: number) => {
-            if (currentIndex === 0) {
-                return currentIndex
-            }
-            return currentIndex - 1
-        })
+    const clickHandler = useCallback((index: number) => {
+        setIndex(index)
     }, [])
 
     return (
         <>
-            <ul className={styles.root} ref={sliderRef}>
-                {props.images.map((image: Image) => {
-                    return (
-                        <li
-                            key={image.id}
-                            style={{
-                                transform: `translate(${
-                                    index * -(sliderRef.current?.clientWidth || 0)
-                                }px)`
-                            }}
-                        >
-                            <img
-                                src={`${process.env.REACT_APP_API_URL}${image.url}`}
-                                alt='product'
-                            />
-                        </li>
-                    )
-                })}
-            </ul>
-            <button onClick={nextImageHandler}>next</button>
-            <button onClick={prevImageHandler}>prev</button>
+            {width > 800 ? (
+                <>
+                    <ul className={styles.root} ref={sliderRef}>
+                        {props.images.map((image: Image) => {
+                            return (
+                                <li
+                                    key={image.id}
+                                    style={{
+                                        transform: `translate(${
+                                            index * -(sliderRef.current?.clientWidth || 0)
+                                        }px)`
+                                    }}
+                                >
+                                    <img
+                                        src={`${process.env.REACT_APP_API_URL}${image.url}`}
+                                        alt='product'
+                                    />
+                                </li>
+                            )
+                        })}
+                    </ul>
+                    <ul className={styles.small}>
+                        {props.images.map((image: Image, i: number) => {
+                            return (
+                                <li
+                                    className={i === index ? styles.active : ''}
+                                    key={image.id}
+                                    onClick={clickHandler.bind(null, i)}
+                                >
+                                    <img
+                                        src={`${process.env.REACT_APP_API_URL}${image.url}`}
+                                        alt='product'
+                                    />
+                                </li>
+                            )
+                        })}
+                    </ul>
+                </>
+            ) : (
+                <div className={styles.mobile}>
+                    <img
+                        src={`${process.env.REACT_APP_API_URL}${props.images[0].url}`}
+                        alt='product'
+                    />
+                </div>
+            )}
         </>
     )
 }
