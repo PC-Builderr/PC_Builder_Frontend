@@ -5,6 +5,7 @@ interface Props {
     name: string
     id: string
     value: string | number
+    checked: boolean
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 

@@ -1,6 +1,5 @@
 import React from 'react'
 import styles from './Pagination.module.scss'
-import {} from './index'
 import { Link, useLocation } from 'react-router-dom'
 
 interface Props {

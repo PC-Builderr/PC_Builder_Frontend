@@ -1,10 +1,10 @@
-import React, { useContext, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { useLocation, useParams } from 'react-router-dom'
+import { Pagination } from '../../components/Products/Pagination'
 import { ProductFilters } from '../../components/Products/ProductFilters'
 import { ProductList } from '../../components/Products/ProductList'
 import { useFetch } from '../../hooks/useFetch'
 import { ProductArrayResponse } from '../../types/ProductArrayResponse'
-import { ProductFilterContext, ProductFilterContextInterface } from '../../context/ProductFilter'
 import styles from './Products.module.scss'
 
 interface Props {}
@@ -20,19 +20,34 @@ export const Products: React.FC<Props> = props => {
         state: { data, error, loading }
     } = useFetch<ProductArrayResponse>()
 
-    const { filters } = useContext<ProductFilterContextInterface>(ProductFilterContext)
+    const [filters, setFilters] = useState({})
+
+    const { search } = useLocation()
+    const urlSearchParams = new URLSearchParams(search)
+    const page = Number(urlSearchParams.get('page')) || 1
 
     useEffect(() => {
-        fetchData(`${process.env.REACT_APP_API_URL}/${type}?filters=${JSON.stringify(filters)}`)
-    }, [fetchData, type, filters])
+        fetchData(`${process.env.REACT_APP_API_URL}/${type}`, {
+            method: 'POST',
+            body: JSON.stringify({
+                page: page,
+                count: 4,
+                filters
+            })
+        })
+    }, [fetchData, type, page, filters])
 
     return (
         <div className={styles.root}>
-            <ProductFilters type={type} />
-            {loading ? '...Loading' : null}
-            {error ? <pre>{JSON.stringify(error, null, 2)}</pre> : null}
-            {data ? <ProductList products={data.products} /> : null}
-            <pre>{JSON.stringify(filters, null, 2)}</pre>
+            <ProductFilters type={type} filters={filters} onChange={setFilters} />
+            {loading && '...Loading'}
+            {error && <pre>{JSON.stringify(error, null, 2)}</pre>}
+            {data && (
+                <>
+                    <ProductList products={data.products} />
+                    <Pagination count={data.total / 4}></Pagination>
+                </>
+            )}
         </div>
     )
 }

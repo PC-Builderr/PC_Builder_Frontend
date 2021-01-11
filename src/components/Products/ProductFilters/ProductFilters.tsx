@@ -7,6 +7,8 @@ import styles from './ProductFilters.module.scss'
 
 interface Props {
     type: string
+    filters: any
+    onChange: React.Dispatch<React.SetStateAction<{}>>
 }
 interface Data {
     brands: Brand[]
@@ -16,17 +18,28 @@ export const ProductFilters: React.FC<Props> = props => {
     return (
         <aside className={styles.root}>
             <ul>
-                <Filter filter='brand' name='Brands' url={`${process.env.REACT_APP_API_URL}/brand`}>
-                    {(data: Data, changeHandler: ChangeHandler<HTMLInputElement>) =>
+                <Filter
+                    filters={props.filters}
+                    onChange={props.onChange}
+                    filter='brand'
+                    name='Brands'
+                    url={`${process.env.REACT_APP_API_URL}/brand?type=${props.type}`}
+                >
+                    {(
+                        data: Data,
+                        values: number[],
+                        changeHandler: ChangeHandler<HTMLInputElement>
+                    ) =>
                         data &&
                         data.brands.map((brand: Brand) => {
                             return (
                                 <Checkbox
+                                    checked={values.includes(brand.id)}
                                     key={brand.id}
                                     id={brand.name}
                                     name={brand.name}
                                     onChange={changeHandler}
-                                    value={brand.name}
+                                    value={brand.id}
                                 />
                             )
                         })

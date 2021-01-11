@@ -1,8 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
-import {
-    ProductFilterContext,
-    ProductFilterContextInterface
-} from '../../../../context/ProductFilter'
+import React, { useEffect, useState } from 'react'
 import { useFetch } from '../../../../hooks/useFetch'
 import { Change } from '../../../../types/Events'
 import { ChangeHandler } from '../../../../types/Handlers'
@@ -12,33 +8,39 @@ interface Props {
     name: string
     url: string
     filter: string
+    filters: any
+    onChange: React.Dispatch<React.SetStateAction<{}>>
 
     children: (
         data: any,
+        values: any,
         changeHandler: ChangeHandler<HTMLInputElement>
     ) => React.ReactNode[] | React.ReactNode
 }
 
 export const Filter: React.FC<Props> = props => {
-    const { url } = props
+    const { url, filter, onChange } = props
 
-    const { filters, setFilters } = useContext<ProductFilterContextInterface>(ProductFilterContext)
+    const [values, setValues] = useState<any[]>([])
+
+    useEffect(() => {
+        onChange(filters => {
+            if (values.length) {
+                return { ...filters, [filter]: values }
+            }
+            const newFilters: any = { ...filters }
+            delete newFilters[filter]
+            return newFilters
+        })
+    }, [values, filter, onChange])
 
     const changeHandler = (event: Change<HTMLInputElement>) => {
-        const value = +event.target.value || event.target.value
-        if (filters[props.filter]?.includes(value)) {
-            setFilters((currentFilters: any) => {
-                const filteredArray: any[] = currentFilters[props.filter].filter(
-                    (v: any) => v !== value
-                )
-                console.log(filteredArray.length)
-                return { ...currentFilters, [props.filter]: filteredArray }
-            })
-            return
-        }
-        setFilters((currentFilters: any) => {
-            if (!currentFilters[props.filter]) return { ...currentFilters, [props.filter]: [value] }
-            return { ...currentFilters, [props.filter]: [...currentFilters[props.filter], value] }
+        const value: any = +event.target.value || event.target.value
+        setValues((currentvalues: any[]) => {
+            if (values.includes(value)) {
+                return currentvalues.filter((v: any) => v !== value)
+            }
+            return [...currentvalues, value]
         })
     }
 
@@ -54,7 +56,7 @@ export const Filter: React.FC<Props> = props => {
     return (
         <li className={styles.root}>
             <p>{props.name}</p>
-            <ul>{props.children(data, changeHandler)}</ul>
+            <ul>{props.children(data, values, changeHandler)}</ul>
         </li>
     )
 }
