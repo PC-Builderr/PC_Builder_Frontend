@@ -1,0 +1,1 @@
+export { CaseProductTable } from './CaseProductTable'

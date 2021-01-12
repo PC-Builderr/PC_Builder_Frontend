@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { ImageSlider } from '../../components/Products/ImageSlider'
 import { ProductHeroSection } from '../../components/Products/ProductHeroSection'
+import { ProductTable } from '../../components/Products/ProductTable'
 import { CPUProductTable } from '../../components/Products/ProductTable/CPUProductTable'
 import { useFetch } from '../../hooks/useFetch'
 import { ComponentResponse } from '../../types/components/ComponentResponse'
@@ -32,8 +33,7 @@ export const Product: React.FC<Props> = props => {
             {data && <ProductHeroSection product={data.component.product} />}
             {/* {error && <pre>{JSON.stringify(error, null, 2)}</pre>} */}
 
-            {data && <CPUProductTable cpu={data.component} />}
-            {data && <pre>{JSON.stringify(data, null, 2)}</pre>}
+            {data && <ProductTable type={type} component={data.component} />}
         </div>
     )
 }
