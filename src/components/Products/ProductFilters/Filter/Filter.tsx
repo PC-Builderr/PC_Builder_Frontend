@@ -21,6 +21,19 @@ interface Props {
 export const Filter: React.FC<Props> = props => {
     const { onChange, filter }: Props = props
     const [values, setValues] = useState<any[]>([])
+    const {
+        fetchData,
+        state: { data }
+    } = useFetch()
+    const changeHandler = (event: Change<HTMLInputElement>) => {
+        const value: any = Number(event.target.value) || event.target.value
+        setValues((currentvalues: any[]) => {
+            if (values.includes(value)) {
+                return currentvalues.filter((v: any) => v !== value)
+            }
+            return [...currentvalues, value]
+        })
+    }
 
     useEffect(() => {
         onChange(filters => {
@@ -32,21 +45,6 @@ export const Filter: React.FC<Props> = props => {
             return newFilters
         })
     }, [values, filter, onChange])
-
-    const changeHandler = (event: Change<HTMLInputElement>) => {
-        const value: any = Number(event.target.value) || event.target.value
-        setValues((currentvalues: any[]) => {
-            if (values.includes(value)) {
-                return currentvalues.filter((v: any) => v !== value)
-            }
-            return [...currentvalues, value]
-        })
-    }
-
-    const {
-        fetchData,
-        state: { data }
-    } = useFetch()
 
     useEffect(() => {
         fetchData(props.url)

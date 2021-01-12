@@ -9,9 +9,7 @@ interface Props {
 
 export const ImageSlider: React.FC<Props> = props => {
     const sliderRef = useRef<HTMLUListElement>(null)
-
     const [index, setIndex] = useState<number>(0)
-
     const clickHandler = useCallback((index: number) => {
         setIndex(index)
     }, [])
