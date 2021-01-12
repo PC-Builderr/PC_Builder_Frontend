@@ -49,10 +49,10 @@ export const SimilarProductsSlider: React.FC<Props> = props => {
 
     return (
         <div className={styles.root} ref={rootRef}>
-            {data && (
-                <>
-                    <ul>
-                        {data.products.map((product: Product) => {
+            <>
+                <ul>
+                    {data &&
+                        data.products.map((product: Product) => {
                             return (
                                 <SliderItem
                                     key={product.id}
@@ -67,15 +67,14 @@ export const SimilarProductsSlider: React.FC<Props> = props => {
                                 />
                             )
                         })}
-                    </ul>
-                    <button disabled={index === 0} onClick={clickHandler.bind(null, -1)}>
-                        <MdKeyboardArrowLeft />
-                    </button>
-                    <button disabled={disable} onClick={clickHandler.bind(null, 1)}>
-                        <MdKeyboardArrowRight />
-                    </button>
-                </>
-            )}
+                </ul>
+                <button disabled={index === 0} onClick={clickHandler.bind(null, -1)}>
+                    <MdKeyboardArrowLeft />
+                </button>
+                <button disabled={disable} onClick={clickHandler.bind(null, 1)}>
+                    <MdKeyboardArrowRight />
+                </button>
+            </>
         </div>
     )
 }

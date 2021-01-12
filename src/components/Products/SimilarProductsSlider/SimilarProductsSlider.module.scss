@@ -1,10 +1,11 @@
 .root {
-    border: 1px solid #e3f4fd;
+    border: 2px solid #e3f4fd;
     background-color: #f7fcff;
     overflow: hidden;
     margin-bottom: 3rem;
     position: relative;
     min-height: 18rem;
+    border-radius: 4px;
 
     & > ul {
         display: flex;
