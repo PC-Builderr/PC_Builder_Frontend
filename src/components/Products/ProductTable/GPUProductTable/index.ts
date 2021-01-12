@@ -1,0 +1,1 @@
+export { GPUProductTable } from './GPUProductTable'

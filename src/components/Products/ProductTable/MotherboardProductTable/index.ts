@@ -1,0 +1,1 @@
+export { MotherboardProductTable } from './MotherboardProductTable'

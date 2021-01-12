@@ -11,8 +11,8 @@ export const CaseProductTable: React.FC<Props> = ({ component }) => {
         <table className={styles.root}>
             <tbody>
                 <tr>
-                    <th>Model:</th>
-                    <td>{component.product.name}</td>
+                    <th>Series:</th>
+                    <td>{component.series}</td>
                 </tr>
                 <tr>
                     <th>Format:</th>

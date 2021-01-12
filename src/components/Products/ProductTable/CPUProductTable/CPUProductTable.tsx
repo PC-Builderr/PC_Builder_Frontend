@@ -1,4 +1,5 @@
 import React from 'react'
+import { FcCancel } from 'react-icons/fc'
 import { CPU } from '../../../../types/components/CPU'
 import styles from '../index.module.scss'
 
@@ -40,11 +41,11 @@ export const CPUProductTable: React.FC<Props> = ({ component }) => {
                 </tr>
                 <tr>
                     <th>Speed:</th>
-                    <td>{component.speed}GHz</td>
+                    <td>{component.speed} GHz</td>
                 </tr>
                 <tr>
                     <th>Turbo speed:</th>
-                    <td>{component.turboSpeed}GHz</td>
+                    <td>{component.turboSpeed} GHz</td>
                 </tr>
                 <tr>
                     <th>Cache:</th>
@@ -52,7 +53,7 @@ export const CPUProductTable: React.FC<Props> = ({ component }) => {
                 </tr>
                 <tr>
                     <th>Integrated graphics:</th>
-                    <td>{component.integratedGraphics || '-'}</td>
+                    <td>{component.integratedGraphics || <FcCancel />}</td>
                 </tr>
                 <tr>
                     <th>RAM type:</th>
@@ -60,11 +61,11 @@ export const CPUProductTable: React.FC<Props> = ({ component }) => {
                 </tr>
                 <tr>
                     <th>RAM capacity:</th>
-                    <td>{component.ramCapacity}GB</td>
+                    <td>{component.ramCapacity} GB</td>
                 </tr>
                 <tr>
                     <th>Max RAM speed:</th>
-                    <td>{component.maxRamSpeed}MHz</td>
+                    <td>{component.maxRamSpeed} MHz</td>
                 </tr>
                 <tr>
                     <th>Conumption:</th>

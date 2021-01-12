@@ -3,7 +3,6 @@ import { Component } from './Component'
 export interface CPU extends Component {
     model: string
     generation: string
-    series: string
     socket: string
     core: number
     thread: number
