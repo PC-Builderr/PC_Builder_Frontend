@@ -1,30 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { CartContext } from './CartContext'
-import { Product } from '../../types/Product'
+import { CartItem } from '../../types/CartEntry'
 
 interface Props {
     children: React.ReactNode
 }
 
 export const CartContextProvider: React.FC<Props> = props => {
-    const [products, setProducts] = useState<Product[]>(() => {
-        return JSON.parse(localStorage.getItem('products') || '[]')
+    const [items, setItems] = useState<CartItem[]>(() => {
+        return JSON.parse(localStorage.getItem('cart-items') || '[]')
     })
 
-    const modifyProducts = (product: Product) =>
-        setProducts((oldProducts: Product[]) => {
-            return oldProducts.find(p => p.id === product.id)
-                ? oldProducts.filter(p => p.id !== product.id)
-                : [...oldProducts, product]
-        })
-
     useEffect(() => {
-        localStorage.setItem('products', JSON.stringify(products))
-    }, [products])
+        console.log(items)
+    }, [items])
 
-    return (
-        <CartContext.Provider value={{ products, modifyProducts }}>
-            {props.children}
-        </CartContext.Provider>
-    )
+    return <CartContext.Provider value={{ items, setItems }}>{props.children}</CartContext.Provider>
 }

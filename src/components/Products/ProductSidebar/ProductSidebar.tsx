@@ -3,13 +3,19 @@ import { IoMdCart, IoMdRemoveCircleOutline } from 'react-icons/io'
 import { RiAddCircleLine } from 'react-icons/ri'
 import { GiCheckMark } from 'react-icons/gi'
 import styles from './ProductSidebar.module.scss'
+import { useCart } from '../../../hooks/useCart'
 
 interface Props {
     price: number
+    id: number
 }
 
 export const ProductSidebar: React.FC<Props> = props => {
+    const { id } = props
     const [quantity, setQuantity] = useState(1)
+    const {
+        methods: { addItem }
+    } = useCart()
 
     const clickHandler = useCallback(
         (payload: number) => {
@@ -41,7 +47,7 @@ export const ProductSidebar: React.FC<Props> = props => {
                         <RiAddCircleLine />
                     </button>
                 </div>
-                <button>
+                <button onClick={addItem.bind(null, { id, quantity })}>
                     <IoMdCart /> ADD TO CART
                 </button>
             </div>

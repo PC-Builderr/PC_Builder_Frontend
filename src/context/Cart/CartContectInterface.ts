@@ -1,6 +1,6 @@
-import { Product } from '../../types/Product'
+import { CartItem } from '../../types/CartEntry'
 
 export interface CartContextInterface {
-    products: Product[]
-    modifyProducts: (product: Product) => void
+    items: CartItem[]
+    setItems: React.Dispatch<React.SetStateAction<CartItem[]>>
 }

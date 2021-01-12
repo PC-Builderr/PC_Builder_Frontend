@@ -4,6 +4,7 @@
     display: flex;
     flex-flow: column;
     padding-top: 2px;
+    z-index: 200;
 
     & > li {
         margin-left: 1.5rem;
@@ -46,8 +47,10 @@
         background-position: 0 0;
         background-size: 268% 100%;
     }
-    .animate {
-        animation: rainbow 10s linear infinite;
+    &.animate {
+        &::after {
+            animation: rainbow 10s linear infinite;
+        }
     }
     @keyframes rainbow {
         0% {
@@ -98,5 +101,20 @@
         & .burger {
             margin-right: 1rem;
         }
+    }
+}
+
+.cart {
+    position: relative;
+    &::after {
+        content: '';
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: red;
+        display: block;
+        bottom: 75%;
+        left: 75%;
     }
 }

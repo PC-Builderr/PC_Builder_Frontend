@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { RiShoppingCartLine } from 'react-icons/ri'
 import { HiOutlineMenuAlt2 } from 'react-icons/hi'
@@ -7,14 +7,18 @@ import { SearchInput } from '../../UI/Search'
 import styles from './NavBar.module.scss'
 import { DropDown } from '../../UI/DropDown'
 import { WithMediaQuery } from '../../../hoc/WithMediaQuery'
+import { CartContext } from '../../../context/Cart/CartContext'
+import { CartContextInterface } from '../../../context/Cart/CartContectInterface'
 
 interface Props {
     openSideDrawerHandler: () => void
 }
 
 export const NavBar: React.FC<Props> = props => {
+    const { items } = useContext<CartContextInterface>(CartContext)
+
     return (
-        <header className={styles.root}>
+        <header className={[styles.root].join(' ')}>
             <nav>
                 <WithMediaQuery minWidth={1000}>
                     <button className={styles.burger} onClick={props.openSideDrawerHandler}>
@@ -44,7 +48,7 @@ export const NavBar: React.FC<Props> = props => {
                 <WithMediaQuery maxWidth={550}>
                     <ul>
                         <li>
-                            <Link to='/cart'>
+                            <Link className={items.length ? styles.cart : ''} to='/cart'>
                                 <RiShoppingCartLine />
                             </Link>
                         </li>

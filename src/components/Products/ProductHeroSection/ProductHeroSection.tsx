@@ -14,7 +14,7 @@ export const ProductHeroSection: React.FC<Props> = props => {
             <h3 className={styles.heading}>{props.product.name}</h3>
             <div className={styles.root}>
                 <ImageSlider images={props.product.images} />
-                <ProductSidebar price={props.product.price} />
+                <ProductSidebar price={props.product.price} id={props.product.id} />
             </div>
         </>
     )
