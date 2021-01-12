@@ -1,0 +1,40 @@
+.root {
+    border: 1px solid #e3f4fd;
+    background-color: #f7fcff;
+    overflow: hidden;
+    margin-bottom: 3rem;
+    position: relative;
+    min-height: 18rem;
+
+    & > ul {
+        display: flex;
+        padding: 1rem 1rem 0.5rem 1rem;
+        flex-wrap: nowrap;
+        width: max-content;
+    }
+
+    & > button {
+        border: none;
+        background-color: rgba(255, 255, 255, 0.411);
+        position: absolute;
+        top: 0;
+        bottom: 0;
+
+        &:first-of-type {
+            left: 0;
+        }
+        &:last-of-type {
+            right: 0;
+        }
+
+        & > svg {
+            font-size: 4rem;
+            color: #2e425a;
+        }
+
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    }
+}

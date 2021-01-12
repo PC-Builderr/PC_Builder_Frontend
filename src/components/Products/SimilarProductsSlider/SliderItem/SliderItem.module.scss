@@ -1,0 +1,40 @@
+.root {
+    width: 12rem;
+    margin: 0.25rem;
+    transition: 300ms;
+
+    &:hover {
+        & p {
+            text-decoration: underline;
+        }
+    }
+
+    & > a {
+        & > img {
+            display: block;
+            width: 100%;
+        }
+
+        & > div {
+            padding: 0.25rem;
+            height: 7rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        & p {
+            font-weight: 500;
+            color: #2d86ff;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+        }
+
+        & h4 {
+            color: #2e425a;
+        }
+    }
+}
