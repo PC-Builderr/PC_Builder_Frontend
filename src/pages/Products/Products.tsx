@@ -23,7 +23,6 @@ export const Products: React.FC<Props> = props => {
     const [filters, setFilters] = useState({})
 
     const { search } = useLocation<Location>()
-
     const page: number = useMemo(() => {
         return Number(new URLSearchParams(search).get('page')) || 1
     }, [search])

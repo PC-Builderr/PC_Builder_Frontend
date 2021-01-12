@@ -1,2 +1,55 @@
 .root {
+    & > table {
+        width: 100%;
+        border: 1px solid #e3f4fd;
+        border-radius: 4px;
+        text-align: left;
+        border-collapse: collapse;
+        table-layout: auto;
+
+        & tr {
+            border: 1px solid #e3f4fd;
+        }
+
+        & tr:nth-child(odd) {
+            background-color: #f7fcff;
+            border: 1px solid #e3f4fd;
+        }
+
+        & th,
+        & td {
+            padding: 0.75rem 1rem;
+            color: #2e425a;
+            font-size: 0.9rem;
+        }
+
+        & th {
+            text-align: left;
+            font-weight: 500;
+            width: 15%;
+        }
+
+        & td {
+            font-weight: 400;
+        }
+    }
+}
+
+@media (max-width: 1100px) {
+    .root > table th {
+        width: 20%;
+    }
+}
+
+@media (max-width: 750px) {
+    .root > table {
+        & td {
+            padding-top: 2.5rem;
+        }
+
+        & th {
+            position: absolute;
+            left: 1rem;
+        }
+    }
 }

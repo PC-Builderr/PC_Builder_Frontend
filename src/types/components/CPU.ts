@@ -14,6 +14,6 @@ export interface CPU extends Component {
     ramChannels: number
     ramType: string
     cache: string
-    integratedGraphics: string
+    integratedGraphics?: string
     consumption: number
 }
