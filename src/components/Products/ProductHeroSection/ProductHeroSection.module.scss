@@ -1,0 +1,30 @@
+.heading {
+    margin: 2rem 0 0;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #2e425a;
+    border: 2px solid #e3f4fd;
+    background-color: #f7fcff;
+    padding: 0.8rem 1.2rem;
+    border-radius: 4px;
+    line-height: 1.5;
+}
+
+.root {
+    padding: 2.5rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+@media (max-width: 950px) {
+    .heading {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 800px) {
+    .root {
+        flex-direction: column;
+    }
+}

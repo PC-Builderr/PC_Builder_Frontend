@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { ImageSlider } from '../../components/Products/ImageSlider'
+import { ProductHeroSection } from '../../components/Products/ProductHeroSection'
 import { useFetch } from '../../hooks/useFetch'
 import { ComponentResponse } from '../../types/components/ComponentResponse'
 import { ProductPage } from '../../types/params/ProductPage'
@@ -13,7 +14,7 @@ export const Product: React.FC<Props> = props => {
 
     const {
         fetchData,
-        state: { data, error }
+        state: { data }
     } = useFetch<ComponentResponse>()
 
     useEffect(() => {
@@ -26,13 +27,9 @@ export const Product: React.FC<Props> = props => {
 
     return (
         <div className={styles.root}>
-            {data && (
-                <>
-                    <ImageSlider images={data.component.product.images} />
-                </>
-            )}
-            {data && <pre>{JSON.stringify(data, null, 2)}</pre>}
-            {error && <pre>{JSON.stringify(error, null, 2)}</pre>}
+            {data && <ProductHeroSection product={data.component.product} />}
+            {/* {data && <pre>{JSON.stringify(data, null, 2)}</pre>} */}
+            {/* {error && <pre>{JSON.stringify(error, null, 2)}</pre>} */}
         </div>
     )
 }

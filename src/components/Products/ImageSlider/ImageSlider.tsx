@@ -19,7 +19,7 @@ export const ImageSlider: React.FC<Props> = props => {
     return (
         <>
             <WithMediaQuery maxWidth={800}>
-                <>
+                <div>
                     <ul className={styles.root} ref={sliderRef}>
                         {props.images.map((image: Image) => {
                             return (
@@ -55,7 +55,7 @@ export const ImageSlider: React.FC<Props> = props => {
                             )
                         })}
                     </ul>
-                </>
+                </div>
             </WithMediaQuery>
             <WithMediaQuery minWidth={800}>
                 <div className={styles.mobile}>

@@ -24,6 +24,7 @@
         border-radius: 4px;
         max-width: 20rem;
         width: 100%;
+        border: 2px solid transparent;
 
         &::placeholder {
             color: #2e425a;
@@ -33,6 +34,9 @@
 
         &:focus {
             background-color: #eef5f8;
+            border: 2px solid #e3f4fd;
+
+            // background-color: #f7fcff;
         }
     }
 
@@ -50,9 +54,9 @@
 .allProducts {
     width: 20rem;
     height: 2.5rem;
-    border: 1px solid rgba(0, 0, 0, 0.1);
     margin: 0;
-    background-color: white;
+    border: 1px solid #e3f4fd;
+    background-color: #f7fcff;
 
     border-radius: 4px;
 

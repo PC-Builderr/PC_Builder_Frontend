@@ -1,0 +1,1 @@
+export { ProductHeroSection } from './ProductHeroSection'

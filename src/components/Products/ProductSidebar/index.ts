@@ -1,1 +1,1 @@
-export {} from './ProductSidebar'
+export { ProductSidebar } from './ProductSidebar'
