@@ -10,13 +10,11 @@ interface Props {
 export const ProductList: React.FC<Props> = props => {
     return (
         <ul className={styles.root}>
-            {props.products.map((product: Product) => {
-                return (
-                    <li key={product.id}>
-                        <ProductCard product={product} />
-                    </li>
-                )
-            })}
+            {props.products.map((product: Product) => (
+                <li key={product.id}>
+                    <ProductCard product={product} />
+                </li>
+            ))}
         </ul>
     )
 }

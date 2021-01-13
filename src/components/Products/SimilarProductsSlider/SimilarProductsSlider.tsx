@@ -21,8 +21,11 @@ export const SimilarProductsSlider: React.FC<Props> = ({ search }) => {
         fetchData,
         state: { data }
     } = useFetch<ProductArrayResponse>()
+
     const [disable, setDisable] = useState<boolean>(false)
+
     const [index, setIndex] = useState<number>(0)
+
     const rootRef = useRef<HTMLDivElement>(null)
 
     const clickHandler = useCallback((index: number) => {

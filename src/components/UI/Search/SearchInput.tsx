@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { IoSearchSharp } from 'react-icons/io5'
+import React, { useCallback, useEffect, useState } from 'react'
 import { BiLoaderAlt } from 'react-icons/bi'
+import { IoSearchSharp } from 'react-icons/io5'
 import { Link, useLocation } from 'react-router-dom'
 import { useClickAway } from '../../../hooks/useClickAway'
 import { useFetch } from '../../../hooks/useFetch'
@@ -19,8 +19,11 @@ const urlSearchParams: URLSearchParams = new URLSearchParams([
 
 export const SearchInput: React.FC<Props> = props => {
     const [search, setSearch] = useState<string>('')
+
     const { isOpen, close, open } = useClickAway()
+
     const location = useLocation()
+
     const {
         state: { data, error, loading },
         fetchData
@@ -29,6 +32,7 @@ export const SearchInput: React.FC<Props> = props => {
     const searchProductsHandler = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         setSearch(event.target.value)
     }, [])
+
     const inputClickHandler = useCallback(
         (event: React.MouseEvent<HTMLInputElement, MouseEvent>) => {
             if (search) open(event)

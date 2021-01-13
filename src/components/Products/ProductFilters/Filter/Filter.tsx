@@ -19,8 +19,8 @@ interface Props {
 
 export const Filter: React.FC<Props> = props => {
     const { onChange, filter, url }: Props = props
-    const [isOpen, setIsOpen] = useState<boolean>(true)
 
+    const [isOpen, setIsOpen] = useState<boolean>(true)
     const toggleHandler = useCallback(() => {
         setIsOpen((currentIsOpen: boolean) => !currentIsOpen)
     }, [])
@@ -32,6 +32,7 @@ export const Filter: React.FC<Props> = props => {
 
     const changeHandler = (event: Change<HTMLInputElement>) => {
         const value: any = Number(event.target.value) || event.target.value
+
         onChange((currentFilters: any) => {
             if (currentFilters[filter]?.includes(value)) {
                 const newFilters: any = {

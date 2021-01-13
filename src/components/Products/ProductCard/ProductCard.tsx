@@ -8,23 +8,23 @@ interface Props {
     product: Product
 }
 
-export const ProductCard: React.FC<Props> = ({ product }) => {
+export const ProductCard: React.FC<Props> = props => {
     const {
         methods: { addItem }
     } = useCart()
 
     return (
         <article className={styles.root}>
-            <Link to={`/products/${product.type}/${product.id}`}>
+            <Link to={`/products/${props.product.type}/${props.product.id}`}>
                 <img
-                    src={process.env.REACT_APP_API_URL + product.images[0].url}
-                    alt={product.name}
+                    src={process.env.REACT_APP_API_URL + props.product.images[0].url}
+                    alt={props.product.name}
                 />
-                <p>{product.name}</p>
+                <p>{props.product.name}</p>
             </Link>
             <div>
-                <p>{product.price}лв.</p>
-                <button onClick={addItem.bind(null, { id: product.id, quantity: 1 })}>
+                <p>{props.product.price}лв.</p>
+                <button onClick={addItem.bind(null, { id: props.product.id, quantity: 1 })}>
                     Add To Cart
                 </button>
             </div>

@@ -11,8 +11,10 @@ interface Props {
 }
 
 export const ProductSidebar: React.FC<Props> = props => {
-    const { id } = props
+    const { id, price } = props
+
     const [quantity, setQuantity] = useState(1)
+
     const {
         methods: { addItem }
     } = useCart()
@@ -29,7 +31,7 @@ export const ProductSidebar: React.FC<Props> = props => {
     return (
         <div className={styles.root}>
             <div className={styles.price}>
-                <p>{props.price}лв.</p>
+                <p>{price}лв.</p>
             </div>
             <div className={styles.shipping}>
                 <GiCheckMark />

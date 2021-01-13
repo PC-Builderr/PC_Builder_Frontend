@@ -7,18 +7,12 @@ import { ITEMS_PER_PAGE } from '../../constants'
 import { useFetch } from '../../hooks/useFetch'
 import { ProductsPage } from '../../types/params/ProductsPage'
 import { ProductArrayResponse } from '../../types/ProductArrayResponse'
-import styles from './index.module.scss'
+import styles from './Products.module.scss'
 
 interface Props {}
 
 export const Products: React.FC<Props> = props => {
     const { type } = useParams<ProductsPage>()
-
-    useEffect(() => {
-        console.log('mount')
-
-        return () => console.log('unmount')
-    }, [])
 
     const {
         fetchData,
@@ -28,6 +22,7 @@ export const Products: React.FC<Props> = props => {
     const [filters, setFilters] = useState({})
 
     const { search } = useLocation<Location>()
+
     const page: number = useMemo(() => {
         return Number(new URLSearchParams(search).get('page')) || 1
     }, [search])
