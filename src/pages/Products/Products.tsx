@@ -28,7 +28,6 @@ export const Products: React.FC<Props> = props => {
     }, [search])
 
     useEffect(() => {
-        console.log('fetch')
         fetchData(`${process.env.REACT_APP_API_URL}/${type}`, {
             method: 'POST',
             body: JSON.stringify({
