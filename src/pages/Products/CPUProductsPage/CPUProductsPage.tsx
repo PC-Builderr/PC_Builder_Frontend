@@ -1,25 +1,16 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { useLocation, useParams } from 'react-router-dom'
-import { Pagination } from '../../components/Products/Pagination'
-import { ProductFilters } from '../../components/Products/ProductFilters'
-import { ProductList } from '../../components/Products/ProductList'
-import { ITEMS_PER_PAGE } from '../../constants'
-import { useFetch } from '../../hooks/useFetch'
-import { ProductsPage } from '../../types/params/ProductsPage'
-import { ProductArrayResponse } from '../../types/ProductArrayResponse'
+import { useLocation } from 'react-router-dom'
+import { Pagination } from '../../../components/Products/Pagination'
+import { ProductFilters } from '../../../components/Products/ProductFilters'
+import { ProductList } from '../../../components/Products/ProductList'
+import { ITEMS_PER_PAGE } from '../../../constants'
+import { useFetch } from '../../../hooks/useFetch'
+import { ProductArrayResponse } from '../../../types/ProductArrayResponse'
 import styles from './index.module.scss'
 
 interface Props {}
 
-export const Products: React.FC<Props> = props => {
-    const { type } = useParams<ProductsPage>()
-
-    useEffect(() => {
-        console.log('mount')
-
-        return () => console.log('unmount')
-    }, [])
-
+export const CPUProductsPage: React.FC<Props> = props => {
     const {
         fetchData,
         state: { data, error, loading }
@@ -34,7 +25,7 @@ export const Products: React.FC<Props> = props => {
 
     useEffect(() => {
         console.log('fetch')
-        fetchData(`${process.env.REACT_APP_API_URL}/${type}`, {
+        fetchData(`${process.env.REACT_APP_API_URL}/cpu`, {
             method: 'POST',
             body: JSON.stringify({
                 page: page,
@@ -42,7 +33,7 @@ export const Products: React.FC<Props> = props => {
                 filters
             })
         })
-    }, [fetchData, type, page, filters])
+    }, [fetchData, page, filters])
 
     return (
         <div className={styles.root}>
@@ -50,7 +41,7 @@ export const Products: React.FC<Props> = props => {
             {error && <pre>{JSON.stringify(error, null, 2)}</pre>}
             {data && (
                 <>
-                    <ProductFilters type={type} filters={filters} onChange={setFilters} />
+                    <ProductFilters type='cpu' filters={filters} onChange={setFilters} />
                     <ProductList products={data.products} />
                     <Pagination count={data.total / ITEMS_PER_PAGE}></Pagination>
                 </>

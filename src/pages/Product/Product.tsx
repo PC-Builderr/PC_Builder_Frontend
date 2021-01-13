@@ -7,7 +7,6 @@ import { useFetch } from '../../hooks/useFetch'
 import { ComponentResponse } from '../../types/components/ComponentResponse'
 import { ProductPage } from '../../types/params/ProductPage'
 import { Component } from '../../types/components/Component'
-import styles from './Product.module.scss'
 
 interface Props {}
 
@@ -24,11 +23,21 @@ export const Product: React.FC<Props> = props => {
     }, [id, type, fetchData])
 
     return (
-        <div className={styles.root}>
-            {data && <ProductHeroSection product={data.component.product} />}
+        <>
+            {data && (
+                <>
+                    <ProductHeroSection product={data.component.product} />
+                    <ProductTable type={type} component={data.component} />
+                    <SimilarProductsSlider
+                        search={[
+                            data.component.product.type,
+                            data.component.product.name,
+                            data.component.product.description
+                        ].join(' ')}
+                    />
+                </>
+            )}
             {error && <pre>{JSON.stringify(error, null, 2)}</pre>}
-            {data && <ProductTable type={type} component={data.component} />}
-            {data && <SimilarProductsSlider search={data.component.product.type} />}
-        </div>
+        </>
     )
 }

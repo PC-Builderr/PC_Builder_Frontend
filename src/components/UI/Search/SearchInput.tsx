@@ -12,6 +12,11 @@ import { SearchResult } from './SearchResult'
 
 interface Props {}
 
+const urlSearchParams: URLSearchParams = new URLSearchParams([
+    ['count', '3'],
+    ['page', '1']
+])
+
 export const SearchInput: React.FC<Props> = props => {
     const [search, setSearch] = useState<string>('')
     const { isOpen, close, open } = useClickAway()
@@ -21,24 +26,15 @@ export const SearchInput: React.FC<Props> = props => {
         fetchData
     } = useFetch<ProductArrayResponse>()
 
-    const searchProductsHandler = useCallback(
-        (event: React.ChangeEvent<HTMLInputElement>) => {
-            setSearch(event.target.value)
-        },
-        [setSearch]
-    )
+    const searchProductsHandler = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearch(event.target.value)
+    }, [])
     const inputClickHandler = useCallback(
         (event: React.MouseEvent<HTMLInputElement, MouseEvent>) => {
             if (search) open(event)
         },
         [open, search]
     )
-    const urlSearchParams: URLSearchParams = useMemo(() => {
-        return new URLSearchParams([
-            ['count', '3'],
-            ['page', '1']
-        ])
-    }, [])
 
     useEffect(() => {
         setSearch('')
@@ -55,7 +51,7 @@ export const SearchInput: React.FC<Props> = props => {
         if (!search) close()
 
         return () => clearTimeout(timeout)
-    }, [search, fetchData, open, urlSearchParams, close])
+    }, [search, fetchData, open, close])
 
     return (
         <div className={styles.root}>

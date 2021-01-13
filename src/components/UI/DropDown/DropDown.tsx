@@ -14,7 +14,7 @@ export const DropDown: React.FC<Props> = props => {
 
     return (
         <li className={styles.root}>
-            <button onClick={open}>
+            <button onClick={isOpen ? close : open}>
                 {props.label}
                 <IoIosArrowDown
                     style={{

@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
+import { IoIosArrowDown } from 'react-icons/io'
 import { useFetch } from '../../../../hooks/useFetch'
 import { Change } from '../../../../types/Events'
 import { ChangeHandler } from '../../../../types/Handlers'
@@ -10,50 +11,62 @@ interface Props {
     filter: string
     filters: any
     onChange: React.Dispatch<React.SetStateAction<{}>>
-
     children: (
         data: any,
-        values: any,
         changeHandler: ChangeHandler<HTMLInputElement>
     ) => React.ReactNode[] | React.ReactNode
 }
 
 export const Filter: React.FC<Props> = props => {
-    const { onChange, filter }: Props = props
-    const [values, setValues] = useState<any[]>([])
+    const { onChange, filter, url }: Props = props
+    const [isOpen, setIsOpen] = useState<boolean>(true)
+
+    const toggleHandler = useCallback(() => {
+        setIsOpen((currentIsOpen: boolean) => !currentIsOpen)
+    }, [])
+
     const {
         fetchData,
         state: { data }
     } = useFetch()
+
     const changeHandler = (event: Change<HTMLInputElement>) => {
         const value: any = Number(event.target.value) || event.target.value
-        setValues((currentvalues: any[]) => {
-            if (values.includes(value)) {
-                return currentvalues.filter((v: any) => v !== value)
+        onChange((currentFilters: any) => {
+            if (currentFilters[filter]?.includes(value)) {
+                const newFilters: any = {
+                    ...currentFilters,
+                    [filter]: currentFilters[filter].filter((el: any) => el !== value)
+                }
+                if (!newFilters[filter].length) {
+                    delete newFilters[filter]
+                }
+                return newFilters
             }
-            return [...currentvalues, value]
+            if (!currentFilters[filter]) {
+                return { ...currentFilters, [filter]: [value] }
+            }
+            return { ...currentFilters, [filter]: [...currentFilters[filter], value] }
         })
     }
 
     useEffect(() => {
-        onChange(filters => {
-            if (values.length) {
-                return { ...filters, [filter]: values }
-            }
-            const newFilters: any = { ...filters }
-            delete newFilters[filter]
-            return newFilters
-        })
-    }, [values, filter, onChange])
-
-    useEffect(() => {
-        fetchData(props.url)
-    }, [fetchData, props.url])
+        fetchData(url)
+    }, [fetchData, url])
 
     return (
         <li className={styles.root}>
-            <p>{props.name}</p>
-            <ul>{props.children(data, values, changeHandler)}</ul>
+            <div>
+                <p>{props.name}</p>
+                <button onClick={toggleHandler}>
+                    <IoIosArrowDown
+                        style={{
+                            transform: isOpen ? 'rotate(180deg)' : ''
+                        }}
+                    />
+                </button>
+            </div>
+            {isOpen && data && <ul>{props.children(data, changeHandler)}</ul>}
         </li>
     )
 }

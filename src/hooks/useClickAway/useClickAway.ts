@@ -26,7 +26,7 @@ export const useClickAway = (initialState: boolean = false): ClickAwayState => {
 
             if (!isMounted.current) return
 
-            setIsOpen((state: boolean) => !state)
+            setIsOpen(true)
             window.addEventListener('click', close)
         },
         [close, isMounted]

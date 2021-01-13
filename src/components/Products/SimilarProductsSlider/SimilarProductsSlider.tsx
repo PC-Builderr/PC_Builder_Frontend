@@ -1,8 +1,9 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
+import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md'
+import { ITEMS_PER_SLIDER } from '../../../constants'
 import { useFetch } from '../../../hooks/useFetch'
 import { Product } from '../../../types/Product'
 import { ProductArrayResponse } from '../../../types/ProductArrayResponse'
-import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md'
 import styles from './SimilarProductsSlider.module.scss'
 import { SliderItem } from './SliderItem'
 
@@ -10,7 +11,12 @@ interface Props {
     search: string
 }
 
-export const SimilarProductsSlider: React.FC<Props> = props => {
+const urlSearchParams: URLSearchParams = new URLSearchParams([
+    ['count', String(ITEMS_PER_SLIDER)],
+    ['page', '1']
+])
+
+export const SimilarProductsSlider: React.FC<Props> = ({ search }) => {
     const {
         fetchData,
         state: { data }
@@ -19,14 +25,6 @@ export const SimilarProductsSlider: React.FC<Props> = props => {
     const [index, setIndex] = useState<number>(0)
     const rootRef = useRef<HTMLDivElement>(null)
 
-    const urlSearchParams: string = useMemo(() => {
-        return new URLSearchParams([
-            ['count', '15'],
-            ['page', '1'],
-            ['search', '']
-        ]).toString()
-    }, [])
-
     const clickHandler = useCallback((index: number) => {
         setIndex((currentIndex: number) => {
             return currentIndex + index
@@ -34,13 +32,13 @@ export const SimilarProductsSlider: React.FC<Props> = props => {
     }, [])
 
     useEffect(() => {
+        urlSearchParams.set('search', search)
         fetchData(`${process.env.REACT_APP_API_URL}/product?${urlSearchParams}`)
-    }, [fetchData, urlSearchParams])
+    }, [fetchData, search])
 
     useEffect(() => {
         setDisable(
-            index * (rootRef.current?.firstElementChild?.firstElementChild?.clientWidth || 0) -
-                150 >
+            index * (rootRef.current?.firstElementChild?.firstElementChild?.clientWidth || 0) >
                 (data?.products.length || 0) *
                     (rootRef.current?.firstElementChild?.firstElementChild?.clientWidth || 0) -
                     (rootRef.current?.clientWidth || 0)

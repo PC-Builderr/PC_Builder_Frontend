@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from 'react'
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch, useLocation } from 'react-router-dom'
 import { Layout } from './components/Layout'
 import { Loader } from './components/UI/Loader'
 
@@ -13,6 +13,7 @@ const Error: React.LazyExoticComponent<React.FC<Props>> = lazy(() => import('./p
 interface Props {}
 
 export const App: React.FC<Props> = () => {
+    const { pathname } = useLocation<Location>()
     return (
         <Layout>
             <Suspense fallback={<Loader />}>
@@ -30,7 +31,7 @@ export const App: React.FC<Props> = () => {
                         <h3>cart</h3>
                     </Route>
                     <Route path='/products/:type' exact>
-                        <Products />
+                        <Products key={pathname} />
                     </Route>
                     <Route path='/products/:type/:id' exact>
                         <Product />
