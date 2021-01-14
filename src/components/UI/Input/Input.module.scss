@@ -1,0 +1,22 @@
+.root {
+    padding: 0.6rem;
+    font-size: 1rem;
+    border: 1px solid #c8dce6;
+    color: #18293c;
+    border-radius: 4px;
+
+    &::placeholder {
+        font-size: 1rem;
+    }
+
+    &:focus {
+        border-color: #6ea7ec;
+        box-shadow: 0 0 0 1px #6ea7ec;
+    }
+}
+
+.label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #9ea9b7;
+}

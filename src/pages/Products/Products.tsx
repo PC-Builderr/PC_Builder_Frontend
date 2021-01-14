@@ -40,11 +40,11 @@ export const Products: React.FC<Props> = props => {
 
     return (
         <div className={styles.root}>
+            <ProductFilters type={type} filters={filters} onChange={setFilters} />
             {loading && '...Loading'}
             {error && <pre>{JSON.stringify(error, null, 2)}</pre>}
             {data && (
                 <>
-                    <ProductFilters type={type} filters={filters} onChange={setFilters} />
                     <ProductList products={data.products} />
                     <Pagination count={data.total / ITEMS_PER_PAGE}></Pagination>
                 </>

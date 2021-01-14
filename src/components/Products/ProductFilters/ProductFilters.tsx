@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Brand } from '../../../types/Brand'
+import { ChangeHandler } from '../../../types/Handlers'
 import { Checkbox } from '../../UI/Checkbox'
 import { Filter } from './Filter'
-import { ChangeHandler } from '../../../types/Handlers'
 import styles from './ProductFilters.module.scss'
 
 interface Props {

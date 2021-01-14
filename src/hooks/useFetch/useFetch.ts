@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react'
 import { RequestOptions } from './RequestOptions'
 import { useIsMounted } from '../useIsMounted/useIsMounted'
+import { Error } from '../../types/Error'
 
 interface FetchState<T> {
     data: T | null
