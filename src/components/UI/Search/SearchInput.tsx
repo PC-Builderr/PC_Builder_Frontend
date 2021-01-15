@@ -73,15 +73,14 @@ export const SearchInput: React.FC<Props> = props => {
                     {data?.products.map((product: Product) => {
                         return <SearchResult key={product.id} product={product} />
                     })}
-                    {error ? (
-                        <NotFound />
-                    ) : (
+                    {data && (
                         <li className={styles.allProducts}>
                             <Link to={`/products?search=${search}`}>
                                 See all {data?.total} results.
                             </Link>
                         </li>
                     )}
+                    {error && <NotFound />}
                 </ul>
             )}
         </div>

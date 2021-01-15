@@ -10,18 +10,27 @@ interface Props {
     placeholder?: string
     label?: string
     required?: boolean
-    id: string
+    error?: string
 }
 
 export const Input: React.FC<Props> = props => {
     return (
         <>
             {props.label && (
-                <label className={styles.label} htmlFor={props.id}>
+                <label
+                    className={styles.label}
+                    style={props.error ? { color: 'red' } : undefined}
+                    htmlFor={props.name}
+                >
                     {props.label}
                 </label>
             )}
-            <input className={styles.root} {...props} />
+            <input
+                className={styles.root}
+                style={props.error ? { borderColor: 'red' } : undefined}
+                id={props.name}
+                {...props}
+            />
         </>
     )
 }

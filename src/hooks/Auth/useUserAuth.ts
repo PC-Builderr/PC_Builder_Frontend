@@ -1,23 +1,23 @@
 import { useCallback, useContext, useEffect, useState } from 'react'
+import { SERVER_ERROR, WRONG_CREDENTIALS } from '../../constants'
 import { AuthContext } from '../../context/Auth/AuthContext'
 import { AuthContextInterface } from '../../context/Auth/AuthContext.interface'
 import { AuthContextState } from '../../context/Auth/AuthContextState'
 import { Credential } from '../../types/credentials/Credential'
-import { Error } from '../../types/Error'
 import { Change, Submit } from '../../types/Events'
 import { ChangeHandler, SubmitHandler } from '../../types/Handlers'
 import { useFetch } from '../useFetch'
 
-interface UserAuth {
-    state: State
+interface UserAuth<T> {
+    state: State<T>
     methods: Methods
 }
 
-interface State {
+interface State<T> {
     authState: AuthContextState | null
-    credentials: Credential[]
+    credentials: T
     canSubmit: boolean
-    error: Error | null
+    credentialsErrors: string[]
 }
 
 interface Methods {
@@ -26,13 +26,15 @@ interface Methods {
     changeHandler: ChangeHandler<HTMLInputElement>
 }
 
-export const useUserAuth = (initialCredentials: Credential[]): UserAuth => {
+export const useUserAuth = <T>(initialCredentials: Credential[]): UserAuth<T> => {
     const { authState, setAuthState } = useContext<AuthContextInterface>(AuthContext)
 
     const { fetchData, state } = useFetch<AuthContextState>()
     const { data, error, loading } = state
 
     const [credentials, setCredentials] = useState<Credential[]>(initialCredentials)
+
+    const [credentialsErrors, setCredentialsErrors] = useState<string[]>([])
 
     const [canSubmit, setCanSubmit] = useState<boolean>(false)
 
@@ -51,6 +53,12 @@ export const useUserAuth = (initialCredentials: Credential[]): UserAuth => {
         (event: Submit) => {
             event.preventDefault()
 
+            const errors: string[] = validateCredentials(credentials)
+            if (errors?.length) {
+                setCredentialsErrors(errors)
+                return
+            }
+
             fetchData(`${process.env.REACT_APP_API_URL}/auth/sign-in`, {
                 method: 'POST',
                 body: JSON.stringify(
@@ -63,18 +71,51 @@ export const useUserAuth = (initialCredentials: Credential[]): UserAuth => {
         [fetchData, credentials]
     )
 
-    const signUp = useCallback(() => {
-        fetchData(`${process.env.REACT_APP_API_URL}/auth/sign-in`, {
-            method: 'POST',
-            body: JSON.stringify(
-                credentials.map(credential => ({ [credential.name]: credential.value }))
-            )
-        })
-    }, [fetchData, credentials])
+    const signUp = useCallback(
+        (event: Submit) => {
+            event.preventDefault()
+
+            const errors: string[] = validateCredentials(credentials)
+            if (errors?.length) {
+                setCredentialsErrors(errors)
+                return
+            }
+
+            fetchData(`${process.env.REACT_APP_API_URL}/auth/sign-in`, {
+                method: 'POST',
+                body: JSON.stringify(
+                    credentials.map(credential => ({ [credential.name]: credential.value }))
+                )
+            })
+        },
+        [fetchData, credentials]
+    )
 
     useEffect(() => {
-        setCanSubmit(validateCredentials(credentials) && !loading)
+        if (credentials.find((credential: Credential) => credential.value.trim() === '')) {
+            setCanSubmit(false)
+            return
+        }
+        if (loading) {
+            setCanSubmit(false)
+            return
+        }
+
+        setCanSubmit(true)
     }, [credentials, loading])
+
+    useEffect(() => {
+        setCredentialsErrors([])
+    }, [credentials])
+
+    useEffect(() => {
+        if (error && error?.statusCode < 500) {
+            setCredentialsErrors((errors: string[]) => [...errors, WRONG_CREDENTIALS])
+        }
+        if (error && error?.statusCode >= 500) {
+            setCredentialsErrors((errors: string[]) => [...errors, SERVER_ERROR])
+        }
+    }, [error])
 
     useEffect(() => {
         setAuthState(data)
@@ -83,9 +124,11 @@ export const useUserAuth = (initialCredentials: Credential[]): UserAuth => {
     return {
         state: {
             authState,
-            credentials,
+            credentials: credentials.reduce((acc: any, credential: Credential) => {
+                return { ...acc, [credential.name]: credential.value }
+            }, {}),
             canSubmit,
-            error
+            credentialsErrors
         },
         methods: {
             signIn,
@@ -95,17 +138,15 @@ export const useUserAuth = (initialCredentials: Credential[]): UserAuth => {
     }
 }
 
-const validateCredentials = (credentials: Credential[]): boolean => {
-    if (credentials.find((credential: Credential) => credential.value.trim() === '')) {
-        return false
-    }
+const validateCredentials = (credentials: Credential[]): string[] => {
+    const errors: string[] = []
 
     const email: Credential | undefined = credentials.find(
         (credential: Credential) => credential.name === 'email'
     )
 
-    if (!email!.value.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)) {
-        return false
+    if (!email!.value.match(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/)) {
+        errors.push('email')
     }
 
     const password: Credential | undefined = credentials.find(
@@ -113,7 +154,7 @@ const validateCredentials = (credentials: Credential[]): boolean => {
     )
 
     if (!password!.value.match(/^(?=.*[0-9]+.*)(?=.*[a-zA-Z]+.*)[0-9a-zA-Z]{6,}$/)) {
-        return false
+        errors.push('password')
     }
 
     const confirmPassword: Credential | undefined = credentials.find(
@@ -121,8 +162,8 @@ const validateCredentials = (credentials: Credential[]): boolean => {
     )
 
     if (confirmPassword && confirmPassword !== password) {
-        return false
+        errors.push('confirm-password')
     }
 
-    return true
+    return errors
 }

@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { AuthContext } from './AuthContext'
-import styles from './AuthContextProvider.module.scss'
 import { AuthContextState } from './AuthContextState'
 
 interface Props {

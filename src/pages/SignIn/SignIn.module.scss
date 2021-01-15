@@ -1,12 +1,12 @@
 .root {
     display: flex;
     flex-direction: column;
-    max-width: 22rem;
+    max-width: 24rem;
     border: 2px solid #e3f4fd;
     background-color: #f7fcff;
     border-radius: 4px;
     padding: 2rem 2rem 1.25rem 2rem;
-    margin: 4rem auto 0;
+    margin: 2rem auto 0;
 
     & > h2 {
         color: #2e425a;
@@ -47,6 +47,10 @@
             display: inline;
         }
     }
+}
+.error {
+    margin-top: 1rem;
+    max-width: 24rem;
 }
 
 @media (max-width: 425px) {
