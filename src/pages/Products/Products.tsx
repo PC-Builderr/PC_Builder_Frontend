@@ -4,6 +4,7 @@ import { Pagination } from '../../components/Products/Pagination'
 import { ProductFilters } from '../../components/Products/ProductFilters'
 import { ProductList } from '../../components/Products/ProductList'
 import { getComponentsUrl, ITEMS_PER_PAGE } from '../../constants'
+import { useIsMounted } from '../../hooks/useIsMounted'
 import { Error } from '../../types/Error'
 import { ProductsPage } from '../../types/params/ProductsPage'
 import { ProductArrayResponse } from '../../types/ProductArrayResponse'
@@ -19,6 +20,8 @@ export const Products: React.FC<Props> = props => {
     const [data, setData] = useState<ProductArrayResponse | null>(null)
     const [error, setError] = useState<Error | null>(null)
     const [filters, setFilters] = useState({})
+
+    const isMounted: React.MutableRefObject<boolean> = useIsMounted()
 
     const page: number = useMemo(() => {
         return Number(new URLSearchParams(search).get('page')) || 1
@@ -42,13 +45,15 @@ export const Products: React.FC<Props> = props => {
 
         const resData = await response.json()
 
+        if (!isMounted.current) return
+
         if (!response.ok) {
             setError(resData)
             return
         }
 
         setData(resData)
-    }, [type, filters, page])
+    }, [type, filters, page, isMounted])
 
     useEffect(() => {
         fetchData()

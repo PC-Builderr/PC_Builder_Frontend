@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md'
 import { ITEMS_PER_SLIDER, PRODUCTS_API_URL } from '../../../constants'
+import { useIsMounted } from '../../../hooks/useIsMounted'
 import { Product } from '../../../types/Product'
 import { ProductArrayResponse } from '../../../types/ProductArrayResponse'
 import styles from './SimilarProductsSlider.module.scss'
@@ -20,6 +21,8 @@ export const SimilarProductsSlider: React.FC<Props> = ({ product }) => {
     const [disable, setDisable] = useState<boolean>(false)
     const [index, setIndex] = useState<number>(0)
 
+    const isMounted: React.MutableRefObject<boolean> = useIsMounted()
+
     const rootRef = useRef<HTMLDivElement>(null)
 
     const fetchData = useCallback(async () => {
@@ -28,10 +31,12 @@ export const SimilarProductsSlider: React.FC<Props> = ({ product }) => {
         const response = await fetch(`${PRODUCTS_API_URL}?${urlSearchParams}`)
         if (!response.ok) return
 
+        if (!isMounted.current) return
+
         const resData = await response.json()
 
         setData(resData)
-    }, [])
+    }, [isMounted])
 
     const clickHandler = useCallback((index: number) => {
         setIndex((currentIndex: number) => currentIndex + index)

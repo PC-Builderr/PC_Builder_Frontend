@@ -4,6 +4,7 @@ import { ProductHeroSection } from '../../components/Products/ProductHeroSection
 import { ProductTable } from '../../components/Products/ProductTable'
 import { SimilarProductsSlider } from '../../components/Products/SimilarProductsSlider'
 import { getFullComponentUrl } from '../../constants'
+import { useIsMounted } from '../../hooks/useIsMounted'
 import { Component } from '../../types/components/Component'
 import { Error } from '../../types/Error'
 import { ProductPage } from '../../types/params/ProductPage'
@@ -16,6 +17,8 @@ export const Product: React.FC<Props> = props => {
     const [component, setComponent] = useState<Component | null>(null)
     const [error, setError] = useState<Error | null>(null)
 
+    const isMounted: React.MutableRefObject<boolean> = useIsMounted()
+
     const fetchData = useCallback(async () => {
         setComponent(null)
         setError(null)
@@ -24,13 +27,15 @@ export const Product: React.FC<Props> = props => {
 
         const resData = await response.json()
 
+        if (!isMounted.current) return
+
         if (!response.ok) {
             setError(resData)
             return
         }
 
         setComponent(resData.component)
-    }, [type, id])
+    }, [type, id, isMounted])
 
     useEffect(() => {
         fetchData()

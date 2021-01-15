@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { IoIosArrowDown } from 'react-icons/io'
+import { useIsMounted } from '../../../../hooks/useIsMounted'
 import { Change } from '../../../../types/Events'
 import { ChangeHandler } from '../../../../types/Handlers'
 import styles from './Filter.module.scss'
@@ -22,6 +23,8 @@ export const Filter: React.FC<Props> = props => {
     const [data, setData] = useState(null)
     const [isOpen, setIsOpen] = useState<boolean>(true)
 
+    const isMounted: React.MutableRefObject<boolean> = useIsMounted()
+
     const toggleHandler = useCallback(() => {
         setIsOpen((currentIsOpen: boolean) => !currentIsOpen)
     }, [])
@@ -32,10 +35,12 @@ export const Filter: React.FC<Props> = props => {
         const response = await fetch(url)
         if (!response.ok) return
 
+        if (!isMounted.current) return
+
         const resData = await response.json()
 
         setData(resData)
-    }, [url])
+    }, [url, isMounted])
 
     useEffect(() => {
         fetchData()
