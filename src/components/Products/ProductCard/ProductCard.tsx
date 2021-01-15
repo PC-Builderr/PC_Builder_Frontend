@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { getFullImageUrl } from '../../../constants'
 import { useCart } from '../../../hooks/useCart'
 import { Product } from '../../../types/Product'
 import styles from './ProductCard.module.scss'
@@ -16,10 +17,7 @@ export const ProductCard: React.FC<Props> = props => {
     return (
         <article className={styles.root}>
             <Link to={`/products/${props.product.type}/${props.product.id}`}>
-                <img
-                    src={process.env.REACT_APP_API_URL + props.product.images[0].url}
-                    alt={props.product.name}
-                />
+                <img src={getFullImageUrl(props.product.images[0].url)} alt={props.product.name} />
                 <p>{props.product.name}</p>
             </Link>
             <div>

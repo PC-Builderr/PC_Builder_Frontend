@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import { ErrorCard } from '../../components/UI/ErrorCard'
 import { Input } from '../../components/UI/Input'
-import { SERVER_ERROR } from '../../constants'
+import { SERVER_ERROR, SIGN_UP_API_URL } from '../../constants'
 import { useUserAuth } from '../../hooks/Auth/useUserAuth'
 import { SignUpCredentials } from '../../types/credentials/SignUpCredentials'
 import styles from '../SignIn/SignIn.module.scss'
@@ -12,19 +12,19 @@ interface Props {}
 export const SignUp: React.FC<Props> = props => {
     const [isShown, setIsShown] = useState<boolean>(false)
 
-    const closeHandler = useCallback(() => {
-        setIsShown(false)
-    }, [])
-
     const {
-        methods: { changeHandler, signUp, focusHandler },
+        methods: { changeHandler, authenticate, focusHandler },
         state: { canSubmit, credentials, authState, credentialsErrors }
-    } = useUserAuth<SignUpCredentials>([
+    } = useUserAuth<SignUpCredentials>(SIGN_UP_API_URL, [
         { name: 'name', value: '' },
         { name: 'email', value: '' },
         { name: 'password', value: '' },
         { name: 'confirm-password', value: '' }
     ])
+
+    const closeHandler = useCallback(() => {
+        setIsShown(false)
+    }, [])
 
     useEffect(() => {
         if (credentialsErrors.length) {
@@ -53,7 +53,7 @@ export const SignUp: React.FC<Props> = props => {
             <form
                 style={{ marginTop: isShown ? '2rem' : '5rem' }}
                 className={styles.root}
-                onSubmit={signUp}
+                onSubmit={authenticate}
             >
                 <h2>Sign Up.</h2>
                 <Input

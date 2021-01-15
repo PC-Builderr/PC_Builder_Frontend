@@ -14,11 +14,7 @@ const Error: React.LazyExoticComponent<React.FC<Props>> = lazy(() => import('./p
 interface Props {}
 
 export const App: React.FC<Props> = () => {
-    const { getNewAccessToken } = useRefreshToken()
-
-    useEffect(() => {
-        getNewAccessToken()
-    }, [getNewAccessToken])
+    useRefreshToken()
 
     const { pathname } = useLocation<Location>()
     return (

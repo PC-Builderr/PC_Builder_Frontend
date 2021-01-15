@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { IoIosArrowDown } from 'react-icons/io'
-import { useFetch } from '../../../../hooks/useFetch'
 import { Change } from '../../../../types/Events'
 import { ChangeHandler } from '../../../../types/Handlers'
 import styles from './Filter.module.scss'
@@ -20,15 +19,27 @@ interface Props {
 export const Filter: React.FC<Props> = props => {
     const { onChange, filter, url }: Props = props
 
+    const [data, setData] = useState(null)
     const [isOpen, setIsOpen] = useState<boolean>(true)
+
     const toggleHandler = useCallback(() => {
         setIsOpen((currentIsOpen: boolean) => !currentIsOpen)
     }, [])
 
-    const {
-        fetchData,
-        state: { data }
-    } = useFetch()
+    const fetchData = useCallback(async () => {
+        setData(null)
+
+        const response = await fetch(url)
+        if (!response.ok) return
+
+        const resData = await response.json()
+
+        setData(resData)
+    }, [url])
+
+    useEffect(() => {
+        fetchData()
+    })
 
     const changeHandler = (event: Change<HTMLInputElement>) => {
         const value: any = Number(event.target.value) || event.target.value
@@ -50,10 +61,6 @@ export const Filter: React.FC<Props> = props => {
             return { ...currentFilters, [filter]: [...currentFilters[filter], value] }
         })
     }
-
-    useEffect(() => {
-        fetchData(url)
-    }, [fetchData, url])
 
     return (
         <li className={styles.root}>

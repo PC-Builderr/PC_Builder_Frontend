@@ -2,8 +2,10 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { BiLoaderAlt } from 'react-icons/bi'
 import { IoSearchSharp } from 'react-icons/io5'
 import { Link, useLocation } from 'react-router-dom'
+import { PRODUCTS_API_URL } from '../../../constants'
 import { useClickAway } from '../../../hooks/useClickAway'
-import { useFetch } from '../../../hooks/useFetch'
+import { Error } from '../../../types/Error'
+import { FetchState } from '../../../types/fetch/FetchState'
 import { Product } from '../../../types/Product'
 import { ProductArrayResponse } from '../../../types/ProductArrayResponse'
 import { NotFound } from './NotFound'
@@ -12,22 +14,35 @@ import { SearchResult } from './SearchResult'
 
 interface Props {}
 
-const urlSearchParams: URLSearchParams = new URLSearchParams([
+const params: URLSearchParams = new URLSearchParams([
     ['count', '3'],
     ['page', '1']
 ])
 
 export const SearchInput: React.FC<Props> = props => {
+    const location = useLocation()
+
     const [search, setSearch] = useState<string>('')
+    const [data, setData] = useState<ProductArrayResponse | null>(null)
+    const [error, setError] = useState<Error | null>(null)
 
     const { isOpen, close, open } = useClickAway()
 
-    const location = useLocation()
+    const fetchData = useCallback(async () => {
+        setData(null)
+        setError(null)
 
-    const {
-        state: { data, error, loading },
-        fetchData
-    } = useFetch<ProductArrayResponse>()
+        const response = await fetch(`${PRODUCTS_API_URL}?${params.toString()}`)
+
+        const resData = await response.json()
+
+        if (!response.ok) {
+            setError(resData)
+            return
+        }
+
+        setData(resData)
+    }, [])
 
     const searchProductsHandler = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         setSearch(event.target.value)
@@ -41,21 +56,21 @@ export const SearchInput: React.FC<Props> = props => {
     )
 
     useEffect(() => {
-        setSearch('')
-    }, [location])
-
-    useEffect(() => {
         const timeout: NodeJS.Timeout = setTimeout(() => {
-            if (search) {
-                urlSearchParams.set('search', search)
-                fetchData(`${process.env.REACT_APP_API_URL}/product?${urlSearchParams.toString()}`)
-                open()
-            }
+            if (!search) return
+
+            params.set('search', search)
+            fetchData()
+            open()
         }, 1000)
         if (!search) close()
 
         return () => clearTimeout(timeout)
-    }, [search, fetchData, open, close])
+    }, [search, open, close, fetchData])
+
+    useEffect(() => {
+        setSearch('')
+    }, [location])
 
     return (
         <div className={styles.root}>
@@ -67,7 +82,7 @@ export const SearchInput: React.FC<Props> = props => {
                 onChange={searchProductsHandler}
                 onClick={inputClickHandler}
             />
-            {loading && <BiLoaderAlt className={styles.spinner} />}
+            {!data && !error && <BiLoaderAlt className={styles.spinner} />}
             {isOpen && (
                 <ul onClick={close}>
                     {data?.products.map((product: Product) => {

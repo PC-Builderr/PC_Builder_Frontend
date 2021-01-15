@@ -1,8 +1,8 @@
 import { useCallback, useContext } from 'react'
+import { LOGOUT_API_URL } from '../../constants'
 import { AuthContext } from '../../context/Auth/AuthContext'
 import { AuthContextInterface } from '../../context/Auth/AuthContext.interface'
 import { AuthContextState } from '../../context/Auth/AuthContextState'
-import { useFetch } from '../useFetch'
 
 interface LogoutState {
     logout: () => void
@@ -12,14 +12,22 @@ interface LogoutState {
 export const useLogout = (): LogoutState => {
     const { setAuthState, authState } = useContext<AuthContextInterface>(AuthContext)
 
-    const { fetchData } = useFetch()
+    const logout = useCallback(async () => {
+        if (!authState?.token) {
+            return
+        }
 
-    const logout = useCallback(() => {
-        fetchData(`${process.env.REACT_APP_API_URL}/auth/logout`, {
-            method: 'POST'
+        await fetch(LOGOUT_API_URL, {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${authState?.token}`
+            }
         })
+
         setAuthState(null)
-    }, [fetchData, setAuthState])
+    }, [authState?.token, setAuthState])
 
     return { logout, authState }
 }

@@ -1,37 +1,25 @@
+import decode from 'jwt-decode'
 import { useCallback, useContext, useEffect } from 'react'
+import { ONE_SECOND_IN_MS, REFRESH_TOKEN_API_URL } from '../../constants'
 import { AuthContext } from '../../context/Auth/AuthContext'
 import { AuthContextInterface } from '../../context/Auth/AuthContext.interface'
 import { DecodedToken } from '../../types/token/DecodedToken'
-import decode from 'jwt-decode'
-import { useFetch } from '../useFetch'
-import { ONE_SECOND_IN_MS } from '../../constants'
 import { TokenResponse } from '../../types/token/TokenResponse'
-import { AuthContextState } from '../../context/Auth/AuthContextState'
 
-interface RefreshTokenState {
-    authState: AuthContextState | null
-    getNewAccessToken: () => void
-}
+export const useRefreshToken = () => {
+    const { setAuthState, authState } = useContext<AuthContextInterface>(AuthContext)
 
-export const useRefreshToken = (): RefreshTokenState => {
-    const { authState, setAuthState } = useContext<AuthContextInterface>(AuthContext)
-
-    const {
-        fetchData,
-        state: { data }
-    } = useFetch<TokenResponse>()
-
-    const getNewAccessToken = useCallback(() => {
-        fetchData(`${process.env.REACT_APP_API_URL}/auth/refresh-token`, {
-            method: 'POST'
+    const fetchData = useCallback(async () => {
+        const response = await fetch(REFRESH_TOKEN_API_URL, {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            }
         })
-    }, [fetchData])
+        if (!response.ok) return
 
-    useEffect(() => {
-        if (!data?.token) {
-            return
-        }
-
+        const data: TokenResponse = await response.json()
         const { exp, id }: DecodedToken = decode(data.token)
 
         setAuthState({
@@ -39,20 +27,18 @@ export const useRefreshToken = (): RefreshTokenState => {
             token: data.token,
             userId: id
         })
-    }, [data, setAuthState])
+    }, [setAuthState])
 
     useEffect(() => {
         if (!authState) {
+            fetchData()
             return
         }
 
-        const expirationTime: number = authState.exp - Date.now()
-        const interval: NodeJS.Timeout = setInterval(() => {
-            getNewAccessToken()
-        }, expirationTime)
+        const timer: NodeJS.Timeout = setTimeout(() => {
+            fetchData()
+        }, authState.exp)
 
-        return () => clearInterval(interval)
-    }, [authState, getNewAccessToken])
-
-    return { authState, getNewAccessToken }
+        return () => clearTimeout(timer)
+    }, [authState, fetchData])
 }

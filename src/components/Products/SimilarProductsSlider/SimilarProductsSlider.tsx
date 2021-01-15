@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md'
-import { ITEMS_PER_SLIDER } from '../../../constants'
-import { useFetch } from '../../../hooks/useFetch'
+import { ITEMS_PER_SLIDER, PRODUCTS_API_URL } from '../../../constants'
 import { Product } from '../../../types/Product'
 import { ProductArrayResponse } from '../../../types/ProductArrayResponse'
 import styles from './SimilarProductsSlider.module.scss'
@@ -17,32 +16,33 @@ const urlSearchParams: URLSearchParams = new URLSearchParams([
 ])
 
 export const SimilarProductsSlider: React.FC<Props> = ({ product }) => {
-    const {
-        fetchData,
-        state: { data }
-    } = useFetch<ProductArrayResponse>()
-
+    const [data, setData] = useState<ProductArrayResponse | null>(null)
     const [disable, setDisable] = useState<boolean>(false)
-
     const [index, setIndex] = useState<number>(0)
 
     const rootRef = useRef<HTMLDivElement>(null)
 
+    const fetchData = useCallback(async () => {
+        setData(null)
+
+        const response = await fetch(`${PRODUCTS_API_URL}?${urlSearchParams}`)
+        if (!response.ok) return
+
+        const resData = await response.json()
+
+        setData(resData)
+    }, [])
+
     const clickHandler = useCallback((index: number) => {
-        setIndex((currentIndex: number) => {
-            return currentIndex + index
-        })
+        setIndex((currentIndex: number) => currentIndex + index)
     }, [])
 
     useEffect(() => {
-        if (product) {
-            urlSearchParams.set(
-                'search',
-                [product.brand.name, product.name, product.type].join(' ')
-            )
-            fetchData(`${process.env.REACT_APP_API_URL}/product?${urlSearchParams}`)
-        }
-    }, [fetchData, product])
+        if (!product) return
+
+        urlSearchParams.set('search', [product.brand.name, product.name, product.type].join(' '))
+        fetchData()
+    }, [product, fetchData])
 
     useEffect(() => {
         setDisable(

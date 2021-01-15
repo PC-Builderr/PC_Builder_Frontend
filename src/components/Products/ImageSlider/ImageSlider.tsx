@@ -1,4 +1,5 @@
 import React, { useCallback, useRef, useState } from 'react'
+import { getFullImageUrl } from '../../../constants'
 import { WithMediaQuery } from '../../../hoc/WithMediaQuery'
 import { Image } from '../../../types/Image'
 import styles from './ImageSlider.module.scss'
@@ -11,6 +12,7 @@ export const ImageSlider: React.FC<Props> = props => {
     const sliderRef = useRef<HTMLUListElement>(null)
 
     const [index, setIndex] = useState<number>(0)
+
     const clickHandler = useCallback((index: number) => {
         setIndex(index)
     }, [])
@@ -30,10 +32,7 @@ export const ImageSlider: React.FC<Props> = props => {
                                         }px)`
                                     }}
                                 >
-                                    <img
-                                        src={`${process.env.REACT_APP_API_URL}${image.url}`}
-                                        alt='product'
-                                    />
+                                    <img src={getFullImageUrl(image.url)} alt='product' />
                                 </li>
                             )
                         })}
@@ -46,10 +45,7 @@ export const ImageSlider: React.FC<Props> = props => {
                                     key={image.id}
                                     onClick={clickHandler.bind(null, i)}
                                 >
-                                    <img
-                                        src={`${process.env.REACT_APP_API_URL}${image.url}`}
-                                        alt='product'
-                                    />
+                                    <img src={getFullImageUrl(image.url)} alt='product' />
                                 </li>
                             )
                         })}
@@ -58,10 +54,7 @@ export const ImageSlider: React.FC<Props> = props => {
             </WithMediaQuery>
             <WithMediaQuery minWidth={800}>
                 <div className={styles.mobile}>
-                    <img
-                        src={`${process.env.REACT_APP_API_URL}${props.images[0].url}`}
-                        alt='product'
-                    />
+                    <img src={getFullImageUrl(props.images[0].url)} alt='product' />
                 </div>
             </WithMediaQuery>
         </>

@@ -1,4 +1,5 @@
 import React from 'react'
+import { BRANDS_API_URL } from '../../../constants'
 import { Brand } from '../../../types/Brand'
 import { ChangeHandler } from '../../../types/Handlers'
 import { Checkbox } from '../../UI/Checkbox'
@@ -23,7 +24,7 @@ export const ProductFilters: React.FC<Props> = props => {
                     onChange={props.onChange}
                     filter='brand'
                     name='Brands'
-                    url={`${process.env.REACT_APP_API_URL}/brand?type=${props.type}`}
+                    url={`${BRANDS_API_URL}?type=${props.type}`}
                 >
                     {(data: Data, changeHandler: ChangeHandler<HTMLInputElement>) =>
                         data &&

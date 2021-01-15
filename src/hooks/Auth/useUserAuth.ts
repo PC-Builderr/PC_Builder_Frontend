@@ -1,3 +1,4 @@
+import decode from 'jwt-decode'
 import { useCallback, useContext, useEffect, useState } from 'react'
 import { ONE_SECOND_IN_MS, SERVER_ERROR, WRONG_CREDENTIALS } from '../../constants'
 import { AuthContext } from '../../context/Auth/AuthContext'
@@ -6,10 +7,8 @@ import { AuthContextState } from '../../context/Auth/AuthContextState'
 import { Credential } from '../../types/credentials/Credential'
 import { Change, Focus, Submit } from '../../types/Events'
 import { ChangeHandler, FocusHandler, SubmitHandler } from '../../types/Handlers'
-import { TokenResponse } from '../../types/token/TokenResponse'
-import decode from 'jwt-decode'
-import { useFetch } from '../useFetch'
 import { DecodedToken } from '../../types/token/DecodedToken'
+import { useIsMounted } from '../useIsMounted'
 
 interface UserAuth<T> {
     state: State<T>
@@ -24,23 +23,20 @@ interface State<T> {
 }
 
 interface Methods {
-    signIn: SubmitHandler
-    signUp: SubmitHandler
+    authenticate: SubmitHandler
     changeHandler: ChangeHandler<HTMLInputElement>
     focusHandler: FocusHandler
 }
 
-export const useUserAuth = <T>(initialCredentials: Credential[]): UserAuth<T> => {
+export const useUserAuth = <T>(url: string, initialCredentials: Credential[]): UserAuth<T> => {
     const { authState, setAuthState } = useContext<AuthContextInterface>(AuthContext)
 
-    const { fetchData, state } = useFetch<TokenResponse>()
-    const { data, error, loading } = state
-
     const [credentials, setCredentials] = useState<Credential[]>(initialCredentials)
-
     const [credentialsErrors, setCredentialsErrors] = useState<string[]>([])
-
+    const [loading, setLoading] = useState<boolean>(false)
     const [canSubmit, setCanSubmit] = useState<boolean>(false)
+
+    const isMounted: React.MutableRefObject<boolean> = useIsMounted()
 
     const changeHandler = useCallback((event: Change<HTMLInputElement>) => {
         setCredentials((currentValues: Credential[]) =>
@@ -59,8 +55,10 @@ export const useUserAuth = <T>(initialCredentials: Credential[]): UserAuth<T> =>
         )
     }, [])
 
-    const signIn = useCallback(
-        (event: Submit) => {
+    const authenticate = useCallback(
+        async (event: Submit) => {
+            setLoading(true)
+
             event.preventDefault()
 
             const errors: string[] = validateCredentials(credentials)
@@ -69,36 +67,44 @@ export const useUserAuth = <T>(initialCredentials: Credential[]): UserAuth<T> =>
                 return
             }
 
-            fetchData(`${process.env.REACT_APP_API_URL}/auth/sign-in`, {
+            const response = await fetch(url, {
                 method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
                 body: JSON.stringify(
                     credentials.reduce((acc: any, credential: Credential) => {
                         return { ...acc, [credential.name]: credential.value }
                     }, {})
                 )
             })
-        },
-        [fetchData, credentials]
-    )
 
-    const signUp = useCallback(
-        (event: Submit) => {
-            event.preventDefault()
+            if (!isMounted.current) return
 
-            const errors: string[] = validateCredentials(credentials)
-            if (errors?.length) {
-                setCredentialsErrors(errors)
+            const data = await response.json()
+
+            if (!response.ok) {
+                setCredentialsErrors((errors: string[]) => {
+                    if (data!.statusCode < 500) {
+                        return [...errors, WRONG_CREDENTIALS]
+                    }
+                    return [...errors, SERVER_ERROR]
+                })
+                setLoading(false)
                 return
             }
 
-            fetchData(`${process.env.REACT_APP_API_URL}/auth/sign-up`, {
-                method: 'POST',
-                body: JSON.stringify(
-                    credentials.map(credential => ({ [credential.name]: credential.value }))
-                )
+            const { exp, id }: DecodedToken = decode(data.token)
+
+            setAuthState({
+                exp: exp * ONE_SECOND_IN_MS,
+                token: data.token,
+                userId: id
             })
+            setLoading(false)
         },
-        [fetchData, credentials]
+        [credentials, isMounted, setAuthState, url]
     )
 
     useEffect(() => {
@@ -106,6 +112,7 @@ export const useUserAuth = <T>(initialCredentials: Credential[]): UserAuth<T> =>
             setCanSubmit(false)
             return
         }
+
         if (loading) {
             setCanSubmit(false)
             return
@@ -113,32 +120,6 @@ export const useUserAuth = <T>(initialCredentials: Credential[]): UserAuth<T> =>
 
         setCanSubmit(true)
     }, [credentials, loading])
-
-    useEffect(() => {
-        if (error && error?.statusCode < 500) {
-            setCredentialsErrors((errors: string[]) => [...errors, WRONG_CREDENTIALS])
-        }
-        if (error && error?.statusCode >= 500) {
-            setCredentialsErrors((errors: string[]) => [...errors, SERVER_ERROR])
-        }
-        setCredentialsErrors((errors: string[]) =>
-            errors.filter((error: string) => error !== SERVER_ERROR || error !== WRONG_CREDENTIALS)
-        )
-    }, [error])
-
-    useEffect(() => {
-        if (!data) {
-            return
-        }
-
-        const { exp, id }: DecodedToken = decode(data.token)
-
-        setAuthState({
-            exp: exp * ONE_SECOND_IN_MS,
-            token: data.token,
-            userId: id
-        })
-    }, [data, setAuthState])
 
     return {
         state: {
@@ -150,8 +131,7 @@ export const useUserAuth = <T>(initialCredentials: Credential[]): UserAuth<T> =>
             credentialsErrors
         },
         methods: {
-            signIn,
-            signUp,
+            authenticate,
             changeHandler,
             focusHandler
         }
@@ -164,7 +144,6 @@ const validateCredentials = (credentials: Credential[]): string[] => {
     const email: Credential | undefined = credentials.find(
         (credential: Credential) => credential.name === 'email'
     )
-
     if (!email!.value.match(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/)) {
         errors.push('email')
     }
@@ -172,7 +151,6 @@ const validateCredentials = (credentials: Credential[]): string[] => {
     const password: Credential | undefined = credentials.find(
         (credential: Credential) => credential.name === 'password'
     )
-
     if (!password!.value.match(/^(?=.*[0-9]+.*)(?=.*[a-zA-Z]+.*)[0-9a-zA-Z]{6,}$/)) {
         errors.push('password')
     }

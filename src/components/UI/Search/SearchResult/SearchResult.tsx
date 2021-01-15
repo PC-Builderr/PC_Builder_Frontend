@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { getFullImageUrl } from '../../../../constants'
 import { Product } from '../../../../types/Product'
 import styles from './SearchResult.module.scss'
 
@@ -15,10 +16,7 @@ export const SearchResult: React.FC<Props> = props => {
                     <p>{props.product.name}</p>
                     <h4>{props.product.price}лв.</h4>
                 </div>
-                <img
-                    src={`${process.env.REACT_APP_API_URL}${props.product.images[0].url}`}
-                    alt={props.product.name}
-                />
+                <img src={getFullImageUrl(props.product.images[0].url)} alt={props.product.name} />
             </Link>
         </li>
     )

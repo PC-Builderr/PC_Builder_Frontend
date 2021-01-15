@@ -21,9 +21,7 @@ export const ProductSidebar: React.FC<Props> = props => {
 
     const clickHandler = useCallback(
         (payload: number) => {
-            setQuantity((currentQuantity: number) => {
-                return currentQuantity + payload
-            })
+            setQuantity((currentQuantity: number) => currentQuantity + payload)
         },
         [setQuantity]
     )
