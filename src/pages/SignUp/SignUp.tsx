@@ -39,7 +39,6 @@ export const SignUp: React.FC<Props> = props => {
     if (credentialsErrors.includes(SERVER_ERROR)) {
         return <Redirect to='/error' />
     }
-
     return (
         <>
             <ErrorCard

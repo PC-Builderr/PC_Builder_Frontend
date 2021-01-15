@@ -1,7 +1,8 @@
-import React, { lazy, Suspense } from 'react'
+import React, { lazy, Suspense, useEffect } from 'react'
 import { Route, Switch, useLocation } from 'react-router-dom'
 import { Layout } from './components/Layout'
 import { Loader } from './components/UI/Loader'
+import { useRefreshToken } from './hooks/Auth/useRefreshToken'
 
 const Home: React.LazyExoticComponent<React.FC<Props>> = lazy(() => import('./pages/Home'))
 const SignIn: React.LazyExoticComponent<React.FC<Props>> = lazy(() => import('./pages/SignIn'))
@@ -13,6 +14,12 @@ const Error: React.LazyExoticComponent<React.FC<Props>> = lazy(() => import('./p
 interface Props {}
 
 export const App: React.FC<Props> = () => {
+    const { getNewAccessToken } = useRefreshToken()
+
+    useEffect(() => {
+        getNewAccessToken()
+    }, [getNewAccessToken])
+
     const { pathname } = useLocation<Location>()
     return (
         <Layout>

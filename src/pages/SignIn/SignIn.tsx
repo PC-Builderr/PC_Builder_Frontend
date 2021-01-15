@@ -31,6 +31,7 @@ export const SignIn: React.FC<Props> = props => {
     }, [credentialsErrors])
 
     if (authState) {
+        console.log(authState)
         return <Redirect to='/' />
     }
 

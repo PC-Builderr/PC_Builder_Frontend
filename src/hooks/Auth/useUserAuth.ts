@@ -1,12 +1,15 @@
 import { useCallback, useContext, useEffect, useState } from 'react'
-import { SERVER_ERROR, WRONG_CREDENTIALS } from '../../constants'
+import { ONE_SECOND_IN_MS, SERVER_ERROR, WRONG_CREDENTIALS } from '../../constants'
 import { AuthContext } from '../../context/Auth/AuthContext'
 import { AuthContextInterface } from '../../context/Auth/AuthContext.interface'
 import { AuthContextState } from '../../context/Auth/AuthContextState'
 import { Credential } from '../../types/credentials/Credential'
 import { Change, Focus, Submit } from '../../types/Events'
 import { ChangeHandler, FocusHandler, SubmitHandler } from '../../types/Handlers'
+import { TokenResponse } from '../../types/token/TokenResponse'
+import decode from 'jwt-decode'
 import { useFetch } from '../useFetch'
+import { DecodedToken } from '../../types/token/DecodedToken'
 
 interface UserAuth<T> {
     state: State<T>
@@ -30,7 +33,7 @@ interface Methods {
 export const useUserAuth = <T>(initialCredentials: Credential[]): UserAuth<T> => {
     const { authState, setAuthState } = useContext<AuthContextInterface>(AuthContext)
 
-    const { fetchData, state } = useFetch<AuthContextState>()
+    const { fetchData, state } = useFetch<TokenResponse>()
     const { data, error, loading } = state
 
     const [credentials, setCredentials] = useState<Credential[]>(initialCredentials)
@@ -88,7 +91,7 @@ export const useUserAuth = <T>(initialCredentials: Credential[]): UserAuth<T> =>
                 return
             }
 
-            fetchData(`${process.env.REACT_APP_API_URL}/auth/sign-in`, {
+            fetchData(`${process.env.REACT_APP_API_URL}/auth/sign-up`, {
                 method: 'POST',
                 body: JSON.stringify(
                     credentials.map(credential => ({ [credential.name]: credential.value }))
@@ -118,10 +121,23 @@ export const useUserAuth = <T>(initialCredentials: Credential[]): UserAuth<T> =>
         if (error && error?.statusCode >= 500) {
             setCredentialsErrors((errors: string[]) => [...errors, SERVER_ERROR])
         }
+        setCredentialsErrors((errors: string[]) =>
+            errors.filter((error: string) => error !== SERVER_ERROR || error !== WRONG_CREDENTIALS)
+        )
     }, [error])
 
     useEffect(() => {
-        setAuthState(data)
+        if (!data) {
+            return
+        }
+
+        const { exp, id }: DecodedToken = decode(data.token)
+
+        setAuthState({
+            exp: exp * ONE_SECOND_IN_MS,
+            token: data.token,
+            userId: id
+        })
     }, [data, setAuthState])
 
     return {

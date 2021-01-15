@@ -1,5 +1,5 @@
 export interface AuthContextState {
     token: string
-    expirationDate: Date
+    exp: number
     userId: number
 }
