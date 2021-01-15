@@ -28,13 +28,7 @@ export const Product: React.FC<Props> = props => {
                 <>
                     <ProductHeroSection product={data.component.product} />
                     <ProductTable type={type} component={data.component} />
-                    <SimilarProductsSlider
-                        search={[
-                            data.component.product.type,
-                            data.component.product.name,
-                            data.component.product.description
-                        ].join(' ')}
-                    />
+                    <SimilarProductsSlider product={data.component.product} />
                 </>
             )}
             {error && <pre>{JSON.stringify(error, null, 2)}</pre>}

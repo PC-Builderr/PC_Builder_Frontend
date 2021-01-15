@@ -8,7 +8,7 @@ import styles from './SimilarProductsSlider.module.scss'
 import { SliderItem } from './SliderItem'
 
 interface Props {
-    search: string
+    product: Product
 }
 
 const urlSearchParams: URLSearchParams = new URLSearchParams([
@@ -16,7 +16,7 @@ const urlSearchParams: URLSearchParams = new URLSearchParams([
     ['page', '1']
 ])
 
-export const SimilarProductsSlider: React.FC<Props> = ({ search }) => {
+export const SimilarProductsSlider: React.FC<Props> = ({ product }) => {
     const {
         fetchData,
         state: { data }
@@ -35,9 +35,14 @@ export const SimilarProductsSlider: React.FC<Props> = ({ search }) => {
     }, [])
 
     useEffect(() => {
-        urlSearchParams.set('search', search)
-        fetchData(`${process.env.REACT_APP_API_URL}/product?${urlSearchParams}`)
-    }, [fetchData, search])
+        if (product) {
+            urlSearchParams.set(
+                'search',
+                [product.brand.name, product.name, product.type].join(' ')
+            )
+            fetchData(`${process.env.REACT_APP_API_URL}/product?${urlSearchParams}`)
+        }
+    }, [fetchData, product])
 
     useEffect(() => {
         setDisable(
