@@ -23,8 +23,7 @@ export const useRefreshToken = (): RefreshTokenState => {
 
     const getNewAccessToken = useCallback(() => {
         fetchData(`${process.env.REACT_APP_API_URL}/auth/refresh-token`, {
-            method: 'POST',
-            body: ''
+            method: 'POST'
         })
     }, [fetchData])
 
@@ -43,7 +42,6 @@ export const useRefreshToken = (): RefreshTokenState => {
     }, [data, setAuthState])
 
     useEffect(() => {
-        console.log(authState)
         if (!authState) {
             return
         }

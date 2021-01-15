@@ -1,7 +1,9 @@
-import { useCallback, useState } from 'react'
-import { RequestOptions } from './RequestOptions'
-import { useIsMounted } from '../useIsMounted/useIsMounted'
+import { useCallback, useContext, useState } from 'react'
+import { AuthContext } from '../../context/Auth/AuthContext'
+import { AuthContextInterface } from '../../context/Auth/AuthContext.interface'
 import { Error } from '../../types/Error'
+import { useIsMounted } from '../useIsMounted/useIsMounted'
+import { RequestOptions } from './RequestOptions'
 
 interface FetchState<T> {
     data: T | null
@@ -9,7 +11,7 @@ interface FetchState<T> {
     error: Error | null
 }
 
-const defaultOptions = { method: 'GET', headers: null, body: null }
+const defaultOptions = { method: 'GET' }
 
 export const useFetch = <T>(): {
     state: FetchState<T>
@@ -19,16 +21,25 @@ export const useFetch = <T>(): {
 
     const [state, setState] = useState<FetchState<T>>({ data: null, loading: false, error: null })
 
+    const { authState } = useContext<AuthContextInterface>(AuthContext)
+
     const fetchData = useCallback(
         async (url: string, options: RequestOptions = defaultOptions): Promise<void> => {
             setState({ data: null, loading: true, error: null })
+
+            let headers: Headers | string[][] | Record<string, string> = {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+
+            if (authState?.token) {
+                headers = { ...headers, Authorization: `Bearer ${authState?.token}` }
+            }
+
             const response = await fetch(url, {
                 method: options.method,
                 credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                    ...options.headers
-                },
+                headers,
                 body: options.body
             })
             const resData: any = await response.json()
@@ -41,7 +52,7 @@ export const useFetch = <T>(): {
 
             setState({ data: resData, loading: false, error: null })
         },
-        [isMounted]
+        [isMounted, authState?.token]
     )
     return { state, fetchData }
 }

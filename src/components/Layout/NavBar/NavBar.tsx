@@ -9,6 +9,7 @@ import { DropDown } from '../../UI/DropDown'
 import { WithMediaQuery } from '../../../hoc/WithMediaQuery'
 import { CartContext } from '../../../context/Cart/CartContext'
 import { CartContextInterface } from '../../../context/Cart/CartContectInterface'
+import { useLogout } from '../../../hooks/Auth/useLogout'
 
 interface Props {
     openSideDrawerHandler: () => void
@@ -16,6 +17,8 @@ interface Props {
 
 export const NavBar: React.FC<Props> = props => {
     const { items } = useContext<CartContextInterface>(CartContext)
+
+    const { authState, logout } = useLogout()
 
     return (
         <header className={[styles.root].join(' ')}>
@@ -47,15 +50,21 @@ export const NavBar: React.FC<Props> = props => {
                 <SearchInput />
                 <WithMediaQuery maxWidth={550}>
                     <ul>
-                        <li>
+                        <li className={styles.cartContainer}>
                             <Link className={items.length ? styles.cart : ''} to='/cart'>
                                 <RiShoppingCartLine />
                             </Link>
                         </li>
-                        <DropDown label='Profile'>
-                            <Link to='/profile'>Profile</Link>
-                            <Link to='/sign-in'>Sign in</Link>
-                        </DropDown>
+                        {authState?.userId ? (
+                            <DropDown label='Profile'>
+                                <Link to='/profile'>Profile</Link>
+                                <button onClick={logout}>Logout</button>
+                            </DropDown>
+                        ) : (
+                            <li className={styles.signIn}>
+                                <Link to='/sign-in'>Sign In</Link>
+                            </li>
+                        )}
                     </ul>
                 </WithMediaQuery>
             </nav>

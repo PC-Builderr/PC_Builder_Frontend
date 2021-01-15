@@ -71,7 +71,6 @@ export const useUserAuth = <T>(initialCredentials: Credential[]): UserAuth<T> =>
 
             fetchData(`${process.env.REACT_APP_API_URL}/auth/sign-in`, {
                 method: 'POST',
-                headers: {},
                 body: JSON.stringify(
                     credentials.reduce((acc: any, credential: Credential) => {
                         return { ...acc, [credential.name]: credential.value }
