@@ -39,7 +39,7 @@ export const Filter: React.FC<Props> = props => {
 
     useEffect(() => {
         fetchData()
-    })
+    }, [fetchData])
 
     const changeHandler = (event: Change<HTMLInputElement>) => {
         const value: any = Number(event.target.value) || event.target.value

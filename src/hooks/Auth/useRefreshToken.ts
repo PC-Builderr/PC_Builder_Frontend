@@ -23,7 +23,7 @@ export const useRefreshToken = () => {
         const { exp, id }: DecodedToken = decode(data.token)
 
         setAuthState({
-            exp: exp * ONE_SECOND_IN_MS,
+            exp: exp * ONE_SECOND_IN_MS - Date.now(),
             token: data.token,
             userId: id
         })

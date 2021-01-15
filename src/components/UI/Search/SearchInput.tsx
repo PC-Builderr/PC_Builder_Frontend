@@ -5,7 +5,6 @@ import { Link, useLocation } from 'react-router-dom'
 import { PRODUCTS_API_URL } from '../../../constants'
 import { useClickAway } from '../../../hooks/useClickAway'
 import { Error } from '../../../types/Error'
-import { FetchState } from '../../../types/fetch/FetchState'
 import { Product } from '../../../types/Product'
 import { ProductArrayResponse } from '../../../types/ProductArrayResponse'
 import { NotFound } from './NotFound'
@@ -25,12 +24,14 @@ export const SearchInput: React.FC<Props> = props => {
     const [search, setSearch] = useState<string>('')
     const [data, setData] = useState<ProductArrayResponse | null>(null)
     const [error, setError] = useState<Error | null>(null)
+    const [loading, setLoading] = useState<boolean>(false)
 
     const { isOpen, close, open } = useClickAway()
 
     const fetchData = useCallback(async () => {
         setData(null)
         setError(null)
+        setLoading(true)
 
         const response = await fetch(`${PRODUCTS_API_URL}?${params.toString()}`)
 
@@ -38,10 +39,12 @@ export const SearchInput: React.FC<Props> = props => {
 
         if (!response.ok) {
             setError(resData)
+            setLoading(false)
             return
         }
 
         setData(resData)
+        setLoading(false)
     }, [])
 
     const searchProductsHandler = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
@@ -82,7 +85,7 @@ export const SearchInput: React.FC<Props> = props => {
                 onChange={searchProductsHandler}
                 onClick={inputClickHandler}
             />
-            {!data && !error && <BiLoaderAlt className={styles.spinner} />}
+            {loading && <BiLoaderAlt className={styles.spinner} />}
             {isOpen && (
                 <ul onClick={close}>
                     {data?.products.map((product: Product) => {
