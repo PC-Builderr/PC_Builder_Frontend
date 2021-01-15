@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import { ErrorCard } from '../../components/UI/ErrorCard'
 import { Input } from '../../components/UI/Input'
@@ -10,31 +10,48 @@ import styles from './SignIn.module.scss'
 interface Props {}
 
 export const SignIn: React.FC<Props> = props => {
+    const [isShown, setIsShown] = useState<boolean>(false)
+
+    const closeHandler = useCallback(() => {
+        setIsShown(false)
+    }, [])
+
     const {
-        methods: { changeHandler, signIn },
+        methods: { changeHandler, signIn, focusHandler },
         state: { canSubmit, credentials, authState, credentialsErrors }
     } = useUserAuth<SignInCredentials>([
         { name: 'email', value: '' },
         { name: 'password', value: '' }
     ])
 
+    useEffect(() => {
+        if (credentialsErrors.length) {
+            setIsShown(true)
+        }
+    }, [credentialsErrors])
+
     if (authState) {
         return <Redirect to='/' />
     }
 
+    if (credentialsErrors.includes(SERVER_ERROR)) {
+        return <Redirect to='/error' />
+    }
+
     return (
         <>
-            {credentialsErrors.includes(SERVER_ERROR) ? <Redirect to='/error' /> : null}
-            {credentialsErrors.length ? (
-                <ErrorCard className={styles.error}>
-                    {credentialsErrors.map((error: string) => (
-                        <p key={error}>Invalid {error}.</p>
-                    ))}
-                </ErrorCard>
-            ) : null}
+            <ErrorCard
+                className={styles.error}
+                onClose={closeHandler}
+                isShown={isShown && Boolean(credentialsErrors.length)}
+            >
+                {credentialsErrors.map((error: string) => (
+                    <p key={error}>Invalid {error}.</p>
+                ))}
+            </ErrorCard>
 
             <form
-                style={{ marginTop: credentialsErrors.length ? '2rem' : '5rem' }}
+                style={{ marginTop: isShown ? '2rem' : '5rem' }}
                 className={styles.root}
                 onSubmit={signIn}
             >
@@ -47,6 +64,7 @@ export const SignIn: React.FC<Props> = props => {
                     onChange={changeHandler}
                     value={credentials.email}
                     error={credentialsErrors.includes('email') ? 'error' : ''}
+                    onFocus={focusHandler}
                 />
                 <Input
                     type='password'
@@ -55,6 +73,7 @@ export const SignIn: React.FC<Props> = props => {
                     onChange={changeHandler}
                     value={credentials.password}
                     error={credentialsErrors.includes('password') ? 'error' : ''}
+                    onFocus={focusHandler}
                 />
                 <button disabled={!canSubmit} type='submit'>
                     Sign In

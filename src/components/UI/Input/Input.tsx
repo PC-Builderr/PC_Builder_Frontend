@@ -1,12 +1,13 @@
 import React from 'react'
-import { ChangeHandler } from '../../../types/Handlers'
+import { ChangeHandler, FocusHandler } from '../../../types/Handlers'
 import styles from './Input.module.scss'
 
 interface Props {
-    type: string
+    type?: string
     name: string
-    value: string
-    onChange: ChangeHandler<HTMLInputElement>
+    value?: string
+    onChange?: ChangeHandler<HTMLInputElement>
+    onFocus?: FocusHandler
     placeholder?: string
     label?: string
     required?: boolean

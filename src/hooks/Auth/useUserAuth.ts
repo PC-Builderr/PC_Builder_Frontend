@@ -4,8 +4,8 @@ import { AuthContext } from '../../context/Auth/AuthContext'
 import { AuthContextInterface } from '../../context/Auth/AuthContext.interface'
 import { AuthContextState } from '../../context/Auth/AuthContextState'
 import { Credential } from '../../types/credentials/Credential'
-import { Change, Submit } from '../../types/Events'
-import { ChangeHandler, SubmitHandler } from '../../types/Handlers'
+import { Change, Focus, Submit } from '../../types/Events'
+import { ChangeHandler, FocusHandler, SubmitHandler } from '../../types/Handlers'
 import { useFetch } from '../useFetch'
 
 interface UserAuth<T> {
@@ -24,6 +24,7 @@ interface Methods {
     signIn: SubmitHandler
     signUp: SubmitHandler
     changeHandler: ChangeHandler<HTMLInputElement>
+    focusHandler: FocusHandler
 }
 
 export const useUserAuth = <T>(initialCredentials: Credential[]): UserAuth<T> => {
@@ -46,6 +47,12 @@ export const useUserAuth = <T>(initialCredentials: Credential[]): UserAuth<T> =>
                 }
                 return credential
             })
+        )
+    }, [])
+
+    const focusHandler = useCallback((event: Focus) => {
+        setCredentialsErrors((errors: string[]) =>
+            errors.filter((error: string) => error !== event.target.name)
         )
     }, [])
 
@@ -105,10 +112,6 @@ export const useUserAuth = <T>(initialCredentials: Credential[]): UserAuth<T> =>
     }, [credentials, loading])
 
     useEffect(() => {
-        setCredentialsErrors([])
-    }, [credentials])
-
-    useEffect(() => {
         if (error && error?.statusCode < 500) {
             setCredentialsErrors((errors: string[]) => [...errors, WRONG_CREDENTIALS])
         }
@@ -133,7 +136,8 @@ export const useUserAuth = <T>(initialCredentials: Credential[]): UserAuth<T> =>
         methods: {
             signIn,
             signUp,
-            changeHandler
+            changeHandler,
+            focusHandler
         }
     }
 }
@@ -160,8 +164,7 @@ const validateCredentials = (credentials: Credential[]): string[] => {
     const confirmPassword: Credential | undefined = credentials.find(
         (credential: Credential) => credential.name === 'confirm-password'
     )
-
-    if (confirmPassword && confirmPassword !== password) {
+    if (confirmPassword && confirmPassword.value !== password?.value) {
         errors.push('confirm-password')
     }
 
