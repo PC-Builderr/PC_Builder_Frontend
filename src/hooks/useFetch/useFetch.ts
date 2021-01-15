@@ -24,6 +24,7 @@ export const useFetch = <T>(): {
             setState({ data: null, loading: true, error: null })
             const response = await fetch(url, {
                 method: options.method,
+                credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',
                     ...options.headers
