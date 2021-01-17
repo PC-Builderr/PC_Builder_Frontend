@@ -4,7 +4,7 @@
     flex-flow: column;
     justify-content: space-between;
     position: relative;
-    z-index: 100;
+    z-index: 800;
     padding: 1rem;
     border-radius: 4px;
 
@@ -33,12 +33,10 @@
         left: 0;
         display: flex;
         flex-flow: column;
-        z-index: 1000;
         border: 2px solid #e3f4fd;
         background-color: #f7fcff;
-        z-index: 10;
         border-radius: 4px;
-        padding: 0.5rem;
+        padding: 0;
 
         & li {
             flex-grow: 1;
@@ -47,12 +45,26 @@
             width: 100%;
             color: #2e425a;
             white-space: nowrap;
+            position: relative;
+
+            &:hover {
+                background-color: #e3f4fd;
+            }
+
+            &:first-of-type {
+                padding-top: 0.15rem;
+            }
+
+            &:last-of-type {
+                padding-bottom: 0.15rem;
+            }
 
             & * {
                 font-weight: 500;
-                padding: 0.5rem 0.75rem;
+                padding: 0.6rem 1.25rem;
                 height: 100%;
-                color: #2e425a !important;
+                font-size: 0.9rem;
+                color: #2e425a;
             }
         }
     }

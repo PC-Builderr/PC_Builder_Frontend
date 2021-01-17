@@ -10,6 +10,7 @@ import { WithMediaQuery } from '../../../hoc/WithMediaQuery'
 import { CartContext } from '../../../context/Cart/CartContext'
 import { CartContextInterface } from '../../../context/Cart/CartContectInterface'
 import { useLogout } from '../../../hooks/Auth/useLogout'
+import { CartItem } from '../../../types/CartEntry'
 
 interface Props {
     openSideDrawerHandler: () => void
@@ -19,6 +20,10 @@ export const NavBar: React.FC<Props> = props => {
     const { items } = useContext<CartContextInterface>(CartContext)
 
     const { authState, logout } = useLogout()
+
+    const itemsQuantity: number = items.reduce((itemsQuantity: number, item: CartItem): number => {
+        return itemsQuantity + item.quantity
+    }, 0)
 
     return (
         <header className={[styles.root].join(' ')}>
@@ -51,8 +56,9 @@ export const NavBar: React.FC<Props> = props => {
                 <WithMediaQuery maxWidth={550}>
                     <ul>
                         <li className={styles.cartContainer}>
-                            <Link className={items.length ? styles.cart : ''} to='/cart'>
+                            <Link className={styles.cart} to='/cart'>
                                 <RiShoppingCartLine />
+                                {itemsQuantity > 0 && <span>{itemsQuantity}</span>}
                             </Link>
                         </li>
                         {authState?.userId ? (
