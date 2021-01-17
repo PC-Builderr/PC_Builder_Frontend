@@ -46,26 +46,29 @@ export const Filter: React.FC<Props> = props => {
         fetchData()
     }, [fetchData])
 
-    const changeHandler = (event: Change<HTMLInputElement>) => {
-        const value: any = Number(event.target.value) || event.target.value
+    const changeHandler = useCallback(
+        (event: Change<HTMLInputElement>) => {
+            const value: any = Number(event.target.value) || event.target.value
 
-        onChange((currentFilters: any) => {
-            if (currentFilters[filter]?.includes(value)) {
-                const newFilters: any = {
-                    ...currentFilters,
-                    [filter]: currentFilters[filter].filter((el: any) => el !== value)
+            onChange((currentFilters: any) => {
+                if (currentFilters[filter]?.includes(value)) {
+                    const newFilters: any = {
+                        ...currentFilters,
+                        [filter]: currentFilters[filter].filter((el: any) => el !== value)
+                    }
+                    if (!newFilters[filter].length) {
+                        delete newFilters[filter]
+                    }
+                    return newFilters
                 }
-                if (!newFilters[filter].length) {
-                    delete newFilters[filter]
+                if (!currentFilters[filter]) {
+                    return { ...currentFilters, [filter]: [value] }
                 }
-                return newFilters
-            }
-            if (!currentFilters[filter]) {
-                return { ...currentFilters, [filter]: [value] }
-            }
-            return { ...currentFilters, [filter]: [...currentFilters[filter], value] }
-        })
-    }
+                return { ...currentFilters, [filter]: [...currentFilters[filter], value] }
+            })
+        },
+        [filter, onChange]
+    )
 
     return (
         <li className={styles.root}>
