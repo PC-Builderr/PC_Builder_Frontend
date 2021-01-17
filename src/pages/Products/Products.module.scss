@@ -7,3 +7,13 @@
         'filters products'
         'filters pagination';
 }
+
+@media (max-width: 800px) {
+    .root {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            'filters'
+            ' products'
+            ' pagination';
+    }
+}

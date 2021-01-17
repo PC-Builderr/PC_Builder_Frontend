@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { IoIosArrowDown } from 'react-icons/io'
 import { useIsMounted } from '../../../../hooks/useIsMounted'
+import { useWindowSize } from '../../../../hooks/useWindowSize'
 import { Change } from '../../../../types/Events'
 import { ChangeHandler } from '../../../../types/Handlers'
 import styles from './Filter.module.scss'
@@ -20,8 +21,10 @@ interface Props {
 export const Filter: React.FC<Props> = props => {
     const { onChange, filter, url }: Props = props
 
+    const { width } = useWindowSize()
+
     const [data, setData] = useState(null)
-    const [isOpen, setIsOpen] = useState<boolean>(true)
+    const [isOpen, setIsOpen] = useState<boolean>(() => (width > 800 ? true : false))
 
     const isMounted: React.MutableRefObject<boolean> = useIsMounted()
 
