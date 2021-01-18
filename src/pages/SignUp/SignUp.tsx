@@ -13,7 +13,7 @@ export const SignUp: React.FC<Props> = props => {
     const [isShown, setIsShown] = useState<boolean>(false)
 
     const {
-        methods: { changeHandler, authenticate, focusHandler },
+        methods: { changeHandler, authenticate, focusHandler, clearErrors },
         state: { canSubmit, credentials, authState, credentialsErrors }
     } = useUserAuth<SignUpCredentials>(SIGN_UP_API_URL, [
         { name: 'name', value: '' },
@@ -28,9 +28,10 @@ export const SignUp: React.FC<Props> = props => {
 
     useEffect(() => {
         if (credentialsErrors.length) {
+            clearErrors()
             setIsShown(true)
         }
-    }, [credentialsErrors])
+    }, [credentialsErrors, clearErrors])
 
     if (authState) {
         return <Redirect to='/' />
