@@ -109,6 +109,7 @@
 
         & .price {
             text-align: center;
+            font-size: 2rem;
         }
     }
 }
@@ -120,6 +121,17 @@
 
         & .price p {
             font-size: 1.8rem;
+        }
+    }
+}
+
+@media (max-width: 535px) {
+    .root {
+        margin-top: 2rem;
+        width: 90%;
+
+        & .price p {
+            font-size: 1.6rem;
         }
     }
 }

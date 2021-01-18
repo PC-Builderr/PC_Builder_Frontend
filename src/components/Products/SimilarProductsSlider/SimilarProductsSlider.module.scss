@@ -30,13 +30,23 @@
         }
 
         & > svg {
-            font-size: 4rem;
+            font-size: 3rem;
             color: #2e425a;
         }
 
         &:disabled {
             opacity: 0.5;
             cursor: not-allowed;
+        }
+    }
+}
+
+@media (max-width: 535px) {
+    .root {
+        & > button {
+            & > svg {
+                font-size: 2.5rem;
+            }
         }
     }
 }

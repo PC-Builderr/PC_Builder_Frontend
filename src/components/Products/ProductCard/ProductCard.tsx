@@ -21,7 +21,7 @@ export const ProductCard: React.FC<Props> = props => {
                 <p>{props.product.name}</p>
             </Link>
             <div>
-                <p>{props.product.price}лв.</p>
+                <h3>{props.product.price}лв.</h3>
                 <button onClick={addItem.bind(null, { id: props.product.id, quantity: 1 })}>
                     Add To Cart
                 </button>

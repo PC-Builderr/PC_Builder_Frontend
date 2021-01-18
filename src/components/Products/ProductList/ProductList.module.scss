@@ -7,4 +7,8 @@
     justify-items: center;
     row-gap: 1rem;
     column-gap: 0.5rem;
+
+    & > li {
+        width: 100%;
+    }
 }

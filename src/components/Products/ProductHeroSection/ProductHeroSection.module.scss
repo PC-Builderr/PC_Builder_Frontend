@@ -1,6 +1,6 @@
 .heading {
     margin: 2rem 0 0;
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     font-weight: 600;
     color: #2e425a;
     border: 2px solid #e3f4fd;
@@ -19,12 +19,19 @@
 
 @media (max-width: 950px) {
     .heading {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
     }
 }
 
 @media (max-width: 800px) {
     .root {
         flex-direction: column;
+    }
+}
+
+@media (max-width: 535px) {
+    .heading {
+        margin: 1rem 0 0;
+        font-size: 1.2rem;
     }
 }

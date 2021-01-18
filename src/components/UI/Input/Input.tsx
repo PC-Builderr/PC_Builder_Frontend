@@ -4,7 +4,7 @@ import styles from './Input.module.scss'
 
 interface Props {
     type?: string
-    name: string
+    name?: string
     value?: string
     onChange?: ChangeHandler<HTMLInputElement>
     onFocus?: FocusHandler

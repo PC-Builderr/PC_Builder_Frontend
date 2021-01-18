@@ -1,8 +1,9 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { Suspense, useCallback, useEffect, useMemo, useState } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
 import { Pagination } from '../../components/Products/Pagination'
 import { ProductFilters } from '../../components/Products/ProductFilters'
 import { ProductList } from '../../components/Products/ProductList'
+import { Loader } from '../../components/UI/Loader'
 import { getComponentsUrl, ITEMS_PER_PAGE } from '../../constants'
 import { useIsMounted } from '../../hooks/useIsMounted'
 import { Error } from '../../types/Error'
@@ -63,12 +64,14 @@ export const Products: React.FC<Props> = props => {
         <div className={styles.root}>
             <ProductFilters type={type} filters={filters} onChange={setFilters} />
             {error && <pre>{JSON.stringify(error, null, 2)}</pre>}
-            {data && (
-                <>
-                    <ProductList products={data.products} />
-                    <Pagination count={data.total / ITEMS_PER_PAGE}></Pagination>
-                </>
-            )}
+            <Suspense fallback={<Loader />}>
+                {data && (
+                    <>
+                        <ProductList products={data.products} />
+                        <Pagination count={data.total / ITEMS_PER_PAGE}></Pagination>
+                    </>
+                )}
+            </Suspense>
         </div>
     )
 }

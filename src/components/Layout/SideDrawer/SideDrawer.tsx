@@ -1,6 +1,7 @@
 import React from 'react'
 import { VscChromeClose } from 'react-icons/vsc'
 import { Link } from 'react-router-dom'
+import { WithMediaQuery } from '../../../hoc/WithMediaQuery'
 import { useLogout } from '../../../hooks/Auth/useLogout'
 import styles from './SideDrawer.module.scss'
 
@@ -18,26 +19,8 @@ export const SideDrawer: React.FC<Props> = props => {
                 <button onClick={props.onClose}>
                     <VscChromeClose />
                 </button>
-                <label htmlFor='profile'>Profile</label>
-                <ul id='profile'>
-                    {authState?.userId ? (
-                        <>
-                            <li>
-                                <Link to='/profile'>Profile</Link>
-                            </li>
-                            <li>
-                                <button onClick={logout}>Logout</button>
-                            </li>
-                        </>
-                    ) : (
-                        <li>
-                            <Link to='/sign-in'>Sign In</Link>
-                        </li>
-                    )}
-                    <li>
-                        <Link to='/cart'>Cart</Link>
-                    </li>
-                </ul>
+                <Link to='/'>PC Builder</Link>
+
                 <label htmlFor='services'>Services</label>
                 <ul id='services'>
                     <li>
@@ -68,6 +51,33 @@ export const SideDrawer: React.FC<Props> = props => {
                         <Link to='/products/storage'>Storage</Link>
                     </li>
                 </ul>
+                <WithMediaQuery minWidth={550}>
+                    <>
+                        <label htmlFor='profile'>Profile</label>
+                        <ul id='profile'>
+                            {authState?.userId ? (
+                                <>
+                                    <li>
+                                        <Link to='/profile'>Profile</Link>
+                                    </li>
+                                    <li>
+                                        <button onClick={logout}>Logout</button>
+                                    </li>
+                                </>
+                            ) : (
+                                <li>
+                                    <Link to='/sign-in'>Sign In</Link>
+                                </li>
+                            )}
+                        </ul>
+                        <label htmlFor='cart'>Cart</label>
+                        <ul id='cart'>
+                            <li>
+                                <Link to='/cart'>Cart</Link>
+                            </li>
+                        </ul>
+                    </>
+                </WithMediaQuery>
             </aside>
         </>
     )

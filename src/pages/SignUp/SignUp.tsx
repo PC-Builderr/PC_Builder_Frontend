@@ -51,7 +51,7 @@ export const SignUp: React.FC<Props> = props => {
                 ))}
             </ErrorCard>
             <form
-                style={{ marginTop: isShown ? '2rem' : '5rem' }}
+                style={{ marginTop: isShown ? '2rem' : '3rem' }}
                 className={styles.root}
                 onSubmit={authenticate}
             >

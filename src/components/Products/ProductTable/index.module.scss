@@ -22,7 +22,7 @@
     & td {
         padding: 0.75rem 1rem;
         color: #2e425a;
-        font-size: 0.9rem;
+        font-size: 0.85rem;
     }
 
     & th {
@@ -32,7 +32,6 @@
 
     & td {
         font-weight: 400;
-        font-size: 0.9rem;
     }
 
     & svg {
@@ -49,7 +48,7 @@
 @media (max-width: 750px) {
     .root {
         & td {
-            padding-top: 2.5rem;
+            padding-top: 2.25rem;
         }
 
         & th {
@@ -57,6 +56,20 @@
 
             position: absolute;
             left: 1rem;
+        }
+    }
+}
+
+@media (max-width: 535px) {
+    .root {
+        & td {
+            padding-top: 1.9rem;
+
+            font-size: 0.85rem;
+        }
+
+        & th {
+            font-size: 0.85rem;
         }
     }
 }

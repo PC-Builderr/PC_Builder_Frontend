@@ -35,7 +35,7 @@
 
     & > p {
         margin-top: 1.2rem;
-        font-size: 0.85rem;
+        font-size: 0.8rem;
         margin-bottom: 0;
         color: #2e425a;
         text-align: center;
@@ -52,12 +52,15 @@
     margin-top: 1rem;
     max-width: 24rem;
 }
-
-@media (max-width: 425px) {
+@media (max-width: 535px) {
     .root {
         border: none;
         background-color: transparent;
         padding: 0;
-        margin-top: 2rem;
+        margin-top: 0;
+
+        & > p {
+            font-size: 0.7rem;
+        }
     }
 }

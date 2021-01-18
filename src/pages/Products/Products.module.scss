@@ -13,7 +13,8 @@
         grid-template-columns: 1fr;
         grid-template-areas:
             'filters'
-            ' products'
-            ' pagination';
+            'products'
+            'pagination';
+        gap: 1rem;
     }
 }

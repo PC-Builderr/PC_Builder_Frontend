@@ -4,6 +4,7 @@ import styles from './Layout.module.scss'
 import { SideDrawer } from './SideDrawer/SideDrawer'
 import { Backdrop } from '../UI/Backdrop'
 import { useLocation } from 'react-router-dom'
+import { WithMediaQuery } from '../../hoc/WithMediaQuery'
 
 interface Props {
     children: React.ReactElement
@@ -29,8 +30,12 @@ export const Layout: React.FC<Props> = props => {
     return (
         <>
             <NavBar openSideDrawerHandler={openSideDrawer} />
-            <Backdrop isOpen={isOpen} onClose={closeSideDrawer} />
-            <SideDrawer isOpen={isOpen} onClose={closeSideDrawer} />
+            <WithMediaQuery minWidth={1000}>
+                <>
+                    <Backdrop isOpen={isOpen} onClose={closeSideDrawer} />
+                    <SideDrawer isOpen={isOpen} onClose={closeSideDrawer} />
+                </>
+            </WithMediaQuery>
             <main className={styles.root}>{props.children}</main>
         </>
     )
