@@ -26,6 +26,7 @@ interface Methods {
     authenticate: SubmitHandler
     changeHandler: ChangeHandler<HTMLInputElement>
     focusHandler: FocusHandler
+    clearErrors: () => void
 }
 
 export const useUserAuth = <T>(url: string, initialCredentials: Credential[]): UserAuth<T> => {
@@ -55,6 +56,10 @@ export const useUserAuth = <T>(url: string, initialCredentials: Credential[]): U
         )
     }, [])
 
+    const clearErrors = useCallback(() => {
+        setCredentialsErrors([])
+    }, [])
+
     const authenticate = useCallback(
         async (event: Submit) => {
             setLoading(true)
@@ -64,6 +69,7 @@ export const useUserAuth = <T>(url: string, initialCredentials: Credential[]): U
             const errors: string[] = validateCredentials(credentials)
             if (errors?.length) {
                 setCredentialsErrors(errors)
+                setLoading(false)
                 return
             }
 
@@ -118,8 +124,13 @@ export const useUserAuth = <T>(url: string, initialCredentials: Credential[]): U
             return
         }
 
+        if (credentialsErrors.length) {
+            setCanSubmit(false)
+            return
+        }
+
         setCanSubmit(true)
-    }, [credentials, loading])
+    }, [credentials, loading, credentialsErrors])
 
     return {
         state: {
@@ -133,7 +144,8 @@ export const useUserAuth = <T>(url: string, initialCredentials: Credential[]): U
         methods: {
             authenticate,
             changeHandler,
-            focusHandler
+            focusHandler,
+            clearErrors
         }
     }
 }

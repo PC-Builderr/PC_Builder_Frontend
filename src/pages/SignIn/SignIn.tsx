@@ -13,7 +13,7 @@ export const SignIn: React.FC<Props> = props => {
     const [isShown, setIsShown] = useState<boolean>(false)
 
     const {
-        methods: { changeHandler, authenticate, focusHandler },
+        methods: { changeHandler, authenticate, focusHandler, clearErrors },
         state: { canSubmit, credentials, authState, credentialsErrors }
     } = useUserAuth<SignInCredentials>(SIGN_IN_API_URL, [
         { name: 'email', value: '' },
@@ -21,8 +21,9 @@ export const SignIn: React.FC<Props> = props => {
     ])
 
     const closeHandler = useCallback(() => {
+        clearErrors()
         setIsShown(false)
-    }, [])
+    }, [clearErrors])
 
     useEffect(() => {
         if (credentialsErrors.length) {
