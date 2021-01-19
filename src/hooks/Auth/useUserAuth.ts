@@ -40,25 +40,34 @@ export const useUserAuth = <T>(url: string, initialCredentials: Credential[]): U
 
     const isMounted: React.MutableRefObject<boolean> = useIsMounted()
 
-    const changeHandler = useCallback((event: Change<HTMLInputElement>) => {
+    const clearErrors = useCallback((event: Change<HTMLInputElement>) => {
+        setFetchError(null)
         setCredentialsErrors((errors: string[]) =>
             errors.filter((error: string) => error !== event.target.name)
-        )
-        setCredentials((currentValues: Credential[]) =>
-            currentValues.map((credential: Credential) => {
-                if (event.target.name === credential.name) {
-                    return { name: credential.name, value: event.target.value }
-                }
-                return credential
-            })
         )
     }, [])
 
-    const focusHandler = useCallback((event: Focus) => {
-        setCredentialsErrors((errors: string[]) =>
-            errors.filter((error: string) => error !== event.target.name)
-        )
-    }, [])
+    const changeHandler = useCallback(
+        (event: Change<HTMLInputElement>) => {
+            clearErrors(event)
+            setCredentials((currentValues: Credential[]) =>
+                currentValues.map((credential: Credential) => {
+                    if (event.target.name === credential.name) {
+                        return { name: credential.name, value: event.target.value }
+                    }
+                    return credential
+                })
+            )
+        },
+        [clearErrors]
+    )
+
+    const focusHandler = useCallback(
+        (event: Focus) => {
+            clearErrors(event)
+        },
+        [clearErrors]
+    )
 
     const authenticate = useCallback(
         async (event: Submit) => {

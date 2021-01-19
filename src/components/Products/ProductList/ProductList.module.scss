@@ -12,3 +12,9 @@
         width: 100%;
     }
 }
+
+@media (max-width: 540px) {
+    .root {
+        grid-template-columns: 1fr;
+    }
+}

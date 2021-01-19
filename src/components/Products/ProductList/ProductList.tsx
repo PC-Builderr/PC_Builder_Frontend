@@ -15,10 +15,10 @@ export const ProductList: React.FC<Props> = props => {
         <ul className={styles.root}>
             {props.products.map((product: Product) => (
                 <li key={product.id}>
-                    <WithMediaQuery maxWidth={535}>
+                    <WithMediaQuery maxWidth={540}>
                         <ProductCard product={product} />
                     </WithMediaQuery>
-                    <WithMediaQuery minWidth={535}>
+                    <WithMediaQuery minWidth={540}>
                         <MobileProductCard product={product} />
                     </WithMediaQuery>
                 </li>
