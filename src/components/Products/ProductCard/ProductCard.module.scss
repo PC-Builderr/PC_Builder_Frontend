@@ -3,6 +3,7 @@
     border-radius: 8px;
     position: relative;
     border: 2px solid transparent;
+    margin: auto;
 
     &:hover {
         &:hover {
@@ -24,7 +25,8 @@
     }
 
     & p {
-        font-size: 1.1rem;
+        font-size: 1rem;
+        font-weight: 500;
         color: #2d86ff;
         flex-grow: 0.6;
         padding-top: 0.3rem;

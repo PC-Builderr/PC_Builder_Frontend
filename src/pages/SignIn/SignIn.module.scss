@@ -10,11 +10,10 @@
 
     & > h2 {
         color: #2e425a;
-        margin-bottom: 1rem;
     }
 
-    & > input {
-        margin-bottom: 1rem;
+    & > label {
+        margin-top: 1rem;
     }
 
     & > button {
@@ -25,7 +24,7 @@
         font-size: 1rem;
         border-radius: 4px;
         font-weight: 600;
-        margin-top: 0.5rem;
+        margin-top: 1.5rem;
 
         &:disabled {
             opacity: 0.6;
@@ -48,9 +47,15 @@
         }
     }
 }
+
 .error {
-    margin-top: 1rem;
-    max-width: 24rem;
+    font-size: 0.85rem;
+    color: red;
+    width: 100%;
+    margin-top: 0.65rem;
+    border-radius: 4px;
+    padding: 0.75rem;
+    background-color: rgb(245, 223, 223);
 }
 @media (max-width: 535px) {
     .root {

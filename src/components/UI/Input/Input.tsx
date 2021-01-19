@@ -32,6 +32,7 @@ export const Input: React.FC<Props> = props => {
                 id={props.name}
                 {...props}
             />
+            {props.error && <span className={styles.error}>{props.error}</span>}
         </>
     )
 }

@@ -1,8 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React from 'react'
 import { Link, Redirect } from 'react-router-dom'
-import { ErrorCard } from '../../components/UI/ErrorCard'
 import { Input } from '../../components/UI/Input'
-import { SERVER_ERROR, SIGN_UP_API_URL } from '../../constants'
+import { CREDENTIALS_ERROR, SERVER_ERROR, SIGN_UP_API_URL } from '../../constants'
 import { useUserAuth } from '../../hooks/Auth/useUserAuth'
 import { SignUpCredentials } from '../../types/credentials/SignUpCredentials'
 import styles from '../SignIn/SignIn.module.scss'
@@ -10,11 +9,9 @@ import styles from '../SignIn/SignIn.module.scss'
 interface Props {}
 
 export const SignUp: React.FC<Props> = props => {
-    const [isShown, setIsShown] = useState<boolean>(false)
-
     const {
-        methods: { changeHandler, authenticate, focusHandler, clearErrors },
-        state: { canSubmit, credentials, authState, credentialsErrors }
+        methods: { changeHandler, authenticate, focusHandler },
+        state: { canSubmit, credentials, authState, credentialsErrors, fetchError }
     } = useUserAuth<SignUpCredentials>(SIGN_UP_API_URL, [
         { name: 'name', value: '' },
         { name: 'email', value: '' },
@@ -22,41 +19,22 @@ export const SignUp: React.FC<Props> = props => {
         { name: 'confirm-password', value: '' }
     ])
 
-    const closeHandler = useCallback(() => {
-        setIsShown(false)
-    }, [])
-
-    useEffect(() => {
-        if (credentialsErrors.length) {
-            clearErrors()
-            setIsShown(true)
-        }
-    }, [credentialsErrors, clearErrors])
-
     if (authState) {
         return <Redirect to='/' />
     }
 
-    if (credentialsErrors.includes(SERVER_ERROR)) {
+    if (fetchError === SERVER_ERROR) {
         return <Redirect to='/error' />
     }
+
     return (
         <>
-            <ErrorCard
-                className={styles.error}
-                onClose={closeHandler}
-                isShown={isShown && Boolean(credentialsErrors.length)}
-            >
-                {credentialsErrors.map((error: string) => (
-                    <p key={error}>Invalid {error}.</p>
-                ))}
-            </ErrorCard>
-            <form
-                style={{ marginTop: isShown ? '2rem' : '3rem' }}
-                className={styles.root}
-                onSubmit={authenticate}
-            >
+            <form className={styles.root} onSubmit={authenticate}>
                 <h2>Sign Up.</h2>
+                {fetchError === CREDENTIALS_ERROR && (
+                    <span className={styles.error}>Email already in use.</span>
+                )}
+
                 <Input
                     type='text'
                     label='Name*'
@@ -70,7 +48,9 @@ export const SignUp: React.FC<Props> = props => {
                     name='email'
                     onChange={changeHandler}
                     value={credentials.email}
-                    error={credentialsErrors.includes('email') ? 'error' : ''}
+                    error={
+                        credentialsErrors.includes('email') ? 'Please provide a valid email.' : ''
+                    }
                     onFocus={focusHandler}
                 />
                 <Input
@@ -79,7 +59,11 @@ export const SignUp: React.FC<Props> = props => {
                     name='password'
                     onChange={changeHandler}
                     value={credentials.password}
-                    error={credentialsErrors.includes('password') ? 'error' : ''}
+                    error={
+                        credentialsErrors.includes('password')
+                            ? 'Password sould have numbers and letters.'
+                            : ''
+                    }
                     onFocus={focusHandler}
                 />
                 <Input
@@ -88,7 +72,11 @@ export const SignUp: React.FC<Props> = props => {
                     name='confirm-password'
                     onChange={changeHandler}
                     value={credentials['confirm-password']}
-                    error={credentialsErrors.includes('confirm-password') ? 'error' : ''}
+                    error={
+                        credentialsErrors.includes('confirm-password')
+                            ? 'Password and Confirm password should match'
+                            : ''
+                    }
                     onFocus={focusHandler}
                 />
                 <button disabled={!canSubmit} type='submit'>

@@ -1,6 +1,6 @@
 import decode from 'jwt-decode'
 import { useCallback, useContext, useEffect, useState } from 'react'
-import { ONE_SECOND_IN_MS, SERVER_ERROR, WRONG_CREDENTIALS } from '../../constants'
+import { ONE_SECOND_IN_MS, SERVER_ERROR, CREDENTIALS_ERROR } from '../../constants'
 import { AuthContext } from '../../context/Auth/AuthContext'
 import { AuthContextInterface } from '../../context/Auth/AuthContext.interface'
 import { AuthContextState } from '../../context/Auth/AuthContextState'
@@ -20,13 +20,13 @@ interface State<T> {
     credentials: T
     canSubmit: boolean
     credentialsErrors: string[]
+    fetchError: string | null
 }
 
 interface Methods {
     authenticate: SubmitHandler
     changeHandler: ChangeHandler<HTMLInputElement>
     focusHandler: FocusHandler
-    clearErrors: () => void
 }
 
 export const useUserAuth = <T>(url: string, initialCredentials: Credential[]): UserAuth<T> => {
@@ -34,12 +34,16 @@ export const useUserAuth = <T>(url: string, initialCredentials: Credential[]): U
 
     const [credentials, setCredentials] = useState<Credential[]>(initialCredentials)
     const [credentialsErrors, setCredentialsErrors] = useState<string[]>([])
+    const [fetchError, setFetchError] = useState<string | null>(null)
     const [loading, setLoading] = useState<boolean>(false)
     const [canSubmit, setCanSubmit] = useState<boolean>(false)
 
     const isMounted: React.MutableRefObject<boolean> = useIsMounted()
 
     const changeHandler = useCallback((event: Change<HTMLInputElement>) => {
+        setCredentialsErrors((errors: string[]) =>
+            errors.filter((error: string) => error !== event.target.name)
+        )
         setCredentials((currentValues: Credential[]) =>
             currentValues.map((credential: Credential) => {
                 if (event.target.name === credential.name) {
@@ -54,10 +58,6 @@ export const useUserAuth = <T>(url: string, initialCredentials: Credential[]): U
         setCredentialsErrors((errors: string[]) =>
             errors.filter((error: string) => error !== event.target.name)
         )
-    }, [])
-
-    const clearErrors = useCallback(() => {
-        setCredentialsErrors([])
     }, [])
 
     const authenticate = useCallback(
@@ -91,12 +91,11 @@ export const useUserAuth = <T>(url: string, initialCredentials: Credential[]): U
             const data = await response.json()
 
             if (!response.ok) {
-                setCredentialsErrors((errors: string[]) => {
-                    if (data!.statusCode < 500) {
-                        return [...errors, WRONG_CREDENTIALS]
-                    }
-                    return [...errors, SERVER_ERROR]
-                })
+                if (data!.statusCode < 500) {
+                    setFetchError(CREDENTIALS_ERROR)
+                } else {
+                    setFetchError(SERVER_ERROR)
+                }
                 setLoading(false)
                 return
             }
@@ -139,13 +138,13 @@ export const useUserAuth = <T>(url: string, initialCredentials: Credential[]): U
                 return { ...acc, [credential.name]: credential.value }
             }, {}),
             canSubmit,
-            credentialsErrors
+            credentialsErrors,
+            fetchError
         },
         methods: {
             authenticate,
             changeHandler,
-            focusHandler,
-            clearErrors
+            focusHandler
         }
     }
 }
