@@ -29,7 +29,6 @@
         max-width: 5rem;
         padding: 0.25rem;
         margin: 0.2rem;
-        border-radius: 4px;
         cursor: pointer;
         opacity: 0.5;
         transition: 400ms;
@@ -42,7 +41,6 @@
         & > img {
             display: block;
             width: 100%;
-            border-radius: 4px;
         }
     }
 }
@@ -60,14 +58,10 @@
 }
 
 @media (max-width: 1100px) {
-    .root {
+    .root,
+    .root > li > img {
         max-width: 25rem;
         max-height: 20rem;
-
-        & > li > img {
-            max-width: 25rem;
-            max-height: 20rem;
-        }
     }
     .small {
         max-width: 25rem;

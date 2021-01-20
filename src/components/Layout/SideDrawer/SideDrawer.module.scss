@@ -13,31 +13,28 @@
     border-top-right-radius: 4px;
     border-bottom-right-radius: 4px;
 
+    & > a,
+    & svg,
+    & > h3,
+    & > label,
+    & > ul a,
+    & > ul button {
+        color: #2e425a;
+    }
+
     & > a {
         font-weight: 700;
         text-decoration: none;
-        color: #2e425a;
         font-size: 1.2rem;
     }
 
     & > button {
         font-size: 1.4rem;
-        background-color: transparent;
         float: right;
-        border: none;
         padding: 0;
-
-        & > svg {
-            color: #2e425a;
-        }
-    }
-
-    & > h3 {
-        color: #2e425a;
     }
 
     & > label {
-        color: #2e425a;
         font-weight: 500;
         font-size: 0.8rem;
         display: block;
@@ -63,7 +60,6 @@
             height: min-content;
             margin: 0;
             width: 100%;
-            color: #2e425a;
             white-space: nowrap;
             position: relative;
             border-radius: 4px;
@@ -80,21 +76,17 @@
                 padding-bottom: 0.15rem;
             }
 
-            & > * {
+            & > button,
+            & > a {
                 padding: 0.6rem 1.25rem;
                 height: 100%;
                 font-size: 0.9rem;
-                color: #2e425a;
                 font-weight: 500;
             }
 
             & > button {
-                border: none;
-                font-weight: 500;
-                background-color: transparent;
                 display: flex;
                 align-items: center;
-                color: #2e425a;
             }
         }
     }
