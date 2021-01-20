@@ -2,7 +2,7 @@ import React from 'react'
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md'
 import { Link, useLocation } from 'react-router-dom'
 import { ITEMS_PER_PAGE } from '../../../constants'
-import { useWindowSize } from '../../../hooks/useWindowSize'
+import { WithMediaQuery } from '../../../hoc/WithMediaQuery'
 import styles from './Pagination.module.scss'
 
 interface Props {
@@ -62,20 +62,29 @@ export const Pagination: React.FC<Props> = props => {
     return (
         <div className={styles.root}>
             {prevPage}
-            {start ? <p>. . .</p> : null}
-            {pagesToDisplay.map((page: number) => {
-                urlSearchParams.set('page', String(page))
-                return (
-                    <Link
-                        className={activePage === page ? styles.active : ''}
-                        key={page}
-                        to={`${pathname}?${urlSearchParams.toString()}`}
-                    >
-                        {page}
-                    </Link>
-                )
-            })}
-            {end !== allPages.length ? <p>. . .</p> : null}
+            <WithMediaQuery maxWidth={470}>
+                <>
+                    {start ? <p>. . .</p> : null}
+                    {pagesToDisplay.map((page: number) => {
+                        urlSearchParams.set('page', String(page))
+                        return (
+                            <Link
+                                className={activePage === page ? styles.active : ''}
+                                key={page}
+                                to={`${pathname}?${urlSearchParams.toString()}`}
+                            >
+                                {page}
+                            </Link>
+                        )
+                    })}
+                    {end !== allPages.length ? <p>. . .</p> : null}
+                </>
+            </WithMediaQuery>
+            <WithMediaQuery minWidth={470}>
+                <span>
+                    {activePage} of {allPages.length} pages.
+                </span>
+            </WithMediaQuery>
             {nextPage}
         </div>
     )

@@ -1,50 +1,59 @@
 .root {
     grid-area: pagination;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     margin-top: 2rem;
 
-    & > a {
-        color: #2e425a;
-        border: 1px solid rgba(0, 0, 0, 0.15);
-        border-radius: 4px;
-        display: block;
-        width: 2.5rem;
-        height: 2.5rem;
+    &,
+    & > a,
+    & > span {
         display: flex;
         justify-content: center;
         align-items: center;
-        margin: 0.3rem;
-        font-size: 0.8rem;
+    }
+
+    & > a,
+    & > p,
+    & > span,
+    & svg {
+        color: #2e425a;
+    }
+
+    & > a,
+    & > span {
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        border-radius: 4px;
+        height: 2.5rem;
         font-weight: 500;
+        margin: 0.3rem;
+    }
+
+    & > a {
+        width: 2.5rem;
+        font-size: 0.8rem;
 
         &:hover {
             background-color: #2e425a;
-            color: white;
 
+            &,
             & > svg {
                 color: white;
             }
         }
 
         & > svg {
-            color: #2e425a;
             font-size: 1.1rem;
-        }
-    }
-
-    & > button {
-        &:hover {
-            background-color: #2e425a;
         }
     }
 
     & > p {
         margin: 0.6rem;
-        color: #2e425a;
         font-weight: 600;
         align-self: flex-end;
+        white-space: nowrap;
+    }
+
+    & > span {
+        font-size: 0.9rem;
+        padding: 0 0.75rem;
     }
 }
 
