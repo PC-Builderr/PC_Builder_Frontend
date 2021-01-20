@@ -1,5 +1,8 @@
 import React from 'react'
+import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md'
 import { Link, useLocation } from 'react-router-dom'
+import { ITEMS_PER_PAGE } from '../../../constants'
+import { useWindowSize } from '../../../hooks/useWindowSize'
 import styles from './Pagination.module.scss'
 
 interface Props {
@@ -10,23 +13,70 @@ export const Pagination: React.FC<Props> = props => {
     const { pathname, search } = useLocation<Location>()
 
     const urlSearchParams: URLSearchParams = new URLSearchParams(search)
-
     const activePage: number = Number(urlSearchParams.get('page')) || 1
+
+    const allPages = new Array(Math.round(props.count / ITEMS_PER_PAGE))
+        .fill(1)
+        .map((_, index: number) => index + 1)
+
+    let start: number = 0
+    let end: number = 5
+
+    if (activePage > 3) {
+        start = activePage - 3
+        end = start + 5
+    }
+
+    if (end > allPages.length) {
+        end = allPages.length
+
+        if (end >= 5) {
+            start = end - 5
+        }
+    }
+
+    const pagesToDisplay: number[] = allPages.slice(start, end)
+
+    let prevPage: JSX.Element | null = null
+
+    if (activePage > 1) {
+        urlSearchParams.set('page', String(activePage - 1))
+        prevPage = (
+            <Link to={`${pathname}?${urlSearchParams.toString()}`}>
+                <MdKeyboardArrowLeft />
+            </Link>
+        )
+    }
+
+    let nextPage: JSX.Element | null = null
+
+    if (activePage < allPages.length) {
+        urlSearchParams.set('page', String(activePage + 1))
+        nextPage = (
+            <Link to={`${pathname}?${urlSearchParams.toString()}`}>
+                <MdKeyboardArrowRight />
+            </Link>
+        )
+    }
 
     return (
         <div className={styles.root}>
-            {new Array(Math.round(props.count)).fill(1).map((page: number, index: number) => {
-                urlSearchParams.set('page', String(index + 1))
+            {prevPage}
+            {start ? <p>. . .</p> : null}
+            {pagesToDisplay.map((page: number) => {
+                urlSearchParams.set('page', String(page))
                 return (
                     <Link
-                        className={activePage === index + 1 ? styles.active : ''}
-                        key={index}
+                        className={activePage === page ? styles.active : ''}
+                        key={page}
                         to={`${pathname}?${urlSearchParams.toString()}`}
                     >
-                        {index + 1}
+                        {page}
                     </Link>
                 )
             })}
+            {end !== allPages.length ? <p>. . .</p> : null}
+            {nextPage}
         </div>
     )
 }

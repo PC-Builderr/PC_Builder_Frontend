@@ -26,10 +26,11 @@ export const SimilarProductsSlider: React.FC<Props> = ({ product }) => {
     const rootRef = useRef<HTMLDivElement>(null)
 
     const fetchData = useCallback(async () => {
-        setData(null)
-
         const response = await fetch(`${PRODUCTS_API_URL}?${urlSearchParams}`)
-        if (!response.ok) return
+        if (!response.ok) {
+            setData(null)
+            return
+        }
 
         if (!isMounted.current) return
 

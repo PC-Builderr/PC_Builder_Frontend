@@ -21,8 +21,30 @@
 
         &:hover {
             background-color: #2e425a;
-            color: white !important;
+            color: white;
+
+            & > svg {
+                color: white;
+            }
         }
+
+        & > svg {
+            color: #2e425a;
+            font-size: 1.1rem;
+        }
+    }
+
+    & > button {
+        &:hover {
+            background-color: #2e425a;
+        }
+    }
+
+    & > p {
+        margin: 0.6rem;
+        color: #2e425a;
+        font-weight: 600;
+        align-self: flex-end;
     }
 }
 

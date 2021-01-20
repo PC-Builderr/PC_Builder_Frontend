@@ -4,17 +4,16 @@ import { Layout } from './components/Layout'
 import { Loader } from './components/UI/Loader'
 import { useRefreshToken } from './hooks/Auth/useRefreshToken'
 
-const Home: React.LazyExoticComponent<React.FC<Props>> = lazy(() => import('./pages/Home'))
-const SignIn: React.LazyExoticComponent<React.FC<Props>> = lazy(() => import('./pages/SignIn'))
-const SignUp: React.LazyExoticComponent<React.FC<Props>> = lazy(() => import('./pages/SignUp'))
-const Product: React.LazyExoticComponent<React.FC<Props>> = lazy(() => import('./pages/Product'))
-const Products: React.LazyExoticComponent<React.FC<Props>> = lazy(() => import('./pages/Products'))
-const Profile: React.LazyExoticComponent<React.FC<Props>> = lazy(() => import('./pages/Profile'))
-const Error: React.LazyExoticComponent<React.FC<Props>> = lazy(() => import('./pages/Error'))
+const Home: React.LazyExoticComponent<React.FC> = lazy(() => import('./pages/Home'))
+const SignIn: React.LazyExoticComponent<React.FC> = lazy(() => import('./pages/SignIn'))
+const SignUp: React.LazyExoticComponent<React.FC> = lazy(() => import('./pages/SignUp'))
+const Product: React.LazyExoticComponent<React.FC> = lazy(() => import('./pages/Product'))
+const Products: React.LazyExoticComponent<React.FC> = lazy(() => import('./pages/Products'))
+const SearchResult: React.LazyExoticComponent<React.FC> = lazy(() => import('./pages/SearchResult'))
+const Profile: React.LazyExoticComponent<React.FC> = lazy(() => import('./pages/Profile'))
+const Error: React.LazyExoticComponent<React.FC> = lazy(() => import('./pages/Error'))
 
-interface Props {}
-
-export const App: React.FC<Props> = () => {
+export const App: React.FC = () => {
     useRefreshToken()
 
     const { pathname } = useLocation<Location>()
@@ -36,6 +35,9 @@ export const App: React.FC<Props> = () => {
                     </Route>
                     <Route path='/profile' exact>
                         <Profile />
+                    </Route>
+                    <Route path='/products' exact>
+                        <SearchResult />
                     </Route>
                     <Route path='/products/:type' exact>
                         <Products key={pathname} />

@@ -11,26 +11,24 @@ import { NotFound } from './NotFound'
 import styles from './SearchInput.module.scss'
 import { SearchResult } from './SearchResult'
 
-interface Props {}
-
 const params: URLSearchParams = new URLSearchParams([
     ['count', '3'],
     ['page', '1']
 ])
 
-export const SearchInput: React.FC<Props> = props => {
+export const SearchInput: React.FC = () => {
     const location = useLocation()
 
     const [search, setSearch] = useState<string>('')
     const [data, setData] = useState<ProductArrayResponse | null>(null)
-    const [error, setError] = useState<Error | null>(null)
+    const [error, setError] = useState<boolean>(false)
     const [loading, setLoading] = useState<boolean>(false)
 
     const { isOpen, close, open } = useClickAway()
 
     const fetchData = useCallback(async () => {
         setData(null)
-        setError(null)
+        setError(false)
         setLoading(true)
 
         const response = await fetch(`${PRODUCTS_API_URL}?${params.toString()}`)
@@ -38,7 +36,7 @@ export const SearchInput: React.FC<Props> = props => {
         const resData = await response.json()
 
         if (!response.ok) {
-            setError(resData)
+            setError(true)
             setLoading(false)
             return
         }
@@ -88,15 +86,17 @@ export const SearchInput: React.FC<Props> = props => {
             {loading && <BiLoaderAlt className={styles.spinner} />}
             {isOpen && (
                 <ul onClick={close}>
-                    {data?.products.map((product: Product) => {
-                        return <SearchResult key={product.id} product={product} />
-                    })}
                     {data && (
-                        <li className={styles.allProducts}>
-                            <Link to={`/products?search=${search}`}>
-                                See all {data?.total} results.
-                            </Link>
-                        </li>
+                        <>
+                            {data.products.map((product: Product) => (
+                                <SearchResult key={product.id} product={product} />
+                            ))}
+                            <li className={styles.allProducts}>
+                                <Link to={`/products?search=${search}`}>
+                                    See all {data?.total} results.
+                                </Link>
+                            </li>
+                        </>
                     )}
                     {error && <NotFound />}
                 </ul>

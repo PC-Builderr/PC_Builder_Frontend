@@ -1,8 +1,6 @@
 import React from 'react'
 import './Footer.module.scss'
 
-interface Props {}
-
-export const Footer: React.FC<Props> = props => {
+export const Footer: React.FC = () => {
     return <footer>footer</footer>
 }

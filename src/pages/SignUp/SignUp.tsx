@@ -6,9 +6,7 @@ import { useUserAuth } from '../../hooks/Auth/useUserAuth'
 import { SignUpCredentials } from '../../types/credentials/SignUpCredentials'
 import styles from '../SignIn/SignIn.module.scss'
 
-interface Props {}
-
-export const SignUp: React.FC<Props> = props => {
+export const SignUp: React.FC = () => {
     const {
         methods: { changeHandler, authenticate, focusHandler },
         state: { canSubmit, credentials, authState, credentialsErrors, fetchError }

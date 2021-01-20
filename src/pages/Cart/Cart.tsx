@@ -1,9 +1,7 @@
 import React from 'react'
 import styles from './Cart.module.scss'
 
-interface Props {}
-
-export const Cart: React.FC<Props> = props => {
+export const Cart: React.FC = () => {
     return (
         <div className={styles.root}>
             <h1>Cart</h1>

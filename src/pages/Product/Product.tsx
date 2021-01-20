@@ -9,9 +9,7 @@ import { Component } from '../../types/components/Component'
 import { Error } from '../../types/Error'
 import { ProductPage } from '../../types/params/ProductPage'
 
-interface Props {}
-
-export const Product: React.FC<Props> = props => {
+export const Product: React.FC = () => {
     const { id, type } = useParams<ProductPage>()
 
     const [component, setComponent] = useState<Component | null>(null)
@@ -20,7 +18,6 @@ export const Product: React.FC<Props> = props => {
     const isMounted: React.MutableRefObject<boolean> = useIsMounted()
 
     const fetchData = useCallback(async () => {
-        setComponent(null)
         setError(null)
 
         const response = await fetch(getFullComponentUrl(type, id))
@@ -30,6 +27,7 @@ export const Product: React.FC<Props> = props => {
         if (!isMounted.current) return
 
         if (!response.ok) {
+            setComponent(null)
             setError(resData)
             return
         }

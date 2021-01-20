@@ -1,20 +1,16 @@
 import React, { Suspense, useCallback, useEffect, useMemo, useState } from 'react'
-import { useLocation, useParams } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { Pagination } from '../../components/Products/Pagination'
 import { ProductFilters } from '../../components/Products/ProductFilters'
 import { ProductList } from '../../components/Products/ProductList'
 import { Loader } from '../../components/UI/Loader'
-import { getComponentsUrl, ITEMS_PER_PAGE } from '../../constants'
+import { ITEMS_PER_PAGE, PRODUCTS_API_URL } from '../../constants'
 import { useIsMounted } from '../../hooks/useIsMounted'
-import { Error } from '../../types/Error'
-import { ProductsPage } from '../../types/params/ProductsPage'
 import { ProductArrayResponse } from '../../types/ProductArrayResponse'
-import styles from './Products.module.scss'
+import styles from '../Products/Products.module.scss'
 
-export const Products: React.FC = () => {
+export const SearchResult: React.FC = () => {
     const { search } = useLocation<Location>()
-
-    const { type } = useParams<ProductsPage>()
 
     const [data, setData] = useState<ProductArrayResponse | null>(null)
     const [error, setError] = useState<Error | null>(null)
@@ -23,25 +19,24 @@ export const Products: React.FC = () => {
 
     const isMounted: React.MutableRefObject<boolean> = useIsMounted()
 
-    const page: number = useMemo(() => {
-        return Number(new URLSearchParams(search).get('page')) || 1
+    const params: string = useMemo(() => {
+        const params = new URLSearchParams(search)
+
+        if (!params.has('page')) {
+            params.set('page', '1')
+        }
+
+        if (!params.has('count')) {
+            params.set('count', String(ITEMS_PER_PAGE))
+        }
+        return params.toString()
     }, [search])
 
     const fetchData = useCallback(async () => {
         setError(null)
         setLoading(true)
 
-        const response = await fetch(getComponentsUrl(type), {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                page: page,
-                count: ITEMS_PER_PAGE,
-                filters
-            })
-        })
+        const response = await fetch(`${PRODUCTS_API_URL}?${params}`)
 
         const resData = await response.json()
 
@@ -56,7 +51,7 @@ export const Products: React.FC = () => {
 
         setData(resData)
         setLoading(false)
-    }, [type, filters, page, isMounted])
+    }, [isMounted, params])
 
     useEffect(() => {
         fetchData()
@@ -64,7 +59,7 @@ export const Products: React.FC = () => {
 
     return (
         <div className={styles.root}>
-            <ProductFilters type={type} filters={filters} onChange={setFilters} />
+            <ProductFilters type={''} filters={filters} onChange={setFilters} />
             {error && <pre>{JSON.stringify(error, null, 2)}</pre>}
             <Suspense fallback={<Loader />}>
                 {data && !loading && <ProductList products={data.products} />}

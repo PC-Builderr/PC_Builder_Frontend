@@ -33,15 +33,11 @@ export const Filter: React.FC<Props> = props => {
     }, [])
 
     const fetchData = useCallback(async () => {
-        setData(null)
-
-        const response = await fetch(url, {
-            headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Credentials': 'true'
-            }
-        })
-        if (!response.ok) return
+        const response = await fetch(url)
+        if (!response.ok) {
+            setData(null)
+            return
+        }
 
         if (!isMounted.current) return
 

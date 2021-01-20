@@ -1,8 +1,6 @@
 import React from 'react'
 import styles from './Home.module.scss'
 
-interface Props {}
-
-export const Home: React.FC<Props> = props => {
+export const Home: React.FC = () => {
     return <div className={styles.root}></div>
 }
