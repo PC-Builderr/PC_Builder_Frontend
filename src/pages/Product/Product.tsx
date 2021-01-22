@@ -45,7 +45,7 @@ export const Product: React.FC = () => {
                 <>
                     <ProductHeroSection product={component.product} />
                     <ProductTable type={type} component={component} />
-                    <SimilarProductsSlider product={component.product} />
+                    <SimilarProductsSlider search={component.product.metaData} />
                 </>
             )}
             {error && <pre>{JSON.stringify(error, null, 2)}</pre>}
