@@ -92,7 +92,7 @@ export const SearchInput: React.FC = () => {
                             ))}
                             <li className={styles.allProducts}>
                                 <Link to={`/products?search=${search}`}>
-                                    See all {data?.total} results.
+                                    See all {data.total} results.
                                 </Link>
                             </li>
                         </>

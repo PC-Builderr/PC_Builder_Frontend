@@ -89,9 +89,13 @@ export const useUserAuth = <T>(url: string, initialCredentials: Credential[]): U
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(
-                    credentials.reduce((acc: any, credential: Credential) => {
-                        return { ...acc, [credential.name]: credential.value }
-                    }, {})
+                    credentials.reduce(
+                        (acc: any, credential: Credential) => ({
+                            ...acc,
+                            [credential.name]: credential.value
+                        }),
+                        {}
+                    )
                 )
             })
 
@@ -105,6 +109,7 @@ export const useUserAuth = <T>(url: string, initialCredentials: Credential[]): U
                 } else {
                     setFetchError(SERVER_ERROR)
                 }
+
                 setLoading(false)
                 return
             }
@@ -143,9 +148,13 @@ export const useUserAuth = <T>(url: string, initialCredentials: Credential[]): U
     return {
         state: {
             authState,
-            credentials: credentials.reduce((acc: any, credential: Credential) => {
-                return { ...acc, [credential.name]: credential.value }
-            }, {}),
+            credentials: credentials.reduce(
+                (acc: any, credential: Credential) => ({
+                    ...acc,
+                    [credential.name]: credential.value
+                }),
+                {}
+            ),
             canSubmit,
             credentialsErrors,
             fetchError

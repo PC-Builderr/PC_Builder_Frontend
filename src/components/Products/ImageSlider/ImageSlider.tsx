@@ -22,33 +22,29 @@ export const ImageSlider: React.FC<Props> = props => {
             <WithMediaQuery maxWidth={800}>
                 <div>
                     <ul className={styles.root} ref={sliderRef}>
-                        {props.images.map((image: Image) => {
-                            return (
-                                <li
-                                    key={image.id}
-                                    style={{
-                                        transform: `translate(${
-                                            index * -(sliderRef.current?.clientWidth || 0)
-                                        }px)`
-                                    }}
-                                >
-                                    <img src={getFullImageUrl(image.url)} alt='product' />
-                                </li>
-                            )
-                        })}
+                        {props.images.map((image: Image) => (
+                            <li
+                                key={image.id}
+                                style={{
+                                    transform: `translate(${
+                                        index * -(sliderRef.current?.clientWidth || 0)
+                                    }px)`
+                                }}
+                            >
+                                <img src={getFullImageUrl(image.url)} alt='product' />
+                            </li>
+                        ))}
                     </ul>
                     <ul className={styles.small}>
-                        {props.images.map((image: Image, i: number) => {
-                            return (
-                                <li
-                                    className={i === index ? styles.active : ''}
-                                    key={image.id}
-                                    onClick={clickHandler.bind(null, i)}
-                                >
-                                    <img src={getFullImageUrl(image.url)} alt='product' />
-                                </li>
-                            )
-                        })}
+                        {props.images.map((image: Image, i: number) => (
+                            <li
+                                className={i === index ? styles.active : ''}
+                                key={image.id}
+                                onClick={clickHandler.bind(null, i)}
+                            >
+                                <img src={getFullImageUrl(image.url)} alt='product' />
+                            </li>
+                        ))}
                     </ul>
                 </div>
             </WithMediaQuery>

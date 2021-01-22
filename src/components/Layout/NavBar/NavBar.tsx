@@ -21,9 +21,10 @@ export const NavBar: React.FC<Props> = props => {
 
     const { authState, logout } = useLogout()
 
-    const itemsQuantity: number = items.reduce((itemsQuantity: number, item: CartItem): number => {
-        return itemsQuantity + item.quantity
-    }, 0)
+    const itemsQuantity: number = items.reduce(
+        (itemsQuantity: number, item: CartItem): number => itemsQuantity + item.quantity,
+        0
+    )
 
     return (
         <header className={[styles.root].join(' ')}>

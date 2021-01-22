@@ -27,19 +27,16 @@ export const ProductFilters: React.FC<Props> = props => {
                     url={`${BRANDS_API_URL}?type=${props.type}`}
                 >
                     {(data: Data, changeHandler: ChangeHandler<HTMLInputElement>) =>
-                        data &&
-                        data.brands.map((brand: Brand) => {
-                            return (
-                                <Checkbox
-                                    checked={Boolean(props.filters?.brand?.includes(brand.id))}
-                                    key={brand.id}
-                                    id={brand.name}
-                                    name={brand.name}
-                                    onChange={changeHandler}
-                                    value={brand.id}
-                                />
-                            )
-                        })
+                        data?.brands.map((brand: Brand) => (
+                            <Checkbox
+                                checked={Boolean(props.filters?.brand?.includes(brand.id))}
+                                key={brand.id}
+                                id={brand.name}
+                                name={brand.name}
+                                onChange={changeHandler}
+                                value={brand.id}
+                            />
+                        ))
                     }
                 </Filter>
             </ul>

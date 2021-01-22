@@ -66,9 +66,7 @@ export const Products: React.FC = () => {
         <div className={styles.root}>
             <ProductFilters type={type} filters={filters} onChange={setFilters} />
             {error && <pre>{JSON.stringify(error, null, 2)}</pre>}
-            <Suspense fallback={<Loader />}>
-                {data && !loading && <ProductList products={data.products} />}
-            </Suspense>
+            {data && !loading && <ProductList products={data.products} />}
             {data && <Pagination count={data.total} />}
         </div>
     )

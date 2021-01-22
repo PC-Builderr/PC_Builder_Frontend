@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-import { GiDivergence } from 'react-icons/gi'
+import React from 'react'
 import { ComponentList } from './ComponentList'
 import styles from './SelectComponent.module.scss'
 
