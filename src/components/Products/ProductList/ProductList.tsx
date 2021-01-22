@@ -1,7 +1,6 @@
 import React from 'react'
 import { WithMediaQuery } from '../../../hoc/WithMediaQuery'
 import { Product } from '../../../types/Product'
-import { SearchResult } from '../../UI/Search/SearchResult'
 import { ProductCard } from '../ProductCard'
 import { MobileProductCard } from '../ProductCard/MobileProductCart'
 import styles from './ProductList.module.scss'

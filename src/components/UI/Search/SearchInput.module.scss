@@ -52,7 +52,6 @@
 }
 
 .allProducts {
-    width: 20rem;
     height: 2.5rem;
     margin: 0;
     border: 1px solid #e3f4fd;
@@ -104,10 +103,8 @@
 
 @media (max-width: 390px) {
     .allProducts {
-        width: 16rem;
-
         & a {
-            font-size: 0.8rem;
+            font-size: 0.85rem;
         }
     }
 }

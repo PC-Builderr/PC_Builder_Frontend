@@ -12,6 +12,7 @@ const Products: React.LazyExoticComponent<React.FC> = lazy(() => import('./pages
 const SearchResult: React.LazyExoticComponent<React.FC> = lazy(() => import('./pages/SearchResult'))
 const Profile: React.LazyExoticComponent<React.FC> = lazy(() => import('./pages/Profile'))
 const Builder: React.LazyExoticComponent<React.FC> = lazy(() => import('./pages/Builder'))
+const Cart: React.LazyExoticComponent<React.FC> = lazy(() => import('./pages/Cart'))
 const Error: React.LazyExoticComponent<React.FC> = lazy(() => import('./pages/Error'))
 
 export const App: React.FC = () => {
@@ -35,7 +36,7 @@ export const App: React.FC = () => {
                         <Builder />
                     </Route>
                     <Route path='/cart' exact>
-                        <h3>cart</h3>
+                        <Cart />
                     </Route>
                     <Route path='/profile' exact>
                         <Profile />

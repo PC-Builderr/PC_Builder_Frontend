@@ -6,9 +6,9 @@ import { PRODUCTS_API_URL } from '../../../constants'
 import { useClickAway } from '../../../hooks/useClickAway'
 import { Product } from '../../../types/Product'
 import { ProductArrayResponse } from '../../../types/ProductArrayResponse'
+import { MobileProductCard } from '../../Products/ProductCard/MobileProductCart'
 import { NotFound } from './NotFound'
 import styles from './SearchInput.module.scss'
-import { SearchResult } from './SearchResult'
 
 const params: URLSearchParams = new URLSearchParams([
     ['count', '3'],
@@ -88,7 +88,9 @@ export const SearchInput: React.FC = () => {
                     {data && (
                         <>
                             {data.products.map((product: Product) => (
-                                <SearchResult key={product.id} product={product} />
+                                <li key={product.id}>
+                                    <MobileProductCard product={product} />
+                                </li>
                             ))}
                             <li className={styles.allProducts}>
                                 <Link to={`/products?search=${search}`}>
