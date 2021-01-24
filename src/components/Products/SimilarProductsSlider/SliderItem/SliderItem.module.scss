@@ -1,7 +1,5 @@
 .root {
-    width: 12rem;
-    margin: 0.25rem;
-    transition: 300ms;
+    width: 12.5rem;
 
     &:hover {
         & p {
@@ -10,6 +8,9 @@
     }
 
     & > a {
+        display: block;
+        width: 12rem;
+
         & > img {
             display: block;
             width: 100%;

@@ -54,7 +54,7 @@ export const NavBar: React.FC<Props> = props => {
                     </ul>
                 </WithMediaQuery>
                 <SearchInput />
-                <WithMediaQuery maxWidth={550}>
+                <WithMediaQuery maxWidth={580}>
                     <ul>
                         <li className={styles.cartContainer}>
                             <Link className={styles.cart} to='/cart'>

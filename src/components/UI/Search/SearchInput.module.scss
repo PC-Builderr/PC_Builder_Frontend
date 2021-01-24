@@ -2,7 +2,7 @@
     display: flex;
     align-items: center;
     position: relative;
-    max-width: 20rem;
+    max-width: 23rem;
     width: 100%;
     z-index: 800;
 
@@ -22,7 +22,7 @@
         color: #2e425a;
         padding: 0.5rem 0 0.5rem 2rem;
         border-radius: 4px;
-        max-width: 20rem;
+        max-width: 23rem;
         width: 100%;
         border: 2px solid transparent;
 
@@ -35,8 +35,6 @@
         &:focus {
             background-color: #eef5f8;
             border: 2px solid #e3f4fd;
-
-            // background-color: #f7fcff;
         }
     }
 

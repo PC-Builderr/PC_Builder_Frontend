@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link, Redirect } from 'react-router-dom'
+import { Button } from '../../components/UI/Button/Button'
 import { Input } from '../../components/UI/Input'
 import { CREDENTIALS_ERROR, SERVER_ERROR, SIGN_UP_API_URL } from '../../constants'
 import { useUserAuth } from '../../hooks/Auth/useUserAuth'
@@ -77,9 +78,9 @@ export const SignUp: React.FC = () => {
                     }
                     onFocus={focusHandler}
                 />
-                <button disabled={!canSubmit} type='submit'>
-                    Sign In
-                </button>
+                <Button disabled={!canSubmit} type='submit'>
+                    Sign Up
+                </Button>
                 <p>
                     Already have an account?<Link to='/sign-in'>Sign in.</Link>
                 </p>

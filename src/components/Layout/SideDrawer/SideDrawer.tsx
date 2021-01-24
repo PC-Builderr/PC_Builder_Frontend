@@ -51,7 +51,7 @@ export const SideDrawer: React.FC<Props> = props => {
                         <Link to='/products/storage'>Storage</Link>
                     </li>
                 </ul>
-                <WithMediaQuery minWidth={550}>
+                <WithMediaQuery minWidth={580}>
                     <>
                         <label htmlFor='profile'>Profile</label>
                         <ul id='profile'>

@@ -6,17 +6,11 @@ import styles from './SliderItem.module.scss'
 
 interface Props {
     product: Product
-    scroll: number
 }
 
 export const SliderItem: React.FC<Props> = props => {
     return (
-        <li
-            className={styles.root}
-            style={{
-                transform: `translate(${props.scroll}px)`
-            }}
-        >
+        <li className={styles.root}>
             <Link to={`/products/${props.product.type}/${props.product.id}`}>
                 <img src={getFullImageUrl(props.product.images[0].url)} alt={props.product.name} />
                 <div>

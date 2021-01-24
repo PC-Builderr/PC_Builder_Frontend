@@ -15,9 +15,9 @@ export const Pagination: React.FC<Props> = props => {
     const urlSearchParams: URLSearchParams = new URLSearchParams(search)
     const activePage: number = Number(urlSearchParams.get('page')) || 1
 
-    const allPages = new Array(Math.round(props.count / ITEMS_PER_PAGE))
+    const allPages = new Array(Math.round(props.count / ITEMS_PER_PAGE) || 1)
         .fill(1)
-        .map((_, index: number) => index + 1)
+        .map((_, index: number): number => index + 1)
 
     let start: number = 0
     let end: number = 5

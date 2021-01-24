@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
+import { Button } from '../../components/UI/Button/Button'
 import { PRODUCTS_API_URL } from '../../constants'
 import { useCart } from '../../hooks/useCart'
 import { CartItem } from '../../types/CartEntry'
@@ -13,6 +14,8 @@ export const Cart: React.FC = () => {
     const [total, setTotal] = useState<number>(0)
 
     const fetchData = useCallback(async () => {
+        if (!items.length) return
+
         setData(null)
         setError(false)
 
@@ -53,6 +56,7 @@ export const Cart: React.FC = () => {
             <h1>{total}лв.</h1>
             <pre>{JSON.stringify(items, null, 2)}</pre>
             {data && <pre>{JSON.stringify(data, null, 2)}</pre>}
+            <Button>ORDER NOW</Button>
         </div>
     )
 }

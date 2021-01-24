@@ -62,19 +62,19 @@ export const SimilarProductsSlider: React.FC<Props> = ({ search }) => {
     return (
         <div className={styles.root} ref={rootRef}>
             <>
-                <ul>
+                <ul
+                    style={{
+                        transform: `translate(${
+                            index *
+                            -(
+                                rootRef.current?.firstElementChild?.firstElementChild
+                                    ?.clientWidth || 0
+                            )
+                        }px)`
+                    }}
+                >
                     {data?.products.map((product: Product) => (
-                        <SliderItem
-                            key={product.id}
-                            product={product}
-                            scroll={
-                                index *
-                                -(
-                                    rootRef.current?.firstElementChild?.firstElementChild
-                                        ?.clientWidth || 0
-                                )
-                            }
-                        />
+                        <SliderItem key={product.id} product={product} />
                     ))}
                 </ul>
                 <button disabled={index === 0} onClick={clickHandler.bind(null, -1)}>
