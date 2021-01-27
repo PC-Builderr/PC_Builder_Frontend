@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { FunctionComponent, useCallback, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { ProductHeroSection } from '../../components/Products/ProductHeroSection'
 import { ProductTable } from '../../components/Products/ProductTable'
@@ -9,7 +9,7 @@ import { Component } from '../../types/components/Component'
 import { Error } from '../../types/Error'
 import { ProductPage } from '../../types/params/ProductPage'
 
-export const Product: React.FC = () => {
+export const Product: FunctionComponent = () => {
     const { id, type } = useParams<ProductPage>()
 
     const [component, setComponent] = useState<Component | null>(null)

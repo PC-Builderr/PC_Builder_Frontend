@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { FunctionComponent, useCallback, useState } from 'react'
 import { SelectComponent } from '../../components/Builder/SelectComponent'
 import { Case } from '../../types/components/Case'
 import { CPU } from '../../types/components/CPU'
@@ -10,7 +10,7 @@ import styles from './Builder.module.scss'
 
 interface Props {}
 
-export const Builder: React.FC<Props> = props => {
+export const Builder: FunctionComponent<Props> = props => {
     const [currentType, setCurrentType] = useState<string>('')
 
     const changeTypeHandler = useCallback((type: string) => {

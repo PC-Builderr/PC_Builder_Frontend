@@ -1,12 +1,11 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import { Button } from '../../components/UI/Button/Button'
+import React, { FunctionComponent, useCallback, useEffect, useState } from 'react'
 import { PRODUCTS_API_URL } from '../../constants'
 import { useCart } from '../../hooks/useCart'
 import { CartItem } from '../../types/CartEntry'
 import { Product } from '../../types/Product'
 import styles from './Cart.module.scss'
 
-export const Cart: React.FC = () => {
+export const Cart: FunctionComponent = () => {
     const { items } = useCart()
 
     const [data, setData] = useState<{ products: Product[] } | null>(null)
@@ -56,7 +55,6 @@ export const Cart: React.FC = () => {
             <h1>{total}лв.</h1>
             <pre>{JSON.stringify(items, null, 2)}</pre>
             {data && <pre>{JSON.stringify(data, null, 2)}</pre>}
-            <Button>ORDER NOW</Button>
         </div>
     )
 }

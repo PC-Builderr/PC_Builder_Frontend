@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import styles from './Home.module.scss'
 
-export const Home: React.FC = () => {
+export const Home: FunctionComponent = () => {
     return <div className={styles.root}></div>
 }

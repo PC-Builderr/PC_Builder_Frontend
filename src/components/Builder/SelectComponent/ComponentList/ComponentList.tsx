@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { FunctionComponent, useCallback, useEffect, useState } from 'react'
 import { getComponentsUrl, ITEMS_PER_PAGE } from '../../../../constants'
 import { useIsMounted } from '../../../../hooks/useIsMounted'
 import { ProductArrayResponse } from '../../../../types/ProductArrayResponse'
@@ -9,7 +9,7 @@ interface Props {
     type: string
 }
 
-export const ComponentList: React.FC<Props> = props => {
+export const ComponentList: FunctionComponent<Props> = props => {
     const { type } = props
 
     const [data, setData] = useState<ProductArrayResponse | null>(null)

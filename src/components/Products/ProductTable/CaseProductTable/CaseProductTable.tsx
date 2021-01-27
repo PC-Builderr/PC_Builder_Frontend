@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import { Case } from '../../../../types/components/Case'
 import styles from '../index.module.scss'
 
@@ -6,7 +6,7 @@ interface Props {
     component: Case
 }
 
-export const CaseProductTable: React.FC<Props> = ({ component }) => {
+export const CaseProductTable: FunctionComponent<Props> = ({ component }) => {
     return (
         <table className={styles.root}>
             <tbody>

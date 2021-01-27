@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { FunctionComponent, useCallback, useState } from 'react'
 import { IoMdCart, IoMdRemoveCircleOutline } from 'react-icons/io'
 import { RiAddCircleLine } from 'react-icons/ri'
 import { GiCheckMark } from 'react-icons/gi'
@@ -11,7 +11,7 @@ interface Props {
     id: number
 }
 
-export const ProductSidebar: React.FC<Props> = props => {
+export const ProductSidebar: FunctionComponent<Props> = props => {
     const { id, price } = props
 
     const [quantity, setQuantity] = useState(1)

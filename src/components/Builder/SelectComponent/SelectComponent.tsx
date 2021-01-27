@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import { ComponentList } from './ComponentList'
 import styles from './SelectComponent.module.scss'
 
@@ -8,7 +8,7 @@ interface Props {
     changeTypeHandler: (type: string) => void
 }
 
-export const SelectComponent: React.FC<Props> = props => {
+export const SelectComponent: FunctionComponent<Props> = props => {
     return (
         <div className={styles.root}>
             <h3

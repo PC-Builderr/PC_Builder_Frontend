@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import styles from './Loader.module.scss'
 
-export const Loader: React.FC = () => {
+export const Loader: FunctionComponent = () => {
     return <div className={styles.root}></div>
 }

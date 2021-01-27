@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react'
+import React, { FunctionComponent, useCallback, useRef, useState } from 'react'
 import { getFullImageUrl } from '../../../constants'
 import { WithMediaQuery } from '../../../hoc/WithMediaQuery'
 import { Image } from '../../../types/Image'
@@ -8,7 +8,7 @@ interface Props {
     images: Image[]
 }
 
-export const ImageSlider: React.FC<Props> = props => {
+export const ImageSlider: FunctionComponent<Props> = props => {
     const sliderRef = useRef<HTMLUListElement>(null)
 
     const [index, setIndex] = useState<number>(0)

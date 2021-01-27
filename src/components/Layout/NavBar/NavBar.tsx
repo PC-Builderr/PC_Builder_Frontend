@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { FunctionComponent, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { RiShoppingCartLine } from 'react-icons/ri'
 import { HiOutlineMenuAlt2 } from 'react-icons/hi'
@@ -16,7 +16,7 @@ interface Props {
     openSideDrawerHandler: () => void
 }
 
-export const NavBar: React.FC<Props> = props => {
+export const NavBar: FunctionComponent<Props> = props => {
     const { items } = useContext<CartContextInterface>(CartContext)
 
     const { authState, logout } = useLogout()
@@ -56,12 +56,14 @@ export const NavBar: React.FC<Props> = props => {
                 <SearchInput />
                 <WithMediaQuery maxWidth={580}>
                     <ul>
-                        <li className={styles.cartContainer}>
-                            <Link className={styles.cart} to='/cart'>
-                                <RiShoppingCartLine />
-                                {itemsQuantity > 0 && <span>{itemsQuantity}</span>}
-                            </Link>
-                        </li>
+                        {itemsQuantity ? (
+                            <li className={styles.cartContainer}>
+                                <Link className={styles.cart} to='/cart'>
+                                    <RiShoppingCartLine />
+                                    <span>{itemsQuantity}</span>
+                                </Link>
+                            </li>
+                        ) : null}
                         {authState?.userId ? (
                             <DropDown label='Profile'>
                                 <Link to='/profile'>Profile</Link>

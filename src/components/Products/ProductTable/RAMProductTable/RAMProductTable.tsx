@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import { RAM } from '../../../../types/components/RAM'
 import styles from '../index.module.scss'
 
@@ -6,7 +6,7 @@ interface Props {
     component: RAM
 }
 
-export const RAMProductTable: React.FC<Props> = ({ component }) => {
+export const RAMProductTable: FunctionComponent<Props> = ({ component }) => {
     return (
         <table className={styles.root}>
             <tbody>

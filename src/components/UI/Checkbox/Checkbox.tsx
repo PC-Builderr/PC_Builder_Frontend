@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import styles from './Checkbox.module.scss'
 
 interface Props {
@@ -9,7 +9,7 @@ interface Props {
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-export const Checkbox: React.FC<Props> = props => {
+export const Checkbox: FunctionComponent<Props> = props => {
     return (
         <li className={styles.root}>
             <input type='checkbox' {...props} />

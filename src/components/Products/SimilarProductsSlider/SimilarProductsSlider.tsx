@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md'
 import { ITEMS_PER_SLIDER, PRODUCTS_API_URL } from '../../../constants'
 import { useIsMounted } from '../../../hooks/useIsMounted'
@@ -16,7 +16,7 @@ const urlSearchParams: URLSearchParams = new URLSearchParams([
     ['page', '1']
 ])
 
-export const SimilarProductsSlider: React.FC<Props> = ({ search }) => {
+export const SimilarProductsSlider: FunctionComponent<Props> = ({ search }) => {
     const [data, setData] = useState<ProductArrayResponse | null>(null)
     const [disable, setDisable] = useState<boolean>(false)
     const [index, setIndex] = useState<number>(0)

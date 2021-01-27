@@ -1,10 +1,8 @@
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import styles from './Error.module.scss'
 
-interface Props {
+interface Props {}
 
-}
-
-export const Error: React.FC<Props> = props => {
+export const Error: FunctionComponent<Props> = props => {
     return <></>
 }

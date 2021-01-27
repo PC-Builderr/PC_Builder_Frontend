@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import { ChangeHandler, FocusHandler } from '../../../types/Handlers'
 import styles from './Input.module.scss'
 
@@ -14,7 +14,7 @@ interface Props {
     error?: string
 }
 
-export const Input: React.FC<Props> = props => {
+export const Input: FunctionComponent<Props> = props => {
     return (
         <>
             {props.label && (

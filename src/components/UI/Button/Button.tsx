@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import { ChangeHandler, ClickHandler } from '../../../types/Handlers'
 import styles from './Button.module.scss'
 
@@ -11,7 +11,7 @@ interface Props {
     children: React.ReactNode
 }
 
-export const Button: React.FC<Props> = props => {
+export const Button: FunctionComponent<Props> = props => {
     return (
         <button className={[styles.root, props.className].join(' ')} {...props}>
             {props.children}

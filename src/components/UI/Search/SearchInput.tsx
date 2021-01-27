@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { FunctionComponent, useCallback, useEffect, useState } from 'react'
 import { BiLoaderAlt } from 'react-icons/bi'
 import { IoSearchSharp } from 'react-icons/io5'
 import { Link, useLocation } from 'react-router-dom'
@@ -15,7 +15,7 @@ const params: URLSearchParams = new URLSearchParams([
     ['page', '1']
 ])
 
-export const SearchInput: React.FC = () => {
+export const SearchInput: FunctionComponent = () => {
     const location = useLocation()
 
     const [search, setSearch] = useState<string>('')

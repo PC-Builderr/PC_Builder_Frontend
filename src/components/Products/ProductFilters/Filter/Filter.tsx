@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { FunctionComponent, useCallback, useEffect, useState } from 'react'
 import { IoIosArrowDown } from 'react-icons/io'
 import { useIsMounted } from '../../../../hooks/useIsMounted'
 import { useWindowSize } from '../../../../hooks/useWindowSize'
@@ -18,7 +18,7 @@ interface Props {
     ) => React.ReactNode[] | React.ReactNode
 }
 
-export const Filter: React.FC<Props> = props => {
+export const Filter: FunctionComponent<Props> = props => {
     const { onChange, filter, url }: Props = props
 
     const { width } = useWindowSize()

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import { Button } from '../../components/UI/Button/Button'
 import { Input } from '../../components/UI/Input'
@@ -7,7 +7,7 @@ import { useUserAuth } from '../../hooks/Auth/useUserAuth'
 import { SignUpCredentials } from '../../types/credentials/SignUpCredentials'
 import styles from '../SignIn/SignIn.module.scss'
 
-export const SignUp: React.FC = () => {
+export const SignUp: FunctionComponent = () => {
     const {
         methods: { changeHandler, authenticate, focusHandler },
         state: { canSubmit, credentials, authState, credentialsErrors, fetchError }

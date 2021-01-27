@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { FunctionComponent, useState } from 'react'
 import { AuthContext } from './AuthContext'
 import { AuthContextState } from './AuthContextState'
 
@@ -6,7 +6,7 @@ interface Props {
     children: React.ReactNode
 }
 
-export const AuthContextProvider: React.FC<Props> = props => {
+export const AuthContextProvider: FunctionComponent<Props> = props => {
     const [authState, setAuthState] = useState<AuthContextState | null>(null)
 
     return (

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import { Link } from 'react-router-dom'
 import { getFullImageUrl } from '../../../../constants'
 import { Product } from '../../../../types/Product'
@@ -8,7 +8,7 @@ interface Props {
     product: Product
 }
 
-export const SliderItem: React.FC<Props> = props => {
+export const SliderItem: FunctionComponent<Props> = props => {
     return (
         <li className={styles.root}>
             <Link to={`/products/${props.product.type}/${props.product.id}`}>

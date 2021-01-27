@@ -1,4 +1,11 @@
-import React, { Suspense, useCallback, useEffect, useMemo, useState } from 'react'
+import React, {
+    FunctionComponent,
+    Suspense,
+    useCallback,
+    useEffect,
+    useMemo,
+    useState
+} from 'react'
 import { useLocation } from 'react-router-dom'
 import { Pagination } from '../../components/Products/Pagination'
 import { ProductFilters } from '../../components/Products/ProductFilters'
@@ -9,7 +16,7 @@ import { useIsMounted } from '../../hooks/useIsMounted'
 import { ProductArrayResponse } from '../../types/ProductArrayResponse'
 import styles from '../Products/Products.module.scss'
 
-export const SearchResult: React.FC = () => {
+export const SearchResult: FunctionComponent = () => {
     const { search } = useLocation<Location>()
 
     const [data, setData] = useState<ProductArrayResponse | null>(null)

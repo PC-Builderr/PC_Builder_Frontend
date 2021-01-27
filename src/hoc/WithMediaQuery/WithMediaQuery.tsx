@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import { useWindowSize } from '../../hooks/useWindowSize'
 
 interface Props {
@@ -9,7 +9,7 @@ interface Props {
     children: React.ReactElement
 }
 
-export const WithMediaQuery: React.FC<Props> = props => {
+export const WithMediaQuery: FunctionComponent<Props> = props => {
     const { height, width } = useWindowSize()
 
     if (props.maxWidth && props.maxWidth >= width) return null

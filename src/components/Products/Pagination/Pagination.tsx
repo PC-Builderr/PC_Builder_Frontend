@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md'
 import { Link, useLocation } from 'react-router-dom'
 import { ITEMS_PER_PAGE } from '../../../constants'
@@ -9,7 +9,7 @@ interface Props {
     count: number
 }
 
-export const Pagination: React.FC<Props> = props => {
+export const Pagination: FunctionComponent<Props> = props => {
     const { pathname, search } = useLocation<Location>()
 
     const urlSearchParams: URLSearchParams = new URLSearchParams(search)

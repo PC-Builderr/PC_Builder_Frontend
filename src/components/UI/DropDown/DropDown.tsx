@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import { IoIosArrowDown } from 'react-icons/io'
 import { useClickAway } from '../../../hooks/useClickAway'
 import styles from './DropDown.module.scss'
@@ -9,7 +9,7 @@ interface Props {
     children: React.ReactNode[]
 }
 
-export const DropDown: React.FC<Props> = props => {
+export const DropDown: FunctionComponent<Props> = props => {
     const { isOpen, close, open } = useClickAway(props.open)
 
     return (

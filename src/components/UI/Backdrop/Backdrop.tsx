@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import styles from './Backdrop.module.scss'
 
 interface Props {
@@ -6,7 +6,7 @@ interface Props {
     onClose: () => void
 }
 
-export const Backdrop: React.FC<Props> = props => {
+export const Backdrop: FunctionComponent<Props> = props => {
     if (!props.isOpen) return <></>
 
     return <div onClick={props.onClose} className={styles.root}></div>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import { Link } from 'react-router-dom'
 import { getFullImageUrl } from '../../../constants'
 import { useCart } from '../../../hooks/useCart'
@@ -9,7 +9,7 @@ interface Props {
     product: Product
 }
 
-export const ProductCard: React.FC<Props> = props => {
+export const ProductCard: FunctionComponent<Props> = props => {
     const {
         methods: { addItem }
     } = useCart()

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import { WithMediaQuery } from '../../../hoc/WithMediaQuery'
 import { Product } from '../../../types/Product'
 import { ProductCard } from '../ProductCard'
@@ -9,7 +9,7 @@ interface Props {
     products: Product[]
 }
 
-export const ProductList: React.FC<Props> = props => {
+export const ProductList: FunctionComponent<Props> = props => {
     return (
         <ul className={styles.root}>
             {props.products.map((product: Product) => (

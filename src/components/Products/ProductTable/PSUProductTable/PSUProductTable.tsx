@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import { FcCancel, FcCheckmark } from 'react-icons/fc'
 import { PSU } from '../../../../types/components/PSU'
 import styles from '../index.module.scss'
@@ -7,7 +7,7 @@ interface Props {
     component: PSU
 }
 
-export const PSUProductTable: React.FC<Props> = ({ component }) => {
+export const PSUProductTable: FunctionComponent<Props> = ({ component }) => {
     return (
         <table className={styles.root}>
             <tbody>

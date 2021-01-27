@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import { Storage } from '../../../../types/components/Storage'
 import styles from '../index.module.scss'
 
@@ -6,7 +6,7 @@ interface Props {
     component: Storage
 }
 
-export const StorageProductTable: React.FC<Props> = ({ component }) => {
+export const StorageProductTable: FunctionComponent<Props> = ({ component }) => {
     return (
         <table className={styles.root}>
             <tbody>

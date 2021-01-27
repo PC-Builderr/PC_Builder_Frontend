@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import { CPUProductTable } from './CPUProductTable'
 import { CaseProductTable } from './CaseProductTable'
 import { GPUProductTable } from './GPUProductTable'
@@ -12,7 +12,7 @@ interface Props {
     component: any
 }
 
-export const ProductTable: React.FC<Props> = props => {
+export const ProductTable: FunctionComponent<Props> = props => {
     switch (props.type) {
         case 'cpu':
             return <CPUProductTable component={props.component} />

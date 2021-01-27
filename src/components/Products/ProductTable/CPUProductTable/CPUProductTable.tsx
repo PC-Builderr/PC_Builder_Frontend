@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import { FcCancel } from 'react-icons/fc'
 import { CPU } from '../../../../types/components/CPU'
 import styles from '../index.module.scss'
@@ -7,7 +7,7 @@ interface Props {
     component: CPU
 }
 
-export const CPUProductTable: React.FC<Props> = ({ component }) => {
+export const CPUProductTable: FunctionComponent<Props> = ({ component }) => {
     return (
         <table className={styles.root}>
             <tbody>

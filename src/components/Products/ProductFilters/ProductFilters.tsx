@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import { BRANDS_API_URL } from '../../../constants'
 import { Brand } from '../../../types/Brand'
 import { ChangeHandler } from '../../../types/Handlers'
@@ -15,7 +15,7 @@ interface Data {
     brands: Brand[]
 }
 
-export const ProductFilters: React.FC<Props> = props => {
+export const ProductFilters: FunctionComponent<Props> = props => {
     return (
         <aside className={styles.root}>
             <ul>

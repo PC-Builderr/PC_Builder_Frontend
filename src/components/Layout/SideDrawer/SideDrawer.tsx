@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import { VscChromeClose } from 'react-icons/vsc'
 import { Link } from 'react-router-dom'
 import { WithMediaQuery } from '../../../hoc/WithMediaQuery'
 import { useLogout } from '../../../hooks/Auth/useLogout'
+import { useCart } from '../../../hooks/useCart'
 import styles from './SideDrawer.module.scss'
 
 interface Props {
@@ -10,8 +11,10 @@ interface Props {
     onClose: () => void
 }
 
-export const SideDrawer: React.FC<Props> = props => {
+export const SideDrawer: FunctionComponent<Props> = props => {
     const { authState, logout } = useLogout()
+
+    const { items } = useCart()
 
     return (
         <>
@@ -70,12 +73,16 @@ export const SideDrawer: React.FC<Props> = props => {
                                 </li>
                             )}
                         </ul>
-                        <label htmlFor='cart'>Cart</label>
-                        <ul id='cart'>
-                            <li>
-                                <Link to='/cart'>Cart</Link>
-                            </li>
-                        </ul>
+                        {items.length ? (
+                            <>
+                                <label htmlFor='cart'>Cart</label>
+                                <ul id='cart'>
+                                    <li>
+                                        <Link to='/cart'>Cart</Link>
+                                    </li>
+                                </ul>
+                            </>
+                        ) : null}
                     </>
                 </WithMediaQuery>
             </aside>

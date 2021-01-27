@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import { FcCancel, FcCheckmark } from 'react-icons/fc'
 import { Motherboard } from '../../../../types/components/Motherboard'
 import styles from '../index.module.scss'
@@ -7,7 +7,7 @@ interface Props {
     component: Motherboard
 }
 
-export const MotherboardProductTable: React.FC<Props> = ({ component }) => {
+export const MotherboardProductTable: FunctionComponent<Props> = ({ component }) => {
     return (
         <table className={styles.root}>
             <tbody>

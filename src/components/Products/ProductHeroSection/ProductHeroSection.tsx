@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import { Product } from '../../../types/Product'
 import { ImageSlider } from '../ImageSlider'
 import { ProductSidebar } from '../ProductSidebar'
@@ -8,7 +8,7 @@ interface Props {
     product: Product
 }
 
-export const ProductHeroSection: React.FC<Props> = props => {
+export const ProductHeroSection: FunctionComponent<Props> = props => {
     return (
         <>
             <h3 className={styles.heading}>{props.product.name}</h3>

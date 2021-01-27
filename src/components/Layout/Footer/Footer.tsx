@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import './Footer.module.scss'
 
-export const Footer: React.FC = () => {
+export const Footer: FunctionComponent = () => {
     return <footer>footer</footer>
 }

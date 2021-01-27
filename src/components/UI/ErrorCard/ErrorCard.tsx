@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import { VscChromeClose } from 'react-icons/vsc'
 import styles from './ErrorCard.module.scss'
 
@@ -10,7 +10,7 @@ interface Props {
     onClose: () => void
 }
 
-export const ErrorCard: React.FC<Props> = props => {
+export const ErrorCard: FunctionComponent<Props> = props => {
     if (!props.isShown) {
         return null
     }

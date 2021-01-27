@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FunctionComponent } from 'react'
 import { GPU } from '../../../../types/components/GPU'
 import styles from '../index.module.scss'
 
@@ -6,7 +6,7 @@ interface Props {
     component: GPU
 }
 
-export const GPUProductTable: React.FC<Props> = ({ component }) => {
+export const GPUProductTable: FunctionComponent<Props> = ({ component }) => {
     return (
         <table className={styles.root}>
             <tbody>
