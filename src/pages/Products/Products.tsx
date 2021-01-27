@@ -1,16 +1,8 @@
-import React, {
-    FunctionComponent,
-    Suspense,
-    useCallback,
-    useEffect,
-    useMemo,
-    useState
-} from 'react'
+import React, { FunctionComponent, useCallback, useEffect, useMemo, useState } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
 import { Pagination } from '../../components/Products/Pagination'
 import { ProductFilters } from '../../components/Products/ProductFilters'
 import { ProductList } from '../../components/Products/ProductList'
-import { Loader } from '../../components/UI/Loader'
 import { getComponentsUrl, ITEMS_PER_PAGE } from '../../constants'
 import { useIsMounted } from '../../hooks/useIsMounted'
 import { Error } from '../../types/Error'

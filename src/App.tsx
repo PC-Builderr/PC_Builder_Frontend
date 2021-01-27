@@ -24,8 +24,6 @@ export const App: FunctionComponent = () => {
 
     const { pathname } = useLocation<Location>()
 
-    const { items } = useCart()
-
     return (
         <Layout>
             <Suspense fallback={<Loader />}>
@@ -42,16 +40,12 @@ export const App: FunctionComponent = () => {
                     <Route path='/pc-builder' exact>
                         <Builder />
                     </Route>
-                    {items.length ? (
-                        <>
-                            <Route path='/cart' exact>
-                                <Cart />
-                            </Route>
-                            <Route path='/checkout' exact>
-                                <Checkout />
-                            </Route>
-                        </>
-                    ) : null}
+                    <Route path='/cart' exact>
+                        <Cart />
+                    </Route>
+                    <Route path='/checkout' exact>
+                        <Checkout />
+                    </Route>
                     <Route path='/profile' exact>
                         <Profile />
                     </Route>

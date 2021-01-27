@@ -1,4 +1,5 @@
 import React, { FunctionComponent, useCallback, useEffect, useState } from 'react'
+import { Link, Redirect } from 'react-router-dom'
 import { PRODUCTS_API_URL } from '../../constants'
 import { useCart } from '../../hooks/useCart'
 import { CartItem } from '../../types/CartEntry'
@@ -49,12 +50,17 @@ export const Cart: FunctionComponent = () => {
         fetchData()
     }, [fetchData])
 
+    if (!items.length) {
+        return <Redirect to='/' />
+    }
+
     return (
         <div className={styles.root}>
             <h3>Cart</h3>
             <h1>{total}лв.</h1>
             <pre>{JSON.stringify(items, null, 2)}</pre>
             {data && <pre>{JSON.stringify(data, null, 2)}</pre>}
+            <Link to='/checkout'>Checkout</Link>
         </div>
     )
 }

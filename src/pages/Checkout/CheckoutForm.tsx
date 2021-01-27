@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, FormEvent } from 'react'
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import { StripeCardElementChangeEvent } from '@stripe/stripe-js'
 import { Button } from '../../components/UI/Button/Button'
+import { useCart } from '../../hooks/useCart'
 
 const cardStyle = {
     style: {
@@ -22,13 +23,16 @@ const cardStyle = {
 }
 
 export default function CheckoutForm() {
+    const stripe = useStripe()
+    const elements = useElements()
+
+    const { items } = useCart()
+
     const [succeeded, setSucceeded] = useState<boolean>(false)
     const [error, setError] = useState<string | null>(null)
     const [processing, setProcessing] = useState<boolean>(false)
     const [disabled, setDisabled] = useState<boolean>(true)
     const [clientSecret, setClientSecret] = useState<string>('')
-    const stripe = useStripe()
-    const elements = useElements()
 
     const getClientSecret = useCallback(async () => {
         const response: Response = await fetch(
@@ -38,13 +42,13 @@ export default function CheckoutForm() {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({})
+                body: JSON.stringify(items)
             }
         )
         const data = await response.json()
 
         setClientSecret(data.clientSecret)
-    }, [])
+    }, [items])
 
     const handleChange = useCallback(async (event: StripeCardElementChangeEvent) => {
         setDisabled(event.empty)

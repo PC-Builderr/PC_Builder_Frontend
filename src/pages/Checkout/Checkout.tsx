@@ -3,12 +3,18 @@ import { loadStripe, Stripe } from '@stripe/stripe-js'
 import React, { FunctionComponent } from 'react'
 import CheckoutForm from './CheckoutForm'
 import styles from './Checkout.module.scss'
+import { useCart } from '../../hooks/useCart'
+import { Redirect } from 'react-router-dom'
 
-const promise: Promise<Stripe | null> = loadStripe(
-    'pk_test_51IDzvXLItdnTKPnLxoHEJu1RG5oJ8Z0bv22oFujCg9dZmJcP8yolTRp9B2vwCoiDDXWRUH3YlQJWws3jrk8RN6QN004zT80y2f'
-)
+const promise: Promise<Stripe | null> = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY ?? '')
 
 export const Checkout: FunctionComponent = props => {
+    const { items } = useCart()
+
+    if (!items.length) {
+        return <Redirect to='/' />
+    }
+
     return (
         <div className={styles.root}>
             Checkout
