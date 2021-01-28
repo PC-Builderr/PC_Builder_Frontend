@@ -21,8 +21,8 @@ export const NavBar: FunctionComponent<Props> = props => {
 
     const { authState, logout } = useLogout()
 
-    const itemsQuantity: number = items.reduce(
-        (itemsQuantity: number, item: CartItem): number => itemsQuantity + item.quantity,
+    const quantity: number = items.reduce(
+        (quantity: number, item: CartItem): number => quantity + item.quantity,
         0
     )
 
@@ -56,15 +56,15 @@ export const NavBar: FunctionComponent<Props> = props => {
                 <SearchInput />
                 <WithMediaQuery maxWidth={580}>
                     <ul>
-                        {itemsQuantity ? (
+                        {quantity ? (
                             <li className={styles.cartContainer}>
                                 <Link className={styles.cart} to='/cart'>
                                     <RiShoppingCartLine />
-                                    <span>{itemsQuantity}</span>
+                                    <span>{quantity}</span>
                                 </Link>
                             </li>
                         ) : null}
-                        {authState?.userId ? (
+                        {authState ? (
                             <DropDown label='Profile'>
                                 <Link to='/profile'>Profile</Link>
                                 <button onClick={logout}>Logout</button>

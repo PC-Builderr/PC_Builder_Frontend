@@ -37,34 +37,9 @@ export const App: FunctionComponent = () => {
                     <Route path='/' exact>
                         <Home />
                     </Route>
-                    {!authState ? (
-                        <Route path='/sign-in' exact>
-                            <SignIn />
-                        </Route>
-                    ) : null}
-                    {!authState ? (
-                        <Route path='/sign-up' exact>
-                            <SignUp />
-                        </Route>
-                    ) : null}
                     <Route path='/pc-builder' exact>
                         <Builder />
                     </Route>
-                    {items ? (
-                        <Route path='/cart' exact>
-                            <Cart />
-                        </Route>
-                    ) : null}
-                    {items ? (
-                        <Route path='/checkout' exact>
-                            <Checkout />
-                        </Route>
-                    ) : null}
-                    {authState ? (
-                        <Route path='/profile' exact>
-                            <Profile />
-                        </Route>
-                    ) : null}
                     <Route path='/products' exact>
                         <SearchResult />
                     </Route>
@@ -74,6 +49,27 @@ export const App: FunctionComponent = () => {
                     <Route path='/products/:type/:id' exact>
                         <Product />
                     </Route>
+                    <Route path='/sign-in' exact>
+                        <SignIn />
+                    </Route>
+                    <Route path='/sign-up' exact>
+                        <SignUp />
+                    </Route>
+                    {items.length ? (
+                        <Route path='/cart' exact>
+                            <Cart />
+                        </Route>
+                    ) : null}
+                    {items.length ? (
+                        <Route path='/checkout' exact>
+                            <Checkout />
+                        </Route>
+                    ) : null}
+                    {authState ? (
+                        <Route path='/profile' exact>
+                            <Profile />
+                        </Route>
+                    ) : null}
                     <Route path='/error'>
                         <Error />
                     </Route>

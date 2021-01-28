@@ -1,0 +1,31 @@
+.root {
+    max-height: 6rem;
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    border: 1px solid #e3f4fd;
+
+    & > img {
+        display: block;
+        width: 5rem;
+        height: 4rem;
+        object-fit: cover;
+    }
+
+    & > span {
+        white-space: nowrap;
+        margin-left: 0.5rem;
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+
+    & > a {
+        font-size: 0.85rem;
+        color: #2d86ff;
+        padding: 0 0.75rem;
+    }
+    & > h4 {
+        color: #2e425a;
+        height: fit-content;
+    }
+}

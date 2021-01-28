@@ -7,6 +7,7 @@ import { getComponentsUrl, ITEMS_PER_PAGE } from '../../constants'
 import { useIsMounted } from '../../hooks/useIsMounted'
 import { Error } from '../../types/Error'
 import { ProductsPage } from '../../types/params/ProductsPage'
+import { Product } from '../../types/Product'
 import { ProductArrayResponse } from '../../types/ProductArrayResponse'
 import styles from './Products.module.scss'
 
@@ -15,7 +16,8 @@ export const Products: FunctionComponent = () => {
 
     const { type } = useParams<ProductsPage>()
 
-    const [data, setData] = useState<ProductArrayResponse | null>(null)
+    const [products, setProducts] = useState<Product[] | null>(null)
+    const [total, setTotal] = useState<number | null>(null)
     const [error, setError] = useState<Error | null>(null)
     const [loading, setLoading] = useState<boolean>(false)
     const [filters, setFilters] = useState({})
@@ -42,18 +44,20 @@ export const Products: FunctionComponent = () => {
             })
         })
 
-        const resData = await response.json()
+        const data = await response.json()
 
         if (!isMounted.current) return
 
         if (!response.ok) {
-            setError(resData)
-            setData(null)
+            setError(data)
+            setProducts(null)
+            setTotal(null)
             setLoading(false)
             return
         }
 
-        setData(resData)
+        setProducts(data.products)
+        setTotal(data.total)
         setLoading(false)
     }, [type, filters, page, isMounted])
 
@@ -65,8 +69,8 @@ export const Products: FunctionComponent = () => {
         <div className={styles.root}>
             <ProductFilters type={type} filters={filters} onChange={setFilters} />
             {error && <pre>{JSON.stringify(error, null, 2)}</pre>}
-            {data && !loading && <ProductList products={data.products} />}
-            {data && <Pagination count={data.total} />}
+            {products && !loading && <ProductList products={products} />}
+            {total && <Pagination count={total} />}
         </div>
     )
 }

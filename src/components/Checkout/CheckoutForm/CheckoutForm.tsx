@@ -1,7 +1,18 @@
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js'
 import { StripeCardElementChangeEvent, StripeCardElementOptions } from '@stripe/stripe-js'
-import React, { FormEvent, FunctionComponent, useCallback, useEffect, useState } from 'react'
+import React, {
+    FormEvent,
+    FunctionComponent,
+    useCallback,
+    useContext,
+    useEffect,
+    useState
+} from 'react'
 import { useHistory } from 'react-router-dom'
+import { AuthContext } from '../../../context/Auth/AuthContext'
+import { AuthContextInterface } from '../../../context/Auth/AuthContext.interface'
+import { CartContextInterface } from '../../../context/Cart/CartContectInterface'
+import { CartContext } from '../../../context/Cart/CartContext'
 import { useCart } from '../../../hooks/useCart'
 import { Button } from '../../UI/Button/Button'
 import { Label } from '../../UI/Label'
@@ -34,10 +45,7 @@ export const CheckoutForm: FunctionComponent = () => {
 
     const history = useHistory()
 
-    const {
-        items,
-        methods: { clearCart }
-    } = useCart()
+    const { items, setItems } = useContext<CartContextInterface>(CartContext)
 
     const [error, setError] = useState<string | null>(null)
     const [processing, setProcessing] = useState<boolean>(false)
@@ -86,11 +94,11 @@ export const CheckoutForm: FunctionComponent = () => {
                 setProcessing(false)
                 return
             }
-            clearCart()
+            setItems([])
             setProcessing(false)
             history.push('/')
         },
-        [clientSecret, elements, stripe, clearCart, history]
+        [clientSecret, elements, stripe, history, setItems]
     )
 
     useEffect(() => {

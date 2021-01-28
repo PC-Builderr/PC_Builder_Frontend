@@ -1,25 +1,19 @@
-import React, {
-    FunctionComponent,
-    Suspense,
-    useCallback,
-    useEffect,
-    useMemo,
-    useState
-} from 'react'
+import React, { FunctionComponent, useCallback, useEffect, useMemo, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { Pagination } from '../../components/Products/Pagination'
 import { ProductFilters } from '../../components/Products/ProductFilters'
 import { ProductList } from '../../components/Products/ProductList'
-import { Loader } from '../../components/UI/Loader'
 import { ITEMS_PER_PAGE, PRODUCTS_API_URL } from '../../constants'
 import { useIsMounted } from '../../hooks/useIsMounted'
+import { Product } from '../../types/Product'
 import { ProductArrayResponse } from '../../types/ProductArrayResponse'
 import styles from '../Products/Products.module.scss'
 
 export const SearchResult: FunctionComponent = () => {
     const { search } = useLocation<Location>()
 
-    const [data, setData] = useState<ProductArrayResponse | null>(null)
+    const [products, setProducts] = useState<Product[] | null>(null)
+    const [total, setTotal] = useState<number | null>(null)
     const [error, setError] = useState<Error | null>(null)
     const [loading, setLoading] = useState<boolean>(false)
     const [filters, setFilters] = useState({})
@@ -45,18 +39,20 @@ export const SearchResult: FunctionComponent = () => {
 
         const response = await fetch(`${PRODUCTS_API_URL}?${params}`)
 
-        const resData = await response.json()
+        const data = await response.json()
 
         if (!isMounted.current) return
 
         if (!response.ok) {
-            setError(resData)
-            setData(null)
+            setError(data)
+            setProducts(null)
+            setTotal(null)
             setLoading(false)
             return
         }
 
-        setData(resData)
+        setProducts(data.products)
+        setTotal(data.total)
         setLoading(false)
     }, [isMounted, params])
 
@@ -68,8 +64,8 @@ export const SearchResult: FunctionComponent = () => {
         <div className={styles.root}>
             <ProductFilters type={''} filters={filters} onChange={setFilters} />
             {error && <pre>{JSON.stringify(error, null, 2)}</pre>}
-            {data && !loading && <ProductList products={data.products} />}
-            {data && <Pagination count={data.total} />}
+            {products && !loading && <ProductList products={products} />}
+            {total && <Pagination count={total} />}
         </div>
     )
 }

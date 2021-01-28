@@ -1,6 +1,6 @@
 import decode from 'jwt-decode'
 import { useCallback, useContext, useEffect, useState } from 'react'
-import { ONE_SECOND_IN_MS, SERVER_ERROR, CREDENTIALS_ERROR, SIGN_UP_API_URL } from '../../constants'
+import { CREDENTIALS_ERROR, ONE_SECOND_IN_MS, SERVER_ERROR, SIGN_UP_API_URL } from '../../constants'
 import { AuthContext } from '../../context/Auth/AuthContext'
 import { AuthContextInterface } from '../../context/Auth/AuthContext.interface'
 import { AuthContextState } from '../../context/Auth/AuthContextState'

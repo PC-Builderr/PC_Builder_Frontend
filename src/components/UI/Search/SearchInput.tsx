@@ -6,7 +6,7 @@ import { PRODUCTS_API_URL } from '../../../constants'
 import { useClickAway } from '../../../hooks/useClickAway'
 import { Product } from '../../../types/Product'
 import { ProductArrayResponse } from '../../../types/ProductArrayResponse'
-import { MobileProductCard } from '../../Products/ProductCard/MobileProductCart'
+import { MobileProductCard } from '../../Products/ProductCard/MobileProductCard'
 import { NotFound } from './NotFound'
 import styles from './SearchInput.module.scss'
 
@@ -19,20 +19,22 @@ export const SearchInput: FunctionComponent = () => {
     const location = useLocation()
 
     const [search, setSearch] = useState<string>('')
-    const [data, setData] = useState<ProductArrayResponse | null>(null)
+    const [products, setProducts] = useState<Product[] | null>(null)
+    const [total, setTotal] = useState<number | null>(null)
     const [error, setError] = useState<boolean>(false)
     const [loading, setLoading] = useState<boolean>(false)
 
     const { isOpen, close, open } = useClickAway()
 
     const fetchData = useCallback(async () => {
-        setData(null)
+        setTotal(null)
+        setProducts(null)
         setError(false)
         setLoading(true)
 
         const response = await fetch(`${PRODUCTS_API_URL}?${params.toString()}`)
 
-        const resData = await response.json()
+        const data: ProductArrayResponse = await response.json()
 
         if (!response.ok) {
             setError(true)
@@ -40,7 +42,8 @@ export const SearchInput: FunctionComponent = () => {
             return
         }
 
-        setData(resData)
+        setTotal(data.total)
+        setProducts(data.products)
         setLoading(false)
     }, [])
 
@@ -85,19 +88,15 @@ export const SearchInput: FunctionComponent = () => {
             {loading && <BiLoaderAlt className={styles.spinner} />}
             {isOpen && (
                 <ul onClick={close}>
-                    {data && (
-                        <>
-                            {data.products.map((product: Product) => (
-                                <li key={product.id}>
-                                    <MobileProductCard product={product} />
-                                </li>
-                            ))}
-                            <li className={styles.allProducts}>
-                                <Link to={`/products?search=${search}`}>
-                                    See all {data.total} results.
-                                </Link>
-                            </li>
-                        </>
+                    {products?.map((product: Product) => (
+                        <li key={product.id}>
+                            <MobileProductCard product={product} />
+                        </li>
+                    ))}
+                    {total && (
+                        <li className={styles.allProducts}>
+                            <Link to={`/products?search=${search}`}>See all {total} results.</Link>
+                        </li>
                     )}
                     {error && <NotFound />}
                 </ul>

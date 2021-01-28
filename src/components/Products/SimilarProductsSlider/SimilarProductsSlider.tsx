@@ -17,7 +17,7 @@ const urlSearchParams: URLSearchParams = new URLSearchParams([
 ])
 
 export const SimilarProductsSlider: FunctionComponent<Props> = ({ search }) => {
-    const [data, setData] = useState<ProductArrayResponse | null>(null)
+    const [products, setProducts] = useState<Product[] | null>(null)
     const [disable, setDisable] = useState<boolean>(false)
     const [index, setIndex] = useState<number>(0)
 
@@ -28,15 +28,15 @@ export const SimilarProductsSlider: FunctionComponent<Props> = ({ search }) => {
     const fetchData = useCallback(async () => {
         const response = await fetch(`${PRODUCTS_API_URL}?${urlSearchParams}`)
         if (!response.ok) {
-            setData(null)
+            setProducts(null)
             return
         }
 
         if (!isMounted.current) return
 
-        const resData = await response.json()
+        const data: ProductArrayResponse = await response.json()
 
-        setData(resData)
+        setProducts(data.products)
     }, [isMounted])
 
     const clickHandler = useCallback((index: number) => {
@@ -53,11 +53,11 @@ export const SimilarProductsSlider: FunctionComponent<Props> = ({ search }) => {
     useEffect(() => {
         setDisable(
             index * (rootRef.current?.firstElementChild?.firstElementChild?.clientWidth || 0) >
-                (data?.products.length || 0) *
+                (products?.length || 0) *
                     (rootRef.current?.firstElementChild?.firstElementChild?.clientWidth || 0) -
                     (rootRef.current?.clientWidth || 0)
         )
-    }, [index, rootRef, data])
+    }, [index, rootRef, products])
 
     return (
         <div className={styles.root} ref={rootRef}>
@@ -73,7 +73,7 @@ export const SimilarProductsSlider: FunctionComponent<Props> = ({ search }) => {
                         }px)`
                     }}
                 >
-                    {data?.products.map((product: Product) => (
+                    {products?.map((product: Product) => (
                         <SliderItem key={product.id} product={product} />
                     ))}
                 </ul>

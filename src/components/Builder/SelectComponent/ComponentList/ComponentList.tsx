@@ -1,7 +1,8 @@
 import React, { FunctionComponent, useCallback, useEffect, useState } from 'react'
 import { getComponentsUrl, ITEMS_PER_PAGE } from '../../../../constants'
 import { useIsMounted } from '../../../../hooks/useIsMounted'
-import { ProductArrayResponse } from '../../../../types/ProductArrayResponse'
+import { Error } from '../../../../types/Error'
+import { Product } from '../../../../types/Product'
 import { ProductList } from '../../../Products/ProductList'
 import styles from './ComponentList.module.scss'
 
@@ -12,7 +13,7 @@ interface Props {
 export const ComponentList: FunctionComponent<Props> = props => {
     const { type } = props
 
-    const [data, setData] = useState<ProductArrayResponse | null>(null)
+    const [products, setProducts] = useState<Product[] | null>(null)
     const [error, setError] = useState<Error | null>(null)
     const [loading, setLoading] = useState<boolean>(false)
     const [filters, setFilters] = useState({})
@@ -35,18 +36,18 @@ export const ComponentList: FunctionComponent<Props> = props => {
             })
         })
 
-        const resData = await response.json()
+        const data = await response.json()
 
         if (!isMounted.current) return
 
         if (!response.ok) {
-            setError(resData)
-            setData(null)
+            setError(data)
+            setProducts(null)
             setLoading(false)
             return
         }
 
-        setData(resData)
+        setProducts(data.products)
         setLoading(false)
     }, [type, filters, isMounted])
 
@@ -56,7 +57,7 @@ export const ComponentList: FunctionComponent<Props> = props => {
 
     return (
         <div className={styles.root}>
-            {data && !loading && <ProductList products={data.products} />}
+            {products && !loading && <ProductList products={products} />}
         </div>
     )
 }

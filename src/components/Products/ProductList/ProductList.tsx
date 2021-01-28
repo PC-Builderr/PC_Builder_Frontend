@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react'
 import { WithMediaQuery } from '../../../hoc/WithMediaQuery'
 import { Product } from '../../../types/Product'
 import { ProductCard } from '../ProductCard'
-import { MobileProductCard } from '../ProductCard/MobileProductCart'
+import { MobileProductCard } from '../ProductCard/MobileProductCard'
 import styles from './ProductList.module.scss'
 
 interface Props {

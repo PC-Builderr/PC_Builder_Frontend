@@ -7,7 +7,6 @@ interface Methods {
     addItem: (item: CartItem) => void
     removeItem: (id: number) => void
     mutateItem: (item: CartItem) => void
-    clearCart: () => void
 }
 
 interface CartState {
@@ -52,9 +51,5 @@ export const useCart = (): CartState => {
         [setItems]
     )
 
-    const clearCart = useCallback(() => {
-        setItems([])
-    }, [setItems])
-
-    return { items, methods: { addItem, removeItem, mutateItem, clearCart } }
+    return { items, methods: { addItem, removeItem, mutateItem } }
 }
