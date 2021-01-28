@@ -10,7 +10,7 @@ import styles from '../SignIn/SignIn.module.scss'
 export const SignUp: FunctionComponent = () => {
     const {
         methods: { changeHandler, authenticate, focusHandler },
-        state: { canSubmit, credentials, authState, credentialsErrors, fetchError }
+        state: { canSubmit, credentials, authState, credentialsErrors, fetchError, loading }
     } = useUserAuth<SignUpCredentials>(SIGN_UP_API_URL, [
         { name: 'name', value: '' },
         { name: 'email', value: '' },
@@ -78,7 +78,7 @@ export const SignUp: FunctionComponent = () => {
                     }
                     onFocus={focusHandler}
                 />
-                <Button disabled={!canSubmit} type='submit'>
+                <Button disabled={!canSubmit} loading={String(loading)} type='submit'>
                     Sign Up
                 </Button>
                 <p>

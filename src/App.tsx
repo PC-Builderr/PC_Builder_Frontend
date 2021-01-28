@@ -1,7 +1,9 @@
-import React, { FunctionComponent, lazy, LazyExoticComponent, Suspense } from 'react'
+import React, { FunctionComponent, lazy, LazyExoticComponent, Suspense, useContext } from 'react'
 import { Route, Switch, useLocation } from 'react-router-dom'
 import { Layout } from './components/Layout'
 import { Loader } from './components/UI/Loader'
+import { AuthContext } from './context/Auth/AuthContext'
+import { AuthContextInterface } from './context/Auth/AuthContext.interface'
 import { useRefreshToken } from './hooks/Auth/useRefreshToken'
 import { useCart } from './hooks/useCart'
 
@@ -22,6 +24,10 @@ const SearchResult: LazyExoticComponent<FunctionComponent> = lazy(
 export const App: FunctionComponent = () => {
     useRefreshToken()
 
+    const { authState } = useContext<AuthContextInterface>(AuthContext)
+
+    const { items } = useCart()
+
     const { pathname } = useLocation<Location>()
 
     return (
@@ -31,24 +37,34 @@ export const App: FunctionComponent = () => {
                     <Route path='/' exact>
                         <Home />
                     </Route>
-                    <Route path='/sign-in' exact>
-                        <SignIn />
-                    </Route>
-                    <Route path='/sign-up' exact>
-                        <SignUp />
-                    </Route>
+                    {!authState ? (
+                        <Route path='/sign-in' exact>
+                            <SignIn />
+                        </Route>
+                    ) : null}
+                    {!authState ? (
+                        <Route path='/sign-up' exact>
+                            <SignUp />
+                        </Route>
+                    ) : null}
                     <Route path='/pc-builder' exact>
                         <Builder />
                     </Route>
-                    <Route path='/cart' exact>
-                        <Cart />
-                    </Route>
-                    <Route path='/checkout' exact>
-                        <Checkout />
-                    </Route>
-                    <Route path='/profile' exact>
-                        <Profile />
-                    </Route>
+                    {items ? (
+                        <Route path='/cart' exact>
+                            <Cart />
+                        </Route>
+                    ) : null}
+                    {items ? (
+                        <Route path='/checkout' exact>
+                            <Checkout />
+                        </Route>
+                    ) : null}
+                    {authState ? (
+                        <Route path='/profile' exact>
+                            <Profile />
+                        </Route>
+                    ) : null}
                     <Route path='/products' exact>
                         <SearchResult />
                     </Route>

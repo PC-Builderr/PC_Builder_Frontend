@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useCallback, useEffect, useState } from 'react'
-import { Link, Redirect } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { PRODUCTS_API_URL } from '../../constants'
 import { useCart } from '../../hooks/useCart'
 import { CartItem } from '../../types/CartEntry'
@@ -49,10 +49,6 @@ export const Cart: FunctionComponent = () => {
     useEffect(() => {
         fetchData()
     }, [fetchData])
-
-    if (!items.length) {
-        return <Redirect to='/' />
-    }
 
     return (
         <div className={styles.root}>

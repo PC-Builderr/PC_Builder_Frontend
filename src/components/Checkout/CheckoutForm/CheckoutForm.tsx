@@ -1,34 +1,44 @@
-import React, { useState, useEffect, useCallback, FormEvent } from 'react'
-import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
-import { StripeCardElementChangeEvent } from '@stripe/stripe-js'
-import { Button } from '../../components/UI/Button/Button'
-import { useCart } from '../../hooks/useCart'
+import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js'
+import { StripeCardElementChangeEvent, StripeCardElementOptions } from '@stripe/stripe-js'
+import React, { FormEvent, FunctionComponent, useCallback, useEffect, useState } from 'react'
+import { useHistory } from 'react-router-dom'
+import { useCart } from '../../../hooks/useCart'
+import { Button } from '../../UI/Button/Button'
+import { Label } from '../../UI/Label'
+import styles from './CheckoutForm.module.scss'
 
-const cardStyle = {
+const cardStyle: StripeCardElementOptions = {
     style: {
         base: {
-            color: '#32325d',
-            fontFamily: 'Arial, sans-serif',
-            fontSmoothing: 'antialiased',
+            color: '#18293c',
+            fontFamily: 'Montserrat, sans-serif',
             fontSize: '16px',
+            iconColor: '#18293c',
+
             '::placeholder': {
-                color: '#32325d'
+                color: '#9ea9b7',
+                fontSize: '16px'
             }
         },
         invalid: {
-            color: '#fa755a',
-            iconColor: '#fa755a'
+            color: 'red',
+            iconColor: 'red'
         }
-    }
+    },
+    hidePostalCode: true
 }
 
-export default function CheckoutForm() {
+export const CheckoutForm: FunctionComponent = () => {
     const stripe = useStripe()
     const elements = useElements()
 
-    const { items } = useCart()
+    const history = useHistory()
 
-    const [succeeded, setSucceeded] = useState<boolean>(false)
+    const {
+        items,
+        methods: { clearCart }
+    } = useCart()
+
     const [error, setError] = useState<string | null>(null)
     const [processing, setProcessing] = useState<boolean>(false)
     const [disabled, setDisabled] = useState<boolean>(true)
@@ -42,7 +52,7 @@ export default function CheckoutForm() {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(items)
+                body: JSON.stringify({ items })
             }
         )
         const data = await response.json()
@@ -76,11 +86,11 @@ export default function CheckoutForm() {
                 setProcessing(false)
                 return
             }
-
+            clearCart()
             setProcessing(false)
-            setSucceeded(true)
+            history.push('/')
         },
-        [clientSecret, elements, stripe]
+        [clientSecret, elements, stripe, clearCart, history]
     )
 
     useEffect(() => {
@@ -88,26 +98,19 @@ export default function CheckoutForm() {
     }, [getClientSecret])
 
     return (
-        <form id='payment-form' onSubmit={handleSubmit}>
-            <CardElement id='card-element' options={cardStyle} onChange={handleChange} />
-            <Button disabled={processing || disabled || succeeded} type='submit'>
-                {processing ? 'Processing' : 'Pay'}
+        <form className={styles.root} onSubmit={handleSubmit}>
+            <Label error={error || ''} htmlFor='card-info'>
+                Card Information*
+            </Label>
+            <CardElement id='card-info' options={cardStyle} onChange={handleChange} />
+            {error && <span>{error}</span>}
+            <Button
+                disabled={processing || disabled || Boolean(error)}
+                loading={String(processing)}
+                type='submit'
+            >
+                Pay Now
             </Button>
-            {error && (
-                <div className='card-error' role='alert'>
-                    {error}
-                </div>
-            )}
-            {succeeded && (
-                <p className={succeeded ? 'result-message' : 'result-message hidden'}>
-                    Payment succeeded, see the result in your
-                    <a href={`https://dashboard.stripe.com/test/payments`}>
-                        {' '}
-                        Stripe dashboard.
-                    </a>{' '}
-                    Refresh the page to pay again.
-                </p>
-            )}
         </form>
     )
 }

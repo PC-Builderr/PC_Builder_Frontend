@@ -1,6 +1,6 @@
 import decode from 'jwt-decode'
 import { useCallback, useContext, useEffect, useState } from 'react'
-import { ONE_SECOND_IN_MS, SERVER_ERROR, CREDENTIALS_ERROR } from '../../constants'
+import { ONE_SECOND_IN_MS, SERVER_ERROR, CREDENTIALS_ERROR, SIGN_UP_API_URL } from '../../constants'
 import { AuthContext } from '../../context/Auth/AuthContext'
 import { AuthContextInterface } from '../../context/Auth/AuthContext.interface'
 import { AuthContextState } from '../../context/Auth/AuthContextState'
@@ -18,6 +18,7 @@ interface UserAuth<T> {
 interface State<T> {
     authState: AuthContextState | null
     credentials: T
+    loading: boolean
     canSubmit: boolean
     credentialsErrors: string[]
     fetchError: string | null
@@ -75,11 +76,13 @@ export const useUserAuth = <T>(url: string, initialCredentials: Credential[]): U
 
             event.preventDefault()
 
-            const errors: string[] = validateCredentials(credentials)
-            if (errors?.length) {
-                setCredentialsErrors(errors)
-                setLoading(false)
-                return
+            if (url === SIGN_UP_API_URL) {
+                const errors: string[] = validateCredentials(credentials)
+                if (errors?.length) {
+                    setCredentialsErrors(errors)
+                    setLoading(false)
+                    return
+                }
             }
 
             const response = await fetch(url, {
@@ -155,6 +158,7 @@ export const useUserAuth = <T>(url: string, initialCredentials: Credential[]): U
                 }),
                 {}
             ),
+            loading,
             canSubmit,
             credentialsErrors,
             fetchError

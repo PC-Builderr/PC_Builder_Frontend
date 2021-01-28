@@ -1,4 +1,5 @@
 import React, { FunctionComponent } from 'react'
+import { BiLoaderAlt } from 'react-icons/bi'
 import { ChangeHandler, ClickHandler } from '../../../types/Handlers'
 import styles from './Button.module.scss'
 
@@ -9,12 +10,19 @@ interface Props {
     className?: string
     onClick?: ClickHandler<HTMLButtonElement>
     children: React.ReactNode
+    loading?: string
 }
 
 export const Button: FunctionComponent<Props> = props => {
     return (
         <button className={[styles.root, props.className].join(' ')} {...props}>
-            {props.children}
+            {props.loading === 'true' ? (
+                <>
+                    Processing <BiLoaderAlt className={styles.spinner} />
+                </>
+            ) : (
+                props.children
+            )}
         </button>
     )
 }

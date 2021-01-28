@@ -17,11 +17,40 @@
     }
 
     &:hover {
-        background-color: darken($color: #2d86ff, $amount: 2);
+        background-color: darken($color: #2d86ff, $amount: 2%);
     }
 
     &:disabled {
-        opacity: 0.6;
         cursor: not-allowed;
+    }
+}
+
+.spinner {
+    -webkit-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    transform: translateZ(0);
+    margin-left: 0.6rem;
+    -webkit-animation: load8 0.8s infinite linear;
+    animation: load8 0.8s infinite linear;
+}
+
+@-webkit-keyframes load8 {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+@keyframes load8 {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
     }
 }

@@ -3,14 +3,16 @@ import { CartContextInterface } from '../../context/Cart/CartContectInterface'
 import { CartContext } from '../../context/Cart/CartContext'
 import { CartItem } from '../../types/CartEntry'
 
+interface Methods {
+    addItem: (item: CartItem) => void
+    removeItem: (id: number) => void
+    mutateItem: (item: CartItem) => void
+    clearCart: () => void
+}
+
 interface CartState {
     items: CartItem[]
-
-    methods: {
-        addItem: (item: CartItem) => void
-        removeItem: (id: number) => void
-        mutateItem: (item: CartItem) => void
-    }
+    methods: Methods
 }
 
 export const useCart = (): CartState => {
@@ -50,5 +52,9 @@ export const useCart = (): CartState => {
         [setItems]
     )
 
-    return { items, methods: { addItem, removeItem, mutateItem } }
+    const clearCart = useCallback(() => {
+        setItems([])
+    }, [setItems])
+
+    return { items, methods: { addItem, removeItem, mutateItem, clearCart } }
 }

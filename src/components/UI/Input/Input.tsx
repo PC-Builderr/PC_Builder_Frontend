@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import { ChangeHandler, FocusHandler } from '../../../types/Handlers'
+import { Label } from '../Label'
 import styles from './Input.module.scss'
 
 interface Props {
@@ -18,13 +19,9 @@ export const Input: FunctionComponent<Props> = props => {
     return (
         <>
             {props.label && (
-                <label
-                    className={styles.label}
-                    style={props.error ? { color: 'red' } : undefined}
-                    htmlFor={props.name}
-                >
+                <Label error={props.error} htmlFor={props.name}>
                     {props.label}
-                </label>
+                </Label>
             )}
             <input
                 className={styles.root}

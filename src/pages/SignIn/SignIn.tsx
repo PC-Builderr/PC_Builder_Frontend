@@ -10,7 +10,7 @@ import styles from './SignIn.module.scss'
 export const SignIn: FunctionComponent = () => {
     const {
         methods: { changeHandler, authenticate, focusHandler },
-        state: { canSubmit, credentials, authState, credentialsErrors, fetchError }
+        state: { canSubmit, credentials, authState, fetchError, loading }
     } = useUserAuth<SignInCredentials>(SIGN_IN_API_URL, [
         { name: 'email', value: '' },
         { name: 'password', value: '' }
@@ -38,9 +38,6 @@ export const SignIn: FunctionComponent = () => {
                     name='email'
                     onChange={changeHandler}
                     value={credentials.email}
-                    error={
-                        credentialsErrors.includes('email') ? 'Please provide a valid email.' : ''
-                    }
                     onFocus={focusHandler}
                 />
                 <Input
@@ -49,14 +46,9 @@ export const SignIn: FunctionComponent = () => {
                     name='password'
                     onChange={changeHandler}
                     value={credentials.password}
-                    error={
-                        credentialsErrors.includes('password')
-                            ? 'Password sould have numbers and letters.'
-                            : ''
-                    }
                     onFocus={focusHandler}
                 />
-                <Button disabled={!canSubmit} type='submit'>
+                <Button disabled={!canSubmit} loading={String(loading)} type='submit'>
                     Sign In
                 </Button>
                 <p>
