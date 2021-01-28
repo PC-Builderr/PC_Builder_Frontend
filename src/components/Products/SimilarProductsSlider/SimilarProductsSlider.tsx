@@ -1,9 +1,8 @@
 import React, { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md'
-import { ITEMS_PER_SLIDER, PRODUCTS_API_URL } from '../../../constants'
-import { useIsMounted } from '../../../hooks/useIsMounted'
+import { ITEMS_PER_SLIDER } from '../../../constants'
+import { useFetchSearchResult } from '../../../hooks/HTTP/useFetchSearchResult'
 import { Product } from '../../../types/Product'
-import { ProductArrayResponse } from '../../../types/ProductArrayResponse'
 import styles from './SimilarProductsSlider.module.scss'
 import { SliderItem } from './SliderItem'
 
@@ -17,38 +16,20 @@ const urlSearchParams: URLSearchParams = new URLSearchParams([
 ])
 
 export const SimilarProductsSlider: FunctionComponent<Props> = ({ search }) => {
-    const [products, setProducts] = useState<Product[] | null>(null)
     const [disable, setDisable] = useState<boolean>(false)
     const [index, setIndex] = useState<number>(0)
 
-    const isMounted: React.MutableRefObject<boolean> = useIsMounted()
+    if (search) {
+        urlSearchParams.set('search', search)
+    }
+
+    const { products } = useFetchSearchResult(urlSearchParams.toString())
 
     const rootRef = useRef<HTMLDivElement>(null)
-
-    const fetchData = useCallback(async () => {
-        const response = await fetch(`${PRODUCTS_API_URL}?${urlSearchParams}`)
-        if (!response.ok) {
-            setProducts(null)
-            return
-        }
-
-        if (!isMounted.current) return
-
-        const data: ProductArrayResponse = await response.json()
-
-        setProducts(data.products)
-    }, [isMounted])
 
     const clickHandler = useCallback((index: number) => {
         setIndex((currentIndex: number) => currentIndex + index)
     }, [])
-
-    useEffect(() => {
-        if (!search) return
-
-        urlSearchParams.set('search', search)
-        fetchData()
-    }, [search, fetchData])
 
     useEffect(() => {
         setDisable(

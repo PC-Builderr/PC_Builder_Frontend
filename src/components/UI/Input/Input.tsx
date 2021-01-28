@@ -13,6 +13,11 @@ interface Props {
     label?: string
     required?: boolean
     error?: string
+    list?: string
+    minLength?: number
+    maxLength?: number
+    pattern?: string
+    autoComplete?: string
 }
 
 export const Input: FunctionComponent<Props> = props => {

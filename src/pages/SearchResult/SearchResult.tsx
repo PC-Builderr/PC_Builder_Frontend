@@ -1,26 +1,18 @@
-import React, { FunctionComponent, useCallback, useEffect, useMemo, useState } from 'react'
+import React, { FunctionComponent, useMemo, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { Pagination } from '../../components/Products/Pagination'
 import { ProductFilters } from '../../components/Products/ProductFilters'
 import { ProductList } from '../../components/Products/ProductList'
-import { ITEMS_PER_PAGE, PRODUCTS_API_URL } from '../../constants'
-import { useIsMounted } from '../../hooks/useIsMounted'
-import { Product } from '../../types/Product'
-import { ProductArrayResponse } from '../../types/ProductArrayResponse'
+import { ITEMS_PER_PAGE } from '../../constants'
+import { useFetchSearchResult } from '../../hooks/HTTP/useFetchSearchResult'
 import styles from '../Products/Products.module.scss'
 
 export const SearchResult: FunctionComponent = () => {
     const { search } = useLocation<Location>()
 
-    const [products, setProducts] = useState<Product[] | null>(null)
-    const [total, setTotal] = useState<number | null>(null)
-    const [error, setError] = useState<Error | null>(null)
-    const [loading, setLoading] = useState<boolean>(false)
     const [filters, setFilters] = useState({})
 
-    const isMounted: React.MutableRefObject<boolean> = useIsMounted()
-
-    const params: string = useMemo(() => {
+    const searchParams: string = useMemo(() => {
         const params = new URLSearchParams(search)
 
         if (!params.has('page')) {
@@ -33,32 +25,7 @@ export const SearchResult: FunctionComponent = () => {
         return params.toString()
     }, [search])
 
-    const fetchData = useCallback(async () => {
-        setError(null)
-        setLoading(true)
-
-        const response = await fetch(`${PRODUCTS_API_URL}?${params}`)
-
-        const data = await response.json()
-
-        if (!isMounted.current) return
-
-        if (!response.ok) {
-            setError(data)
-            setProducts(null)
-            setTotal(null)
-            setLoading(false)
-            return
-        }
-
-        setProducts(data.products)
-        setTotal(data.total)
-        setLoading(false)
-    }, [isMounted, params])
-
-    useEffect(() => {
-        fetchData()
-    }, [fetchData])
+    const { error, loading, products, total } = useFetchSearchResult(searchParams)
 
     return (
         <div className={styles.root}>

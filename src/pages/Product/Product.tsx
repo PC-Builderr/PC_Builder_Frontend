@@ -1,43 +1,15 @@
-import React, { FunctionComponent, useCallback, useEffect, useState } from 'react'
+import React, { FunctionComponent } from 'react'
 import { useParams } from 'react-router-dom'
 import { ProductHeroSection } from '../../components/Products/ProductHeroSection'
 import { ProductTable } from '../../components/Products/ProductTable'
 import { SimilarProductsSlider } from '../../components/Products/SimilarProductsSlider'
-import { getFullComponentUrl } from '../../constants'
-import { useIsMounted } from '../../hooks/useIsMounted'
-import { Component } from '../../types/components/Component'
-import { Error } from '../../types/Error'
+import { useFetchComponent } from '../../hooks/HTTP/useFetchComponent'
 import { ProductPage } from '../../types/params/ProductPage'
 
 export const Product: FunctionComponent = () => {
     const { id, type } = useParams<ProductPage>()
 
-    const [component, setComponent] = useState<Component | null>(null)
-    const [error, setError] = useState<Error | null>(null)
-
-    const isMounted: React.MutableRefObject<boolean> = useIsMounted()
-
-    const fetchData = useCallback(async () => {
-        setError(null)
-
-        const response = await fetch(getFullComponentUrl(type, id))
-
-        const resData = await response.json()
-
-        if (!isMounted.current) return
-
-        if (!response.ok) {
-            setComponent(null)
-            setError(resData)
-            return
-        }
-
-        setComponent(resData.component)
-    }, [type, id, isMounted])
-
-    useEffect(() => {
-        fetchData()
-    }, [fetchData])
+    const { component, error } = useFetchComponent(type, id)
 
     return (
         <>
