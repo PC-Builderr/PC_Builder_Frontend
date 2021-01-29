@@ -1,6 +1,6 @@
 import { Elements } from '@stripe/react-stripe-js'
 import { loadStripe, Stripe } from '@stripe/stripe-js'
-import React, { FunctionComponent, useEffect } from 'react'
+import React, { FunctionComponent, useEffect, useState } from 'react'
 import { CheckoutForm } from '../../components/Checkout/CheckoutForm'
 import { CheckoutProductCard } from '../../components/Products/ProductCard/CheckoutProductCard'
 import { Input } from '../../components/UI/Input'
@@ -12,6 +12,8 @@ import styles from './Checkout.module.scss'
 const promise: Promise<Stripe | null> = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY ?? '')
 
 export const Checkout: FunctionComponent = props => {
+    const [shippingPrice, setShippingPrice] = useState<number>(0)
+
     const {
         data: { products, total },
         methods: { populateData, getItemQuantityById }
@@ -25,7 +27,7 @@ export const Checkout: FunctionComponent = props => {
         <div className={styles.root}>
             <h2>Checkout</h2>
             <Elements stripe={promise}>
-                <CheckoutForm />
+                <CheckoutForm setShippingPrice={setShippingPrice} />
             </Elements>
             <Label className={styles.shippingAddress} htmlFor='shipping-address'>
                 Shipping Address
@@ -61,8 +63,16 @@ export const Checkout: FunctionComponent = props => {
                     )
                 })}
                 <li className={styles.total}>
-                    <span>Total Price:</span>
+                    <span>Products Price:</span>
                     <h4>{total}лв.</h4>
+                </li>
+                <li className={styles.total}>
+                    <span>Shipping Price:</span>
+                    <h4>{shippingPrice}лв.</h4>
+                </li>
+                <li className={styles.total}>
+                    <span>Total Price:</span>
+                    <h4>{total + shippingPrice}лв.</h4>
                 </li>
             </ul>
         </div>

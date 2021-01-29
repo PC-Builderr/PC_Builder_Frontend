@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import { Link } from 'react-router-dom'
-import { getFullImageUrl } from '../../../../constants'
+import { GET_FULL_IMAGE_URL } from '../../../../constants'
 import { Product } from '../../../../types/Product'
 import styles from './CheckoutProductCard.module.scss'
 
@@ -12,7 +12,7 @@ interface Props {
 export const CheckoutProductCard: FunctionComponent<Props> = props => {
     return (
         <li className={styles.root}>
-            <img src={getFullImageUrl(props.product.images[0].url)} alt={props.product.name} />
+            <img src={GET_FULL_IMAGE_URL(props.product.images[0].url)} alt={props.product.name} />
             {props.quantity > 1 && <span>{props.quantity} x</span>}
             <Link to={`/products/${props.product.type}/${props.product.id}`}>
                 {props.product.name}

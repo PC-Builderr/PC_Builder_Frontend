@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { getFullComponentUrl } from '../../constants'
+import { GET_FULL_COMPONENT_URL } from '../../constants'
 import { Component } from '../../types/components/Component'
 import { useIsMounted } from '../useIsMounted'
 
@@ -17,7 +17,7 @@ export const useFetchComponent = (type: string, id: string): State => {
     const fetchData = useCallback(async () => {
         setError(null)
 
-        const response = await fetch(getFullComponentUrl(type, id))
+        const response = await fetch(GET_FULL_COMPONENT_URL(type, id))
 
         const resData = await response.json()
 

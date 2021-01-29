@@ -1,6 +1,5 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useLocation } from 'react-router-dom'
-import { ITEMS_PER_PAGE, PRODUCTS_API_URL } from '../../constants'
+import { useCallback, useEffect, useState } from 'react'
+import { PRODUCTS_API_URL } from '../../constants'
 import { Product } from '../../types/Product'
 import { useIsMounted } from '../useIsMounted'
 

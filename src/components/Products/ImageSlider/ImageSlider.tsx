@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useCallback, useRef, useState } from 'react'
-import { getFullImageUrl } from '../../../constants'
+import { GET_FULL_IMAGE_URL } from '../../../constants'
 import { WithMediaQuery } from '../../../hoc/WithMediaQuery'
 import { Image } from '../../../types/Image'
 import styles from './ImageSlider.module.scss'
@@ -31,7 +31,7 @@ export const ImageSlider: FunctionComponent<Props> = props => {
                                     }px)`
                                 }}
                             >
-                                <img src={getFullImageUrl(image.url)} alt='product' />
+                                <img src={GET_FULL_IMAGE_URL(image.url)} alt='product' />
                             </li>
                         ))}
                     </ul>
@@ -42,7 +42,7 @@ export const ImageSlider: FunctionComponent<Props> = props => {
                                 key={image.id}
                                 onClick={clickHandler.bind(null, i)}
                             >
-                                <img src={getFullImageUrl(image.url)} alt='product' />
+                                <img src={GET_FULL_IMAGE_URL(image.url)} alt='product' />
                             </li>
                         ))}
                     </ul>
@@ -50,7 +50,7 @@ export const ImageSlider: FunctionComponent<Props> = props => {
             </WithMediaQuery>
             <WithMediaQuery minWidth={800}>
                 <div className={styles.mobile}>
-                    <img src={getFullImageUrl(props.images[0].url)} alt='product' />
+                    <img src={GET_FULL_IMAGE_URL(props.images[0].url)} alt='product' />
                 </div>
             </WithMediaQuery>
         </>

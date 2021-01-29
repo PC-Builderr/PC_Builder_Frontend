@@ -16,6 +16,8 @@ const urlSearchParams: URLSearchParams = new URLSearchParams([
 ])
 
 export const SimilarProductsSlider: FunctionComponent<Props> = ({ search }) => {
+    const rootRef = useRef<HTMLDivElement>(null)
+
     const [disable, setDisable] = useState<boolean>(false)
     const [index, setIndex] = useState<number>(0)
 
@@ -24,8 +26,6 @@ export const SimilarProductsSlider: FunctionComponent<Props> = ({ search }) => {
     }
 
     const { products } = useFetchSearchResult(urlSearchParams.toString())
-
-    const rootRef = useRef<HTMLDivElement>(null)
 
     const clickHandler = useCallback((index: number) => {
         setIndex((currentIndex: number) => currentIndex + index)

@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import { Link } from 'react-router-dom'
-import { getFullImageUrl } from '../../../../constants'
+import { GET_FULL_IMAGE_URL } from '../../../../constants'
 import { Product } from '../../../../types/Product'
 import styles from './MobileProductCard.module.scss'
 
@@ -12,7 +12,10 @@ export const MobileProductCard: FunctionComponent<Props> = props => {
     return (
         <article className={styles.root}>
             <Link to={`/products/${props.product.type}/${props.product.id}`}>
-                <img src={getFullImageUrl(props.product.images[0].url)} alt={props.product.name} />
+                <img
+                    src={GET_FULL_IMAGE_URL(props.product.images[0].url)}
+                    alt={props.product.name}
+                />
                 <div>
                     <p>{props.product.name}</p>
                     <h3>{props.product.price}лв.</h3>

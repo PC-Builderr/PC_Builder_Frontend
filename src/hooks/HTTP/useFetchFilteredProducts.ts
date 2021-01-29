@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import { getComponentsUrl, ITEMS_PER_PAGE } from '../../constants'
+import { GET_COMPONENTS_URL, ITEMS_PER_PAGE } from '../../constants'
 import { Product } from '../../types/Product'
 import { useIsMounted } from '../useIsMounted'
 
@@ -34,7 +34,7 @@ export const useFetchFilteredProducts = (type: string): { state: State; methods:
         setError(null)
         setLoading(true)
 
-        const response = await fetch(getComponentsUrl(type), {
+        const response = await fetch(GET_COMPONENTS_URL(type), {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

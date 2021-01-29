@@ -15,7 +15,8 @@ export const LOGOUT_API_URL: string = `${process.env.REACT_APP_API_URL}/auth/log
 export const BRANDS_API_URL: string = `${process.env.REACT_APP_API_URL}/brand`
 
 //API routes func
-export const getFullImageUrl = (url: string): string => `${process.env.REACT_APP_API_URL}${url}`
-export const getComponentsUrl = (type: string): string => `${process.env.REACT_APP_API_URL}/${type}`
-export const getFullComponentUrl = (type: string, id: string): string =>
-    `${getComponentsUrl(type)}/${id}`
+export const GET_FULL_IMAGE_URL = (url: string): string => `${process.env.REACT_APP_API_URL}${url}`
+export const GET_COMPONENTS_URL = (type: string): string =>
+    `${process.env.REACT_APP_API_URL}/${type}`
+export const GET_FULL_COMPONENT_URL = (type: string, id: string): string =>
+    `${GET_COMPONENTS_URL(type)}/${id}`
