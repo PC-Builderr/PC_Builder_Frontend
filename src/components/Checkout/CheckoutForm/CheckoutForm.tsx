@@ -100,11 +100,11 @@ export const CheckoutForm: FunctionComponent<Props> = ({ setShippingPrice }) => 
                 setProcessing(false)
                 return
             }
-            setItems([])
             setProcessing(false)
+            setItems([])
             history.replace('/')
         },
-        [clientSecret, elements, stripe, history, setItems]
+        [clientSecret, elements, stripe, setItems, history]
     )
 
     useEffect(() => {

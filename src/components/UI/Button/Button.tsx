@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import { BiLoaderAlt } from 'react-icons/bi'
-import { ChangeHandler, ClickHandler } from '../../../types/Handlers'
+import { ClickHandler } from '../../../types/Handlers'
 import styles from './Button.module.scss'
 
 interface Props {

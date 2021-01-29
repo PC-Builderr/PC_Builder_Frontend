@@ -107,6 +107,10 @@ export const useCart = (): CartState => {
         setTotal(cost)
     }, [items])
 
+    useEffect(() => {
+        localStorage.setItem('cart-items', JSON.stringify(items))
+    }, [items])
+
     return {
         items,
         data: { products, total },
