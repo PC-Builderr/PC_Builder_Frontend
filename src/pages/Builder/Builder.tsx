@@ -1,11 +1,7 @@
 import React, { FunctionComponent, useCallback, useState } from 'react'
 import { SelectComponent } from '../../components/Builder/SelectComponent'
-import { Case } from '../../types/components/Case'
-import { CPU } from '../../types/components/CPU'
-import { GPU } from '../../types/components/GPU'
-import { Motherboard } from '../../types/components/Motherboard'
-import { PSU } from '../../types/components/PSU'
-import { RAM } from '../../types/components/RAM'
+import { SelectCPUComponent } from '../../components/Builder/SelectCPUComponent'
+import { ComputerProps } from '../../types/components/ComputerProps'
 import styles from './Builder.module.scss'
 
 interface Props {}
@@ -17,22 +13,18 @@ export const Builder: FunctionComponent<Props> = props => {
         setCurrentType(type)
     }, [])
 
-    const [cpu, setCPU] = useState<CPU | null>(null)
-    const [gpu, setGPU] = useState<GPU | null>(null)
-    const [psu, setPSU] = useState<PSU | null>(null)
-    const [motherboard, setMotherboard] = useState<Motherboard | null>(null)
-    const [storage, setStorage] = useState<Storage | null>(null)
-    const [chassis, setChassis] = useState<Case | null>(null)
-    const [ram, setRAM] = useState<RAM | null>(null)
+    const [computerProps, setComputerProps] = useState<ComputerProps>({})
 
     return (
         <div className={styles.root}>
             <h1>Builder</h1>
-            <SelectComponent
+            <SelectCPUComponent
+                setComputerProps={setComputerProps}
+                computerProps={computerProps}
                 changeTypeHandler={changeTypeHandler}
                 currentType={currentType}
-                type='cpu'
             />
+
             <SelectComponent
                 changeTypeHandler={changeTypeHandler}
                 currentType={currentType}
@@ -63,13 +55,6 @@ export const Builder: FunctionComponent<Props> = props => {
                 currentType={currentType}
                 type='psu'
             />
-            <pre>{JSON.stringify(cpu, null, 2)}</pre>
-            <pre>{JSON.stringify(gpu, null, 2)}</pre>
-            <pre>{JSON.stringify(motherboard, null, 2)}</pre>
-            <pre>{JSON.stringify(chassis, null, 2)}</pre>
-            <pre>{JSON.stringify(storage, null, 2)}</pre>
-            <pre>{JSON.stringify(ram, null, 2)}</pre>
-            <pre>{JSON.stringify(psu, null, 2)}</pre>
         </div>
     )
 }

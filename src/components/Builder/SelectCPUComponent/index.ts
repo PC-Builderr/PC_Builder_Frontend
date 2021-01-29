@@ -1,0 +1,1 @@
+export { SelectCPUComponent } from './SelectCPUComponent'

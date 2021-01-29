@@ -1,6 +1,7 @@
-import React, { FunctionComponent } from 'react'
+import React, { FunctionComponent, useEffect } from 'react'
 import { useFetchFilteredProducts } from '../../../../hooks/HTTP/useFetchFilteredProducts'
-import { ProductList } from '../../../Products/ProductList'
+import { Product } from '../../../../types/Product'
+import { BuilderProductCard } from '../../../Products/ProductCard/BuilderProductCard'
 import styles from './ComponentList.module.scss'
 
 interface Props {
@@ -11,12 +12,16 @@ export const ComponentList: FunctionComponent<Props> = props => {
     const { type } = props
 
     const {
-        state: { loading, products }
+        state: { products }
     } = useFetchFilteredProducts(type)
 
     return (
-        <div className={styles.root}>
-            {products && !loading && <ProductList products={products} />}
-        </div>
+        <ul className={styles.root}>
+            {products?.map((product: Product) => (
+                <li key={product.id}>
+                    <BuilderProductCard product={product} />
+                </li>
+            ))}
+        </ul>
     )
 }

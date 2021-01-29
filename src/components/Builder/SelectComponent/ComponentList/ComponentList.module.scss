@@ -1,2 +1,16 @@
 .root {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    justify-items: center;
+    gap: 0.5rem;
+
+    & > li {
+        width: 100%;
+    }
+}
+@media (max-width: 540px) {
+    .root {
+        grid-template-columns: 1fr;
+    }
 }

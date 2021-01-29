@@ -1,4 +1,5 @@
-import React, { FunctionComponent } from 'react'
+import React, { FunctionComponent, useState } from 'react'
+import { Component } from '../../../types/components/Component'
 import { ComponentList } from './ComponentList'
 import styles from './SelectComponent.module.scss'
 
@@ -9,6 +10,8 @@ interface Props {
 }
 
 export const SelectComponent: FunctionComponent<Props> = props => {
+    const [component, setComponent] = useState<Component | null>(null)
+
     return (
         <div className={styles.root}>
             <h3

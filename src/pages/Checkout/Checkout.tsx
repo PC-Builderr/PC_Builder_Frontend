@@ -26,9 +26,7 @@ export const Checkout: FunctionComponent = props => {
     return (
         <div className={styles.root}>
             <h2>Checkout</h2>
-            <Elements stripe={promise}>
-                <CheckoutForm setShippingPrice={setShippingPrice} />
-            </Elements>
+
             <Label className={styles.shippingAddress} htmlFor='shipping-address'>
                 Shipping Address
             </Label>
@@ -48,33 +46,40 @@ export const Checkout: FunctionComponent = props => {
                     <option value='Cambridge' />
                 </datalist>
                 <Input type='text' label='Address*' name='address' />
+                <Label htmlFor='additional-info'>Additional Information</Label>
+                <textarea id='additional-info'></textarea>
             </div>
-            <Label className={styles.orderLabel} htmlFor='products'>
-                Your Order
-            </Label>
-            <ul id='products'>
-                {products?.map((product: Product) => {
-                    return (
-                        <CheckoutProductCard
-                            key={product.id}
-                            quantity={getItemQuantityById(product.id)}
-                            product={product}
-                        />
-                    )
-                })}
-                <li className={styles.total}>
-                    <span>Products Price:</span>
-                    <h4>{total}лв.</h4>
-                </li>
-                <li className={styles.total}>
-                    <span>Shipping Price:</span>
-                    <h4>{shippingPrice}лв.</h4>
-                </li>
-                <li className={styles.total}>
-                    <span>Total Price:</span>
-                    <h4>{total + shippingPrice}лв.</h4>
-                </li>
-            </ul>
+            <section>
+                <Elements stripe={promise}>
+                    <CheckoutForm setShippingPrice={setShippingPrice} />
+                </Elements>
+                <Label className={styles.orderLabel} htmlFor='products'>
+                    Your Order
+                </Label>
+                <ul id='products'>
+                    {products?.map((product: Product) => {
+                        return (
+                            <CheckoutProductCard
+                                key={product.id}
+                                quantity={getItemQuantityById(product.id)}
+                                product={product}
+                            />
+                        )
+                    })}
+                    <li className={styles.total}>
+                        <span>Products Price:</span>
+                        <h4>{total}лв.</h4>
+                    </li>
+                    <li className={styles.total}>
+                        <span>Shipping Price:</span>
+                        <h4>{shippingPrice}лв.</h4>
+                    </li>
+                    <li className={styles.total}>
+                        <span>Total Price:</span>
+                        <h4>{total + shippingPrice}лв.</h4>
+                    </li>
+                </ul>
+            </section>
         </div>
     )
 }
