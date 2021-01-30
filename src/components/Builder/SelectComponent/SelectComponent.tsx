@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FunctionComponent, useCallback, useEffect, useMemo } from 'react'
+import React, { ChangeEvent, FunctionComponent, useCallback, useEffect, useRef } from 'react'
 import { GET_FULL_COMPONENT_URL } from '../../../constants'
 import { useFetchFilteredProducts } from '../../../hooks/HTTP/useFetchFilteredProducts'
 import { useIsMounted } from '../../../hooks/useIsMounted'
@@ -15,6 +15,10 @@ interface Props {
 export const SelectComponent: FunctionComponent<Props> = props => {
     const { setComponent, type } = props
 
+    const selectRef = useRef<HTMLSelectElement>(null)
+
+    const isMounted: React.MutableRefObject<boolean> = useIsMounted()
+
     const {
         state: { products, error },
         methods: { setFilters }
@@ -25,12 +29,16 @@ export const SelectComponent: FunctionComponent<Props> = props => {
     }, [props.filters, setFilters])
 
     useEffect(() => {
+        if (products?.length === 1) {
+            selectRef.current?.dispatchEvent(new Event('select', { bubbles: true }))
+        }
+    }, [products])
+
+    useEffect(() => {
         if (error) {
             alert(`Whith your current config there are no maching ${type}`)
         }
     }, [error, type])
-
-    const isMounted: React.MutableRefObject<boolean> = useIsMounted()
 
     const changeHandler = useCallback(
         async (event: ChangeEvent<HTMLSelectElement>) => {

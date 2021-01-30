@@ -92,6 +92,10 @@ export const useBuilder = (): Builder => {
     }, [ramQuantity, setRamQuantity])
 
     useEffect(() => {
+        setRamQuantity(1)
+    }, [ram])
+
+    useEffect(() => {
         setCPUFilters(generateCPUFilters(ram, ramQuantity, mobo))
     }, [ram, mobo, ramQuantity])
 

@@ -37,5 +37,7 @@ export const generateMotherboardFilters = (
         filters.m2Ports = 1
     }
 
+    console.log(filters)
+
     return filters
 }
