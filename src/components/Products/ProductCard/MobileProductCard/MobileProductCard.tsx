@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react'
 import { Link } from 'react-router-dom'
 import { GET_FULL_IMAGE_URL } from '../../../../constants'
-import { Product } from '../../../../types/Product'
+import { Product } from '../../../../types/product/Product'
 import styles from './MobileProductCard.module.scss'
 
 interface Props {

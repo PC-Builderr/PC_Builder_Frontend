@@ -1,4 +1,4 @@
-import { CartItem } from '../../types/CartEntry'
+import { CartItem } from '../../types/cart/CartEntry'
 
 export interface CartContextInterface {
     items: CartItem[]

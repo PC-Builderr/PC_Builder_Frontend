@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useCallback, useRef, useState } from 'react'
 import { GET_FULL_IMAGE_URL } from '../../../constants'
 import { WithMediaQuery } from '../../../hoc/WithMediaQuery'
-import { Image } from '../../../types/Image'
+import { Image } from '../../../types/product/Image'
 import styles from './ImageSlider.module.scss'
 
 interface Props {

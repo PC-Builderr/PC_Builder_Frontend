@@ -10,7 +10,7 @@ import { WithMediaQuery } from '../../../hoc/WithMediaQuery'
 import { CartContext } from '../../../context/Cart/CartContext'
 import { CartContextInterface } from '../../../context/Cart/CartContectInterface'
 import { useLogout } from '../../../hooks/Auth/useLogout'
-import { CartItem } from '../../../types/CartEntry'
+import { CartItem } from '../../../types/cart/CartEntry'
 
 interface Props {
     openSideDrawerHandler: () => void

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { PRODUCTS_API_URL } from '../../constants'
-import { Product } from '../../types/Product'
+import { Product } from '../../types/product/Product'
 import { useIsMounted } from '../useIsMounted'
 
 interface State {

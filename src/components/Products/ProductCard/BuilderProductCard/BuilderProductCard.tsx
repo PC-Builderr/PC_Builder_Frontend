@@ -1,7 +1,7 @@
 import React, { Component, FunctionComponent, useCallback, useEffect, useState } from 'react'
 import { GET_FULL_COMPONENT_URL, GET_FULL_IMAGE_URL } from '../../../../constants'
 import { useIsMounted } from '../../../../hooks/useIsMounted'
-import { Product } from '../../../../types/Product'
+import { Product } from '../../../../types/product/Product'
 import styles from './BuilderProductCard.module.scss'
 
 interface Props {

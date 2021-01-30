@@ -20,3 +20,6 @@ export const GET_COMPONENTS_URL = (type: string): string =>
     `${process.env.REACT_APP_API_URL}/${type}`
 export const GET_FULL_COMPONENT_URL = (type: string, id: string): string =>
     `${GET_COMPONENTS_URL(type)}/${id}`
+
+export const SATA_TYPE: string = 'SATA'
+export const M2_TYPE: string = 'М.2 NVMe'

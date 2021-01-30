@@ -2,7 +2,11 @@ import { Motherboard } from '../../../../types/components/Motherboard'
 import { RAM } from '../../../../types/components/RAM'
 import { CPUFilters } from './CPUFilters'
 
-export const generateCPUFilters = (ram: RAM | null, mobo: Motherboard | null): CPUFilters => {
+export const generateCPUFilters = (
+    ram: RAM | null,
+    ramQuantity: number,
+    mobo: Motherboard | null
+): CPUFilters => {
     const filters: CPUFilters = {}
 
     if (mobo) {
@@ -10,7 +14,7 @@ export const generateCPUFilters = (ram: RAM | null, mobo: Motherboard | null): C
     }
 
     if (ram) {
-        filters.ramCapacity = ram.capacity
+        filters.ramCapacity = ram.capacity * ramQuantity
     }
 
     if (ram ?? mobo) {

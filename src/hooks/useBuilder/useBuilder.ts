@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Case } from '../../types/components/Case'
 import { CPU } from '../../types/components/CPU'
 import { GPU } from '../../types/components/GPU'
@@ -24,6 +24,9 @@ import { PSUState } from './components/psu/PSUState'
 import { generateRamFilters } from './components/ram/generateRamFilters'
 import { RamFilters } from './components/ram/RamFilters'
 import { RamState } from './components/ram/RamState'
+import { generateStorageFilters } from './components/storage/generateStorageFilters'
+import { StorageFilters } from './components/storage/StorageFilters'
+import { StorageState } from './components/storage/StorageState'
 
 interface Builder {
     cpu: CPUState
@@ -32,6 +35,7 @@ interface Builder {
     mobo: MotherboardState
     ram: RamState
     psu: PSUState
+    storage: StorageState
 }
 
 export const useBuilder = (): Builder => {
@@ -46,6 +50,7 @@ export const useBuilder = (): Builder => {
 
     const [ram, setRam] = useState<RAM | null>(null)
     const [ramFilters, setRamFilters] = useState<RamFilters>({})
+    const [ramQuantity, setRamQuantity] = useState<number>(1)
 
     const [chassis, setChassis] = useState<Case | null>(null)
     const [chassisFilters, setChassisFilters] = useState<CaseFilters>({})
@@ -54,11 +59,41 @@ export const useBuilder = (): Builder => {
     const [psuFilters, setPSUFilters] = useState<PSUFilters>({})
 
     const [storage, setStorage] = useState<Storage | null>(null)
-    const [storageFilters, setStorageFilters] = useState<CaseFilters>({})
+    const [storageFilters, setStorageFilters] = useState<StorageFilters>({})
+
+    const incrementRam = useCallback(() => {
+        if (!mobo) {
+            return
+        }
+        if (mobo && ramQuantity === mobo.ramSlots) {
+            return
+        }
+        if (cpu && ramQuantity === cpu.ramChannels * 2) {
+            return
+        }
+        if (!ram) {
+            return
+        }
+        if (cpu && ram.capacity * ramQuantity > cpu.ramCapacity) {
+            return
+        }
+        if (mobo && ram.capacity * ramQuantity > mobo.ramCapacity) {
+            return
+        }
+        setRamQuantity((quantity: number) => quantity + 1)
+    }, [cpu, mobo, ram, ramQuantity, setRamQuantity])
+
+    const decrementRam = useCallback(() => {
+        if (ramQuantity === 1) {
+            return
+        }
+
+        setRamQuantity((quantity: number) => quantity - 1)
+    }, [ramQuantity, setRamQuantity])
 
     useEffect(() => {
-        setCPUFilters(generateCPUFilters(ram, mobo))
-    }, [ram, mobo])
+        setCPUFilters(generateCPUFilters(ram, ramQuantity, mobo))
+    }, [ram, mobo, ramQuantity])
 
     useEffect(() => {
         setGPUFilters(generateGPUFilters(chassis))
@@ -69,8 +104,8 @@ export const useBuilder = (): Builder => {
     }, [gpu, mobo])
 
     useEffect(() => {
-        setMoboFilters(generateMotherboardFilters(cpu, ram, chassis))
-    }, [cpu, ram, chassis])
+        setMoboFilters(generateMotherboardFilters(cpu, ram, ramQuantity, chassis, storage))
+    }, [cpu, ram, chassis, storage, ramQuantity])
 
     useEffect(() => {
         setRamFilters(generateRamFilters(cpu, mobo))
@@ -79,6 +114,10 @@ export const useBuilder = (): Builder => {
     useEffect(() => {
         setPSUFilters(generatePSUFilters(cpu, ram, gpu, mobo, storage))
     }, [cpu, ram, gpu, mobo, storage])
+
+    useEffect(() => {
+        setStorageFilters(generateStorageFilters(mobo))
+    }, [mobo])
 
     return {
         cpu: {
@@ -103,6 +142,9 @@ export const useBuilder = (): Builder => {
         },
         ram: {
             ram,
+            ramQuantity,
+            incrementRam,
+            decrementRam,
             setRam,
             ramFilters
         },
@@ -110,6 +152,11 @@ export const useBuilder = (): Builder => {
             psu,
             setPSU,
             psuFilters
+        },
+        storage: {
+            storage,
+            setStorage,
+            storageFilters
         }
     }
 }

@@ -2,7 +2,7 @@ import React, { ChangeEvent, FunctionComponent, useCallback, useEffect, useMemo 
 import { GET_FULL_COMPONENT_URL } from '../../../constants'
 import { useFetchFilteredProducts } from '../../../hooks/HTTP/useFetchFilteredProducts'
 import { useIsMounted } from '../../../hooks/useIsMounted'
-import { Product } from '../../../types/Product'
+import { Product } from '../../../types/product/Product'
 import { Label } from '../../UI/Label'
 import styles from './SelectComponent.module.scss'
 
@@ -16,13 +16,19 @@ export const SelectComponent: FunctionComponent<Props> = props => {
     const { setComponent, type } = props
 
     const {
-        state: { products },
+        state: { products, error },
         methods: { setFilters }
     } = useFetchFilteredProducts(props.type)
 
     useEffect(() => {
         setFilters(props.filters)
     }, [props.filters, setFilters])
+
+    useEffect(() => {
+        if (error) {
+            alert(`Whith your current config there are no maching ${type}`)
+        }
+    }, [error, type])
 
     const isMounted: React.MutableRefObject<boolean> = useIsMounted()
 

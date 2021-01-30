@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { GET_COMPONENTS_URL, ITEMS_PER_PAGE } from '../../constants'
-import { Product } from '../../types/Product'
+import { Product } from '../../types/product/Product'
 import { useIsMounted } from '../useIsMounted'
 
 interface State {

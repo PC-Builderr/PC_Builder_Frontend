@@ -2,7 +2,7 @@ import React, { FunctionComponent, useCallback, useEffect, useRef, useState } fr
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md'
 import { ITEMS_PER_SLIDER } from '../../../constants'
 import { useFetchSearchResult } from '../../../hooks/HTTP/useFetchSearchResult'
-import { Product } from '../../../types/Product'
+import { Product } from '../../../types/product/Product'
 import styles from './SimilarProductsSlider.module.scss'
 import { SliderItem } from './SliderItem'
 

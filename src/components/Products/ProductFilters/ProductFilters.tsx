@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import { BRANDS_API_URL } from '../../../constants'
-import { Brand } from '../../../types/Brand'
+import { Brand } from '../../../types/product/Brand'
 import { ChangeHandler } from '../../../types/Handlers'
 import { Checkbox } from '../../UI/Checkbox'
 import { Filter } from './Filter'

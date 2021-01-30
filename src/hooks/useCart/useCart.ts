@@ -2,8 +2,8 @@ import { useCallback, useContext, useEffect, useState } from 'react'
 import { PRODUCTS_API_URL } from '../../constants'
 import { CartContextInterface } from '../../context/Cart/CartContectInterface'
 import { CartContext } from '../../context/Cart/CartContext'
-import { CartItem } from '../../types/CartEntry'
-import { Product } from '../../types/Product'
+import { CartItem } from '../../types/cart/CartEntry'
+import { Product } from '../../types/product/Product'
 
 interface Methods {
     addItem: (item: CartItem) => void

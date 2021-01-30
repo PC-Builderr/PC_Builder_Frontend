@@ -6,7 +6,7 @@ import { CheckoutProductCard } from '../../components/Products/ProductCard/Check
 import { Input } from '../../components/UI/Input'
 import { Label } from '../../components/UI/Label'
 import { useCart } from '../../hooks/useCart'
-import { Product } from '../../types/Product'
+import { Product } from '../../types/product/Product'
 import styles from './Checkout.module.scss'
 
 const promise: Promise<Stripe | null> = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY ?? '')

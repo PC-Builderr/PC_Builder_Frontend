@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from 'react'
-import { CartItem } from '../../types/CartEntry'
+import { CartItem } from '../../types/cart/CartEntry'
 import { CartContext } from './CartContext'
 
 interface Props {
