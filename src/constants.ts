@@ -13,6 +13,7 @@ export const PRODUCTS_API_URL: string = `${process.env.REACT_APP_API_URL}/produc
 export const REFRESH_TOKEN_API_URL: string = `${process.env.REACT_APP_API_URL}/auth/refresh-token`
 export const LOGOUT_API_URL: string = `${process.env.REACT_APP_API_URL}/auth/logout`
 export const BRANDS_API_URL: string = `${process.env.REACT_APP_API_URL}/brand`
+export const COMPUTER_API_URL: string = `${process.env.REACT_APP_API_URL}/computer`
 
 //API routes func
 export const GET_FULL_IMAGE_URL = (url: string): string => `${process.env.REACT_APP_API_URL}${url}`

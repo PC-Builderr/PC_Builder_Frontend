@@ -6,6 +6,7 @@ import { Motherboard } from '../../types/components/Motherboard'
 import { PSU } from '../../types/components/PSU'
 import { RAM } from '../../types/components/RAM'
 import { Storage } from '../../types/components/Storage'
+import { useFetchCreateComputer } from '../HTTP/useFetchCreateComputer'
 import { CaseFilters } from './components/case/CaseFilters'
 import { CaseState } from './components/case/CaseState'
 import { generateCaseFilters } from './components/case/generateCaseFilters'
@@ -27,6 +28,9 @@ import { RamState } from './components/ram/RamState'
 import { generateStorageFilters } from './components/storage/generateStorageFilters'
 import { StorageFilters } from './components/storage/StorageFilters'
 import { StorageState } from './components/storage/StorageState'
+import { Computer } from './computer/Computer'
+import { ComputerState } from './computer/ComputerState'
+import { generateComputerPrice } from './computer/generateComputerPrice'
 
 interface Builder {
     cpu: CPUState
@@ -36,6 +40,7 @@ interface Builder {
     ram: RamState
     psu: PSUState
     storage: StorageState
+    computer: ComputerState
 }
 
 export const useBuilder = (): Builder => {
@@ -61,10 +66,21 @@ export const useBuilder = (): Builder => {
     const [storages, setStorages] = useState<Array<Storage | null>>([null])
     const [storageFilters, setStorageFilters] = useState<StorageFilters[]>([{}])
 
+    const [computer, setComputer] = useState<Computer>({
+        cpuId: null,
+        caseId: null,
+        motherboardId: null,
+        psuId: null,
+        ram: null,
+        storageIds: [null],
+        gpuId: null
+    })
+    const [price, setPrice] = useState<number>(0)
+
     const addStorage = useCallback(() => {
         if (!mobo) return
 
-        if (mobo.m2Ports + mobo.sataPorts === storages.length) return
+        if (Math.max(mobo.sataPorts, mobo.sataPorts) === storages.length) return
 
         setStorages(
             (storages: Array<Storage | null>): Array<Storage | null> => {
@@ -118,7 +134,7 @@ export const useBuilder = (): Builder => {
 
         if (mobo && ram.capacity * ramQuantity > mobo.ramCapacity) return
 
-        setRamQuantity((quantity: number) => quantity + 1)
+        setRamQuantity((quantity: number): number => quantity + 1)
     }, [cpu, mobo, ram, ramQuantity, setRamQuantity])
 
     const decrementRam = useCallback(() => {
@@ -126,12 +142,48 @@ export const useBuilder = (): Builder => {
             return
         }
 
-        setRamQuantity((quantity: number) => quantity - 1)
+        setRamQuantity((quantity: number): number => quantity - 1)
     }, [ramQuantity, setRamQuantity])
+
+    useEffect(() => {
+        setPrice(
+            generateComputerPrice(
+                cpu,
+                gpu,
+                mobo,
+                ...new Array(ramQuantity).fill(ram),
+                psu,
+                chassis,
+                ...storages
+            )
+        )
+        const storageIds: Array<number | null> = storages.map(
+            (storage: Storage | null) => storage?.productId || null
+        )
+
+        setComputer({
+            cpuId: cpu?.productId ?? null,
+            caseId: chassis?.productId ?? null,
+            motherboardId: mobo?.productId ?? null,
+            psuId: psu?.productId ?? null,
+            storageIds,
+            ram: ram
+                ? {
+                      productId: ram?.productId,
+                      quantity: ramQuantity
+                  }
+                : null,
+            gpuId: gpu?.productId ?? null
+        })
+    }, [cpu, gpu, mobo, ram, psu, chassis, storages, ramQuantity])
 
     useEffect(() => {
         setRamQuantity(1)
     }, [ram])
+
+    useEffect(() => {
+        setStorages((storages: Array<Storage | null>): Array<Storage | null> => [storages[0]])
+    }, [mobo])
 
     useEffect(() => {
         setCPUFilters(generateCPUFilters(ram, ramQuantity, mobo))
@@ -185,9 +237,11 @@ export const useBuilder = (): Builder => {
         ram: {
             ram,
             ramQuantity,
-            incrementRam,
-            decrementRam,
-            setRam,
+            methods: {
+                incrementRam,
+                decrementRam,
+                setRam
+            },
             ramFilters
         },
         psu: {
@@ -203,6 +257,10 @@ export const useBuilder = (): Builder => {
                 setStorage
             },
             storageFilters
+        },
+        computer: {
+            price,
+            computer
         }
     }
 }

@@ -7,15 +7,15 @@ export const generateStorageFilters = (
     mobo: Motherboard | null,
     storages: Array<Storage | null>
 ): StorageFilters[] => {
-    let filters: StorageFilters[] = new Array(storages.length).fill({})
+    const filters: StorageFilters[] = new Array(storages.length).fill({})
 
     if (!mobo) {
         return filters
     }
 
-    filters = filters.map((_: StorageFilters, index: number) => {
+    return filters.map((_: StorageFilters, index: number) => {
         const filter: StorageFilters = { type: [] }
-        console.log(index)
+
         if (mobo.sataPorts > index) {
             filter.type!.push(SATA_TYPE)
         }
@@ -26,6 +26,4 @@ export const generateStorageFilters = (
 
         return filter
     })
-
-    return filters
 }
