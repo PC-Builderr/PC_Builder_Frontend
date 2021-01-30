@@ -11,7 +11,7 @@ export const generateMotherboardFilters = (
     ram: RAM | null,
     ramQuantity: number,
     chassis: Case | null,
-    storage: Storage | null
+    storages: Array<Storage | null>
 ): MotherboardFilters => {
     const filters: MotherboardFilters = {}
 
@@ -33,11 +33,13 @@ export const generateMotherboardFilters = (
         filters.format = getCompatileFormats(chassis.format)
     }
 
-    if (storage?.type === M2_TYPE) {
-        filters.m2Ports = 1
-    }
-
-    console.log(filters)
+    storages.forEach((storage: Storage | null) => {
+        if (storage?.type === M2_TYPE) {
+            filters.m2Ports = (filters.m2Ports ?? 0) + 1
+            return
+        }
+        filters.sataPorts = (filters.sataPorts ?? 0) + 1
+    })
 
     return filters
 }

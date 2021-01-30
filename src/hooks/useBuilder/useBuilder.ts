@@ -58,28 +58,66 @@ export const useBuilder = (): Builder => {
     const [psu, setPSU] = useState<PSU | null>(null)
     const [psuFilters, setPSUFilters] = useState<PSUFilters>({})
 
-    const [storage, setStorage] = useState<Storage | null>(null)
-    const [storageFilters, setStorageFilters] = useState<StorageFilters>({})
+    const [storages, setStorages] = useState<Array<Storage | null>>([null])
+    const [storageFilters, setStorageFilters] = useState<StorageFilters[]>([{}])
+
+    const addStorage = useCallback(() => {
+        if (!mobo) return
+
+        if (mobo.m2Ports + mobo.sataPorts === storages.length) return
+
+        setStorages(
+            (storages: Array<Storage | null>): Array<Storage | null> => {
+                return [...storages, null]
+            }
+        )
+        setStorageFilters((filters: StorageFilters[]): StorageFilters[] => {
+            return [...filters, {}]
+        })
+    }, [mobo, storages.length])
+
+    const removeStorage = useCallback(() => {
+        setStorages(
+            (storages: Array<Storage | null>): Array<Storage | null> => {
+                const newStorages: Array<Storage | null> = [...storages]
+                if (newStorages.length > 1) {
+                    newStorages.pop()
+                }
+                return newStorages
+            }
+        )
+        setStorageFilters((filters: StorageFilters[]): StorageFilters[] => {
+            const newFilters: StorageFilters[] = [...filters]
+            if (newFilters.length > 1) {
+                newFilters.pop()
+            }
+            return newFilters
+        })
+    }, [])
+
+    const setStorage = useCallback((index: number, storage: Storage | null) => {
+        setStorages(
+            (storages: Array<Storage | null>): Array<Storage | null> => {
+                const newStorages: Array<Storage | null> = [...storages]
+                newStorages[index] = storage
+                return newStorages
+            }
+        )
+    }, [])
 
     const incrementRam = useCallback(() => {
-        if (!mobo) {
-            return
-        }
-        if (mobo && ramQuantity === mobo.ramSlots) {
-            return
-        }
-        if (cpu && ramQuantity === cpu.ramChannels * 2) {
-            return
-        }
-        if (!ram) {
-            return
-        }
-        if (cpu && ram.capacity * ramQuantity > cpu.ramCapacity) {
-            return
-        }
-        if (mobo && ram.capacity * ramQuantity > mobo.ramCapacity) {
-            return
-        }
+        if (!mobo) return
+
+        if (mobo && ramQuantity === mobo.ramSlots) return
+
+        if (cpu && ramQuantity === cpu.ramChannels * 2) return
+
+        if (!ram) return
+
+        if (cpu && ram.capacity * ramQuantity > cpu.ramCapacity) return
+
+        if (mobo && ram.capacity * ramQuantity > mobo.ramCapacity) return
+
         setRamQuantity((quantity: number) => quantity + 1)
     }, [cpu, mobo, ram, ramQuantity, setRamQuantity])
 
@@ -108,20 +146,20 @@ export const useBuilder = (): Builder => {
     }, [gpu, mobo])
 
     useEffect(() => {
-        setMoboFilters(generateMotherboardFilters(cpu, ram, ramQuantity, chassis, storage))
-    }, [cpu, ram, chassis, storage, ramQuantity])
+        setMoboFilters(generateMotherboardFilters(cpu, ram, ramQuantity, chassis, storages))
+    }, [cpu, ram, chassis, storages, ramQuantity])
 
     useEffect(() => {
         setRamFilters(generateRamFilters(cpu, mobo))
     }, [cpu, mobo])
 
     useEffect(() => {
-        setPSUFilters(generatePSUFilters(cpu, ram, gpu, mobo, storage))
-    }, [cpu, ram, gpu, mobo, storage])
+        setPSUFilters(generatePSUFilters(cpu, ram, gpu, mobo, ...storages))
+    }, [cpu, ram, gpu, mobo, storages])
 
     useEffect(() => {
-        setStorageFilters(generateStorageFilters(mobo))
-    }, [mobo])
+        setStorageFilters(generateStorageFilters(mobo, storages))
+    }, [mobo, storages])
 
     return {
         cpu: {
@@ -158,8 +196,12 @@ export const useBuilder = (): Builder => {
             psuFilters
         },
         storage: {
-            storage,
-            setStorage,
+            storages,
+            methods: {
+                addStorage,
+                removeStorage,
+                setStorage
+            },
             storageFilters
         }
     }

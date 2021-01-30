@@ -10,10 +10,11 @@ interface Props {
     type: string
     setComponent: React.Dispatch<React.SetStateAction<any>>
     filters: any
+    id: string
 }
 
 export const SelectComponent: FunctionComponent<Props> = props => {
-    const { setComponent, type } = props
+    const { setComponent, type, id } = props
 
     const selectRef = useRef<HTMLSelectElement>(null)
 
@@ -65,7 +66,7 @@ export const SelectComponent: FunctionComponent<Props> = props => {
     return (
         <div className={styles.root}>
             <Label htmlFor={type}>{type}</Label>
-            <select name={type} id={type} onChange={changeHandler}>
+            <select name={type} id={id} onChange={changeHandler}>
                 <option value='' defaultChecked>
                     Choose Component
                 </option>
