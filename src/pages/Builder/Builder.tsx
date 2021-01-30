@@ -1,60 +1,65 @@
-import React, { FunctionComponent, useCallback, useState } from 'react'
-import { SelectComponent } from '../../components/Builder/SelectComponent'
-import { SelectCPUComponent } from '../../components/Builder/SelectCPUComponent'
-import { ComputerProps } from '../../types/components/ComputerProps'
+import React, { FunctionComponent, useState } from 'react'
+import { SelectComponent } from '../../components/Builder/SelectComponent/SelectComponent'
+import { useBuilder } from '../../hooks/useBuilder'
+import { Case } from '../../types/components/Case'
+import { GPU } from '../../types/components/GPU'
+import { Motherboard } from '../../types/components/Motherboard'
+import { PSU } from '../../types/components/PSU'
+import { RAM } from '../../types/components/RAM'
 import styles from './Builder.module.scss'
 
 interface Props {}
 
+interface CPUFilters {
+    socket?: string
+    ramType?: string
+    ramCapacity?: number
+    ramChannels?: number
+    integratedGraphics?: boolean
+}
+
+const generateCPUFilters = (ram: RAM | null, mobo: Motherboard | null): CPUFilters => {
+    let filters: CPUFilters = {}
+
+    if (!ram && !mobo) return filters
+
+    if (mobo) {
+        filters.socket = mobo.socket
+    }
+
+    if (ram) {
+        filters.ramCapacity = ram.capacity
+    }
+
+    if (ram || mobo) {
+        filters.ramType = ram?.type ?? mobo?.ramType
+    }
+
+    return filters
+}
+
 export const Builder: FunctionComponent<Props> = props => {
-    const [currentType, setCurrentType] = useState<string>('')
+    const [storage, setStorage] = useState<Storage | null>(null)
 
-    const changeTypeHandler = useCallback((type: string) => {
-        setCurrentType(type)
-    }, [])
-
-    const [computerProps, setComputerProps] = useState<ComputerProps>({})
+    const {
+        cpu: { cpuFilters, setCPU },
+        chassis: { chassisFilters, setChassis },
+        gpu: { gpuFilters, setGPU },
+        mobo: { moboFilters, setMobo },
+        ram: { ramFilters, setRam },
+        psu: { psuFilters, setPSU }
+    } = useBuilder()
 
     return (
         <div className={styles.root}>
             <h1>Builder</h1>
-            <SelectCPUComponent
-                setComputerProps={setComputerProps}
-                computerProps={computerProps}
-                changeTypeHandler={changeTypeHandler}
-                currentType={currentType}
-            />
-
-            <SelectComponent
-                changeTypeHandler={changeTypeHandler}
-                currentType={currentType}
-                type='gpu'
-            />
-            <SelectComponent
-                changeTypeHandler={changeTypeHandler}
-                currentType={currentType}
-                type='motherboard'
-            />
-            <SelectComponent
-                changeTypeHandler={changeTypeHandler}
-                currentType={currentType}
-                type='case'
-            />
-            <SelectComponent
-                changeTypeHandler={changeTypeHandler}
-                currentType={currentType}
-                type='storage'
-            />
-            <SelectComponent
-                changeTypeHandler={changeTypeHandler}
-                currentType={currentType}
-                type='ram'
-            />
-            <SelectComponent
-                changeTypeHandler={changeTypeHandler}
-                currentType={currentType}
-                type='psu'
-            />
+            <SelectComponent filters={cpuFilters} type='cpu' setComponent={setCPU} />
+            <SelectComponent filters={gpuFilters} type='gpu' setComponent={setGPU} />
+            <SelectComponent filters={moboFilters} type='motherboard' setComponent={setMobo} />
+            <SelectComponent filters={ramFilters} type='ram' setComponent={setRam} />
+            <SelectComponent filters={psuFilters} type='psu' setComponent={setPSU} />
+            <SelectComponent filters={chassisFilters} type='case' setComponent={setChassis} />
+            <SelectComponent filters={{}} type='storage' setComponent={setStorage} />
         </div>
     )
 }

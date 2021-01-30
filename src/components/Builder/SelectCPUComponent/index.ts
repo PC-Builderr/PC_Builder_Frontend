@@ -1,1 +1,0 @@
-export { SelectCPUComponent } from './SelectCPUComponent'

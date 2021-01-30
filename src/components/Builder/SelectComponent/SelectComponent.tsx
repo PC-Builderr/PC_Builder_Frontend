@@ -1,31 +1,66 @@
-import React, { FunctionComponent, useState } from 'react'
-import { Component } from '../../../types/components/Component'
-import { ComponentList } from './ComponentList'
+import React, { ChangeEvent, FunctionComponent, useCallback, useEffect, useMemo } from 'react'
+import { GET_FULL_COMPONENT_URL } from '../../../constants'
+import { useFetchFilteredProducts } from '../../../hooks/HTTP/useFetchFilteredProducts'
+import { useIsMounted } from '../../../hooks/useIsMounted'
+import { Product } from '../../../types/Product'
+import { Label } from '../../UI/Label'
 import styles from './SelectComponent.module.scss'
 
 interface Props {
     type: string
-    currentType: string
-    changeTypeHandler: (type: string) => void
+    setComponent: React.Dispatch<React.SetStateAction<any>>
+    filters: any
 }
 
 export const SelectComponent: FunctionComponent<Props> = props => {
-    const [component, setComponent] = useState<Component | null>(null)
+    const { setComponent, type } = props
+
+    const {
+        state: { products },
+        methods: { setFilters }
+    } = useFetchFilteredProducts(props.type)
+
+    useEffect(() => {
+        setFilters(props.filters)
+    }, [props.filters, setFilters])
+
+    const isMounted: React.MutableRefObject<boolean> = useIsMounted()
+
+    const changeHandler = useCallback(
+        async (event: ChangeEvent<HTMLSelectElement>) => {
+            if (!event.target.value) {
+                setComponent(null)
+                return
+            }
+
+            const response = await fetch(GET_FULL_COMPONENT_URL(type, event.target.value))
+
+            const data = await response.json()
+
+            if (!isMounted.current) return
+
+            if (!response.ok) {
+                setComponent(null)
+                return
+            }
+            setComponent(data.component)
+        },
+        [isMounted, setComponent, type]
+    )
 
     return (
         <div className={styles.root}>
-            <h3
-                onClick={() => {
-                    if (props.currentType === props.type) {
-                        props.changeTypeHandler('')
-                        return
-                    }
-                    props.changeTypeHandler(props.type)
-                }}
-            >
-                {props.type}
-            </h3>
-            {props.type === props.currentType && <ComponentList type={props.type} />}
+            <Label htmlFor={type}>{type}</Label>
+            <select name={type} id={type} onChange={changeHandler}>
+                <option value='' defaultChecked>
+                    Choose Component
+                </option>
+                {products?.map((product: Product) => (
+                    <option value={product.id} key={product.id}>
+                        {product.name}
+                    </option>
+                ))}
+            </select>
         </div>
     )
 }

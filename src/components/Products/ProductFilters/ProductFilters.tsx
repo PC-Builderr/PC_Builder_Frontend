@@ -22,14 +22,14 @@ export const ProductFilters: FunctionComponent<Props> = props => {
                 <Filter
                     filters={props.filters}
                     onChange={props.onChange}
-                    filter='brand'
+                    filter='brands'
                     name='Brands'
                     url={`${BRANDS_API_URL}?type=${props.type}`}
                 >
                     {(data: Data, changeHandler: ChangeHandler<HTMLInputElement>) =>
                         data?.brands.map((brand: Brand) => (
                             <Checkbox
-                                checked={Boolean(props.filters?.brand?.includes(brand.id))}
+                                checked={Boolean(props.filters?.brands?.includes(brand.id))}
                                 key={brand.id}
                                 id={brand.name}
                                 name={brand.name}

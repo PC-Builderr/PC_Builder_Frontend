@@ -1,1 +1,1 @@
-export { SelectComponent } from './SelectComponent'
+export { SelectComponent as SelectCPUComponent } from './SelectComponent'
