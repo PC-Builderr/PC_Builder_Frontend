@@ -1,5 +1,7 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useContext, useEffect, useState } from 'react'
 import { COMPUTER_API_URL } from '../../constants'
+import { AuthContext } from '../../context/Auth/AuthContext'
+import { AuthContextInterface } from '../../context/Auth/AuthContext.interface'
 import { Error } from '../../types/Error'
 import { Computer } from '../useBuilder/computer/Computer'
 import { useIsMounted } from '../useIsMounted'
@@ -20,11 +22,13 @@ interface CreateComputer {
     methods: Methods
 }
 
-export const useFetchCreateComputer = (computer: Computer | null): CreateComputer => {
+export const useFetchCreateComputer = (computer: Computer): CreateComputer => {
     const [data, setData] = useState<any>()
     const [error, setError] = useState<Error | null>(null)
     const [loading, setLoading] = useState<boolean>(false)
     const [disabled, setDisabled] = useState<boolean>(true)
+
+    const { authState } = useContext<AuthContextInterface>(AuthContext)
 
     const isMounted: React.MutableRefObject<boolean> = useIsMounted()
 
@@ -35,7 +39,8 @@ export const useFetchCreateComputer = (computer: Computer | null): CreateCompute
         const response = await fetch(COMPUTER_API_URL, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${authState?.token}`
             },
             body: JSON.stringify(computer)
         })
@@ -51,17 +56,17 @@ export const useFetchCreateComputer = (computer: Computer | null): CreateCompute
             return
         }
 
-        setData(data)
         setLoading(false)
-    }, [isMounted, computer])
+        setData(data)
+    }, [isMounted, computer, authState])
 
     useEffect(() => {
-        if (validateComputer(computer)) {
+        if (validateComputer(computer) && !loading) {
             setDisabled(false)
             return
         }
         setDisabled(true)
-    }, [computer])
+    }, [computer, loading])
 
     return {
         methods: {
@@ -71,16 +76,12 @@ export const useFetchCreateComputer = (computer: Computer | null): CreateCompute
     }
 }
 
-const validateComputer = (computer: Computer | null): boolean => {
-    if (!computer) {
-        return false
-    }
-
+const validateComputer = (computer: Computer): boolean => {
     if (Object.values(computer).includes(null)) {
         return false
     }
 
-    if (computer.storageIds.includes(null)) {
+    if (computer.storages.includes(null)) {
         return false
     }
 

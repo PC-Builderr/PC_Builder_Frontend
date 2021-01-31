@@ -1,6 +1,6 @@
 import { Computer } from './Computer'
 
 export interface ComputerState {
-    computer: Computer | null
+    computer: Computer
     price: number
 }

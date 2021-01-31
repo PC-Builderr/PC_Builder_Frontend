@@ -6,7 +6,6 @@ import { Motherboard } from '../../types/components/Motherboard'
 import { PSU } from '../../types/components/PSU'
 import { RAM } from '../../types/components/RAM'
 import { Storage } from '../../types/components/Storage'
-import { useFetchCreateComputer } from '../HTTP/useFetchCreateComputer'
 import { CaseFilters } from './components/case/CaseFilters'
 import { CaseState } from './components/case/CaseState'
 import { generateCaseFilters } from './components/case/generateCaseFilters'
@@ -28,6 +27,7 @@ import { RamState } from './components/ram/RamState'
 import { generateStorageFilters } from './components/storage/generateStorageFilters'
 import { StorageFilters } from './components/storage/StorageFilters'
 import { StorageState } from './components/storage/StorageState'
+import { Component } from './computer/Component'
 import { Computer } from './computer/Computer'
 import { ComputerState } from './computer/ComputerState'
 import { generateComputerPrice } from './computer/generateComputerPrice'
@@ -72,8 +72,8 @@ export const useBuilder = (): Builder => {
         motherboardId: null,
         psuId: null,
         ram: null,
-        storageIds: [null],
-        gpuId: null
+        storages: [null],
+        gpu: null
     })
     const [price, setPrice] = useState<number>(0)
 
@@ -157,8 +157,34 @@ export const useBuilder = (): Builder => {
                 ...storages
             )
         )
-        const storageIds: Array<number | null> = storages.map(
-            (storage: Storage | null) => storage?.productId || null
+
+        const computerStorages: Array<Component | null> = storages.reduce(
+            (
+                storages: Array<Component | null>,
+                storage: Storage | null
+            ): Array<Component | null> => {
+                const computerStorage: Component | null =
+                    storages.find(
+                        (component: Component | null) => component?.productId === storage?.productId
+                    ) ?? null
+
+                if (computerStorage) {
+                    return [
+                        ...storages.filter(
+                            (component: Component | null) =>
+                                component?.productId !== computerStorage.productId
+                        ),
+                        { ...computerStorage, quantity: computerStorage.quantity + 1 }
+                    ]
+                }
+
+                if (storage) {
+                    return [...storages, { productId: storage.productId, quantity: 1 }]
+                }
+
+                return [...storages, null]
+            },
+            []
         )
 
         setComputer({
@@ -166,14 +192,19 @@ export const useBuilder = (): Builder => {
             caseId: chassis?.productId ?? null,
             motherboardId: mobo?.productId ?? null,
             psuId: psu?.productId ?? null,
-            storageIds,
+            storages: computerStorages,
             ram: ram
                 ? {
                       productId: ram?.productId,
                       quantity: ramQuantity
                   }
                 : null,
-            gpuId: gpu?.productId ?? null
+            gpu: gpu
+                ? {
+                      productId: gpu.productId,
+                      quantity: 1
+                  }
+                : null
         })
     }, [cpu, gpu, mobo, ram, psu, chassis, storages, ramQuantity])
 
@@ -206,8 +237,10 @@ export const useBuilder = (): Builder => {
     }, [cpu, mobo])
 
     useEffect(() => {
-        setPSUFilters(generatePSUFilters(cpu, ram, gpu, mobo, ...storages))
-    }, [cpu, ram, gpu, mobo, storages])
+        setPSUFilters(
+            generatePSUFilters(cpu, ...new Array(ramQuantity).fill(ram), gpu, mobo, ...storages)
+        )
+    }, [cpu, ram, gpu, mobo, storages, ramQuantity])
 
     useEffect(() => {
         setStorageFilters(generateStorageFilters(mobo, storages))

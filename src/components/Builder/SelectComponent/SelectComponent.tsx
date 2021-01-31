@@ -1,4 +1,11 @@
-import React, { ChangeEvent, FunctionComponent, useCallback, useEffect, useRef } from 'react'
+import React, {
+    ChangeEvent,
+    FunctionComponent,
+    useCallback,
+    useEffect,
+    useRef,
+    useState
+} from 'react'
 import { GET_FULL_COMPONENT_URL } from '../../../constants'
 import { useFetchFilteredProducts } from '../../../hooks/HTTP/useFetchFilteredProducts'
 import { useIsMounted } from '../../../hooks/useIsMounted'
@@ -14,9 +21,7 @@ interface Props {
 }
 
 export const SelectComponent: FunctionComponent<Props> = props => {
-    const { setComponent, type, id } = props
-
-    const selectRef = useRef<HTMLSelectElement>(null)
+    const { setComponent, type, id, filters } = props
 
     const isMounted: React.MutableRefObject<boolean> = useIsMounted()
 
@@ -26,14 +31,8 @@ export const SelectComponent: FunctionComponent<Props> = props => {
     } = useFetchFilteredProducts(props.type)
 
     useEffect(() => {
-        setFilters(props.filters)
-    }, [props.filters, setFilters])
-
-    useEffect(() => {
-        if (products?.length === 1) {
-            selectRef.current?.dispatchEvent(new Event('select', { bubbles: true }))
-        }
-    }, [products])
+        setFilters(filters)
+    }, [filters, setFilters])
 
     useEffect(() => {
         if (error) {

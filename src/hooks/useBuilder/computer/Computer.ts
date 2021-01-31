@@ -1,14 +1,11 @@
-interface Component {
-    productId: number
-    quantity: number
-}
+import { Component } from './Component'
 
 export interface Computer {
     cpuId: number | null
-    gpuId: number | null
+    gpu?: Component | null
     ram: Component | null
     motherboardId: number | null
-    storageIds: Array<number | null>
+    storages: Array<Component | null>
     caseId: number | null
     psuId: number | null
 }
