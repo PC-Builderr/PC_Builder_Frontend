@@ -12,18 +12,19 @@ export const Builder: FunctionComponent<Props> = props => {
     const {
         cpu: { cpuFilters, setCPU },
         chassis: { chassisFilters, setChassis },
-        gpu: { gpuFilters, setGPU },
+        gpu: {
+            methods: { addGPU, removeGPU, setGPU },
+            state: { gpuFilters, gpuQuantity }
+        },
         mobo: { moboFilters, setMobo },
         psu: { psuFilters, setPSU },
         ram: {
-            ramFilters,
-            methods: { decrementRam, incrementRam, setRam },
-            ramQuantity
+            state: { ramFilters, ramQuantity },
+            methods: { decrementRam, incrementRam, setRam }
         },
         storage: {
-            storageFilters,
-            methods: { addStorage, removeStorage, setStorage },
-            storages
+            state: { storageFilters, storages },
+            methods: { addStorage, removeStorage, setStorage }
         },
         computer: { price, computer }
     } = useBuilder()
@@ -37,6 +38,9 @@ export const Builder: FunctionComponent<Props> = props => {
         <div className={styles.root}>
             <h1>Builder</h1>
             <h3>Price: {price}лв.</h3>
+            <p>Are you planning on selecting a dedicated Graphics Card?</p>
+            <button onClick={removeGPU}>No</button>
+            <button onClick={addGPU}>Yes</button>
             <SelectComponent id='cpu' filters={cpuFilters} type='cpu' setComponent={setCPU} />
             <SelectComponent
                 id='motherboard'
@@ -48,7 +52,10 @@ export const Builder: FunctionComponent<Props> = props => {
             <button onClick={incrementRam}>Inc.</button>
             <span>{ramQuantity}</span>
             <button onClick={decrementRam}>Dec.</button>
-            <SelectComponent id='gpu' filters={gpuFilters} type='gpu' setComponent={setGPU} />
+            {gpuQuantity > 0 && (
+                <SelectComponent id='gpu' filters={gpuFilters} type='gpu' setComponent={setGPU} />
+            )}
+
             <SelectComponent
                 id='case'
                 filters={chassisFilters}
@@ -70,7 +77,7 @@ export const Builder: FunctionComponent<Props> = props => {
             <button onClick={removeStorage}>remove</button>
             <SelectComponent id='psu' filters={psuFilters} type='psu' setComponent={setPSU} />
             <Button onClick={createComputer} disabled={disabled} loading={String(loading)}>
-                Add To Cart
+                Save Your Configuration
             </Button>
         </div>
     )

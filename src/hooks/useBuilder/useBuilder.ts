@@ -49,6 +49,7 @@ export const useBuilder = (): Builder => {
 
     const [gpu, setGPU] = useState<GPU | null>(null)
     const [gpuFilters, setGPUFilters] = useState<GPUFilters>({})
+    const [gpuQuantity, setGPUQuantity] = useState<number>(1)
 
     const [mobo, setMobo] = useState<Motherboard | null>(null)
     const [moboFilters, setMoboFilters] = useState<MotherboardFilters>({})
@@ -77,6 +78,21 @@ export const useBuilder = (): Builder => {
     })
     const [price, setPrice] = useState<number>(0)
 
+    const addGPU = useCallback(() => {
+        setGPUQuantity(1)
+    }, [])
+
+    const removeGPU = useCallback(() => {
+        if (!gpuQuantity) return
+
+        if (cpu && !cpu.integratedGraphics) {
+            alert('current CPU has no integrated graphics please choose a diffrent one')
+            setCPU(null)
+        }
+        setGPU(null)
+        setGPUQuantity(0)
+    }, [cpu, gpuQuantity])
+
     const addStorage = useCallback(() => {
         if (!mobo) return
 
@@ -93,31 +109,25 @@ export const useBuilder = (): Builder => {
     }, [mobo, storages.length])
 
     const removeStorage = useCallback(() => {
+        if (storages.length === 1) return
+
         setStorages(
             (storages: Array<Storage | null>): Array<Storage | null> => {
-                const newStorages: Array<Storage | null> = [...storages]
-                if (newStorages.length > 1) {
-                    newStorages.pop()
-                }
-                return newStorages
+                return storages.slice(0, -1)
             }
         )
         setStorageFilters((filters: StorageFilters[]): StorageFilters[] => {
-            const newFilters: StorageFilters[] = [...filters]
-            if (newFilters.length > 1) {
-                newFilters.pop()
-            }
-            return newFilters
+            return filters.slice(0, -1)
         })
-    }, [])
+    }, [storages.length])
 
     const setStorage = useCallback((index: number, storage: Storage | null) => {
         setStorages(
-            (storages: Array<Storage | null>): Array<Storage | null> => {
-                const newStorages: Array<Storage | null> = [...storages]
-                newStorages[index] = storage
-                return newStorages
-            }
+            (storages: Array<Storage | null>): Array<Storage | null> => [
+                ...storages.slice(0, index),
+                storage,
+                ...storages.slice(index + 1)
+            ]
         )
     }, [])
 
@@ -135,15 +145,13 @@ export const useBuilder = (): Builder => {
         if (mobo && ram.capacity * ramQuantity > mobo.ramCapacity) return
 
         setRamQuantity((quantity: number): number => quantity + 1)
-    }, [cpu, mobo, ram, ramQuantity, setRamQuantity])
+    }, [cpu, mobo, ram, ramQuantity])
 
     const decrementRam = useCallback(() => {
-        if (ramQuantity === 1) {
-            return
-        }
+        if (ramQuantity === 1) return
 
         setRamQuantity((quantity: number): number => quantity - 1)
-    }, [ramQuantity, setRamQuantity])
+    }, [ramQuantity])
 
     useEffect(() => {
         setPrice(
@@ -174,7 +182,10 @@ export const useBuilder = (): Builder => {
                             (component: Component | null) =>
                                 component?.productId !== computerStorage.productId
                         ),
-                        { ...computerStorage, quantity: computerStorage.quantity + 1 }
+                        {
+                            productId: computerStorage.productId,
+                            quantity: computerStorage.quantity + 1
+                        }
                     ]
                 }
 
@@ -187,7 +198,7 @@ export const useBuilder = (): Builder => {
             []
         )
 
-        setComputer({
+        const computer: Computer = {
             cpuId: cpu?.productId ?? null,
             caseId: chassis?.productId ?? null,
             motherboardId: mobo?.productId ?? null,
@@ -198,15 +209,20 @@ export const useBuilder = (): Builder => {
                       productId: ram?.productId,
                       quantity: ramQuantity
                   }
-                : null,
-            gpu: gpu
+                : null
+        }
+
+        if (gpuQuantity) {
+            computer.gpu = gpu
                 ? {
                       productId: gpu.productId,
-                      quantity: 1
+                      quantity: gpuQuantity
                   }
                 : null
-        })
-    }, [cpu, gpu, mobo, ram, psu, chassis, storages, ramQuantity])
+        }
+
+        setComputer(computer)
+    }, [cpu, gpu, mobo, ram, psu, chassis, storages, ramQuantity, gpuQuantity])
 
     useEffect(() => {
         setRamQuantity(1)
@@ -217,8 +233,8 @@ export const useBuilder = (): Builder => {
     }, [mobo])
 
     useEffect(() => {
-        setCPUFilters(generateCPUFilters(ram, ramQuantity, mobo))
-    }, [ram, mobo, ramQuantity])
+        setCPUFilters(generateCPUFilters(ram, ramQuantity, mobo, gpuQuantity))
+    }, [ram, mobo, ramQuantity, gpuQuantity])
 
     useEffect(() => {
         setGPUFilters(generateGPUFilters(chassis))
@@ -253,9 +269,16 @@ export const useBuilder = (): Builder => {
             cpuFilters
         },
         gpu: {
-            gpu,
-            setGPU,
-            gpuFilters
+            state: {
+                gpu,
+                gpuFilters,
+                gpuQuantity
+            },
+            methods: {
+                setGPU,
+                addGPU,
+                removeGPU
+            }
         },
         chassis: {
             chassis,
@@ -268,14 +291,16 @@ export const useBuilder = (): Builder => {
             moboFilters
         },
         ram: {
-            ram,
-            ramQuantity,
+            state: {
+                ram,
+                ramQuantity,
+                ramFilters
+            },
             methods: {
                 incrementRam,
                 decrementRam,
                 setRam
-            },
-            ramFilters
+            }
         },
         psu: {
             psu,
@@ -283,13 +308,15 @@ export const useBuilder = (): Builder => {
             psuFilters
         },
         storage: {
-            storages,
+            state: {
+                storages,
+                storageFilters
+            },
             methods: {
                 addStorage,
                 removeStorage,
                 setStorage
-            },
-            storageFilters
+            }
         },
         computer: {
             price,

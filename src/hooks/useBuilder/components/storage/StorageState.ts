@@ -7,8 +7,12 @@ interface Methods {
     setStorage: (index: number, storage: Storage | null) => void
 }
 
-export interface StorageState {
+interface State {
     storages: Array<Storage | null>
-    methods: Methods
     storageFilters: StorageFilters[]
+}
+
+export interface StorageState {
+    state: State
+    methods: Methods
 }

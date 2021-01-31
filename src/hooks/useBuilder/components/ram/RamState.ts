@@ -7,9 +7,13 @@ interface Methods {
     setRam: React.Dispatch<React.SetStateAction<RAM | null>>
 }
 
-export interface RamState {
+interface State {
     ram: RAM | null
     ramQuantity: number
-    methods: Methods
     ramFilters: RamFilters
+}
+
+export interface RamState {
+    state: State
+    methods: Methods
 }

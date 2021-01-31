@@ -5,7 +5,8 @@ import { CPUFilters } from './CPUFilters'
 export const generateCPUFilters = (
     ram: RAM | null,
     ramQuantity: number,
-    mobo: Motherboard | null
+    mobo: Motherboard | null,
+    gpuQuantity: number
 ): CPUFilters => {
     const filters: CPUFilters = {}
 
@@ -19,6 +20,10 @@ export const generateCPUFilters = (
 
     if (ram ?? mobo) {
         filters.ramType = ram?.type ?? mobo?.ramType
+    }
+
+    if (!gpuQuantity) {
+        filters.integratedGraphics = true
     }
 
     return filters

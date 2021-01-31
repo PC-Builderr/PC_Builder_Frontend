@@ -36,7 +36,7 @@ export const SelectComponent: FunctionComponent<Props> = props => {
 
     useEffect(() => {
         if (error) {
-            alert(`Whith your current config there are no maching ${type}`)
+            alert(`Whith your current config there are no maching ${type} components`)
         }
     }, [error, type])
 
