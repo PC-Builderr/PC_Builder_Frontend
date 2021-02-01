@@ -8,7 +8,6 @@ interface Methods {
 }
 
 interface State {
-    gpu: GPU | null
     gpuFilters: GPUFilters
     gpuQuantity: number
 }

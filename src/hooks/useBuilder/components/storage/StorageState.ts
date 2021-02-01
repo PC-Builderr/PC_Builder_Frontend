@@ -8,7 +8,6 @@ interface Methods {
 }
 
 interface State {
-    storages: Array<Storage | null>
     storageFilters: StorageFilters[]
 }
 

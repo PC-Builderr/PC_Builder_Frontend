@@ -3,6 +3,7 @@ import { SelectComponent } from '../../components/Builder/SelectComponent/Select
 import { Button } from '../../components/UI/Button/Button'
 import { useFetchCreateComputer } from '../../hooks/HTTP/useFetchCreateComputer'
 import { useBuilder } from '../../hooks/useBuilder'
+import { StorageFilters } from '../../hooks/useBuilder/components/storage/StorageFilters'
 import { Storage } from '../../types/components/Storage'
 import styles from './Builder.module.scss'
 
@@ -23,7 +24,7 @@ export const Builder: FunctionComponent<Props> = props => {
             methods: { decrementRam, incrementRam, setRam }
         },
         storage: {
-            state: { storageFilters, storages },
+            state: { storageFilters },
             methods: { addStorage, removeStorage, setStorage }
         },
         computer: { price, computer }
@@ -62,17 +63,15 @@ export const Builder: FunctionComponent<Props> = props => {
                 type='case'
                 setComponent={setChassis}
             />
-            {storages?.map((_: Storage | null, index: number) => {
-                return (
-                    <SelectComponent
-                        key={index}
-                        id={`storage${index}`}
-                        filters={storageFilters[index]}
-                        type='storage'
-                        setComponent={(storage: Storage | null) => setStorage(index, storage)}
-                    />
-                )
-            })}
+            {storageFilters?.map((storageFilter: StorageFilters, index: number) => (
+                <SelectComponent
+                    key={index}
+                    id={`storage${index}`}
+                    filters={storageFilter}
+                    type='storage'
+                    setComponent={(storage: Storage | null) => setStorage(index, storage)}
+                />
+            ))}
             <button onClick={addStorage}>add</button>
             <button onClick={removeStorage}>remove</button>
             <SelectComponent id='psu' filters={psuFilters} type='psu' setComponent={setPSU} />

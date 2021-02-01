@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Case } from '../../types/components/Case'
 import { CPU } from '../../types/components/CPU'
 import { GPU } from '../../types/components/GPU'
@@ -24,6 +24,7 @@ import { PSUState } from './components/psu/PSUState'
 import { generateRamFilters } from './components/ram/generateRamFilters'
 import { RamFilters } from './components/ram/RamFilters'
 import { RamState } from './components/ram/RamState'
+import { generateComputerStorages } from './components/storage/generateComputerStorages'
 import { generateStorageFilters } from './components/storage/generateStorageFilters'
 import { StorageFilters } from './components/storage/StorageFilters'
 import { StorageState } from './components/storage/StorageState'
@@ -44,159 +45,41 @@ interface Builder {
 }
 
 export const useBuilder = (): Builder => {
+    // Components and components quantities
     const [cpu, setCPU] = useState<CPU | null>(null)
-    const [cpuFilters, setCPUFilters] = useState<CPUFilters>({})
-
     const [gpu, setGPU] = useState<GPU | null>(null)
-    const [gpuFilters, setGPUFilters] = useState<GPUFilters>({})
     const [gpuQuantity, setGPUQuantity] = useState<number>(1)
-
     const [mobo, setMobo] = useState<Motherboard | null>(null)
-    const [moboFilters, setMoboFilters] = useState<MotherboardFilters>({})
-
     const [ram, setRam] = useState<RAM | null>(null)
-    const [ramFilters, setRamFilters] = useState<RamFilters>({})
     const [ramQuantity, setRamQuantity] = useState<number>(1)
-
     const [chassis, setChassis] = useState<Case | null>(null)
-    const [chassisFilters, setChassisFilters] = useState<CaseFilters>({})
-
     const [psu, setPSU] = useState<PSU | null>(null)
-    const [psuFilters, setPSUFilters] = useState<PSUFilters>({})
-
     const [storages, setStorages] = useState<Array<Storage | null>>([null])
-    const [storageFilters, setStorageFilters] = useState<StorageFilters[]>([{}])
 
-    const [computer, setComputer] = useState<Computer>({
-        cpuId: null,
-        caseId: null,
-        motherboardId: null,
-        psuId: null,
-        ram: null,
-        storages: [null],
-        gpu: null
-    })
-    const [price, setPrice] = useState<number>(0)
+    //Component computed filters
+    const cpuFilters: CPUFilters = useMemo(
+        () => generateCPUFilters(ram, ramQuantity, mobo, gpuQuantity),
+        [ram, mobo, ramQuantity, gpuQuantity]
+    )
+    const gpuFilters: GPUFilters = useMemo(() => generateGPUFilters(chassis), [chassis])
+    const chassisFilters: CaseFilters = useMemo(() => generateCaseFilters(gpu, mobo), [gpu, mobo])
+    const ramFilters: RamFilters = useMemo(() => generateRamFilters(cpu, mobo), [cpu, mobo])
+    const moboFilters: MotherboardFilters = useMemo(
+        () => generateMotherboardFilters(cpu, ram, ramQuantity, chassis, storages),
+        [cpu, ram, chassis, storages, ramQuantity]
+    )
+    const psuFilters: PSUFilters = useMemo(
+        () => generatePSUFilters(cpu, ...new Array(ramQuantity).fill(ram), gpu, mobo, ...storages),
+        [cpu, ram, gpu, mobo, storages, ramQuantity]
+    )
+    const storageFilters: StorageFilters[] = useMemo(() => generateStorageFilters(mobo, storages), [
+        mobo,
+        storages
+    ])
 
-    const addGPU = useCallback(() => {
-        setGPUQuantity(1)
-    }, [])
-
-    const removeGPU = useCallback(() => {
-        if (!gpuQuantity) return
-
-        if (cpu && !cpu.integratedGraphics) {
-            alert('current CPU has no integrated graphics please choose a diffrent one')
-            setCPU(null)
-        }
-        setGPU(null)
-        setGPUQuantity(0)
-    }, [cpu, gpuQuantity])
-
-    const addStorage = useCallback(() => {
-        if (!mobo) return
-
-        if (Math.max(mobo.sataPorts, mobo.sataPorts) === storages.length) return
-
-        setStorages(
-            (storages: Array<Storage | null>): Array<Storage | null> => {
-                return [...storages, null]
-            }
-        )
-        setStorageFilters((filters: StorageFilters[]): StorageFilters[] => {
-            return [...filters, {}]
-        })
-    }, [mobo, storages.length])
-
-    const removeStorage = useCallback(() => {
-        if (storages.length === 1) return
-
-        setStorages(
-            (storages: Array<Storage | null>): Array<Storage | null> => {
-                return storages.slice(0, -1)
-            }
-        )
-        setStorageFilters((filters: StorageFilters[]): StorageFilters[] => {
-            return filters.slice(0, -1)
-        })
-    }, [storages.length])
-
-    const setStorage = useCallback((index: number, storage: Storage | null) => {
-        setStorages(
-            (storages: Array<Storage | null>): Array<Storage | null> => [
-                ...storages.slice(0, index),
-                storage,
-                ...storages.slice(index + 1)
-            ]
-        )
-    }, [])
-
-    const incrementRam = useCallback(() => {
-        if (!mobo) return
-
-        if (mobo && ramQuantity === mobo.ramSlots) return
-
-        if (cpu && ramQuantity === cpu.ramChannels * 2) return
-
-        if (!ram) return
-
-        if (cpu && ram.capacity * ramQuantity > cpu.ramCapacity) return
-
-        if (mobo && ram.capacity * ramQuantity > mobo.ramCapacity) return
-
-        setRamQuantity((quantity: number): number => quantity + 1)
-    }, [cpu, mobo, ram, ramQuantity])
-
-    const decrementRam = useCallback(() => {
-        if (ramQuantity === 1) return
-
-        setRamQuantity((quantity: number): number => quantity - 1)
-    }, [ramQuantity])
-
-    useEffect(() => {
-        setPrice(
-            generateComputerPrice(
-                cpu,
-                gpu,
-                mobo,
-                ...new Array(ramQuantity).fill(ram),
-                psu,
-                chassis,
-                ...storages
-            )
-        )
-
-        const computerStorages: Array<Component | null> = storages.reduce(
-            (
-                storages: Array<Component | null>,
-                storage: Storage | null
-            ): Array<Component | null> => {
-                const computerStorage: Component | null =
-                    storages.find(
-                        (component: Component | null) => component?.productId === storage?.productId
-                    ) ?? null
-
-                if (computerStorage) {
-                    return [
-                        ...storages.filter(
-                            (component: Component | null) =>
-                                component?.productId !== computerStorage.productId
-                        ),
-                        {
-                            productId: computerStorage.productId,
-                            quantity: computerStorage.quantity + 1
-                        }
-                    ]
-                }
-
-                if (storage) {
-                    return [...storages, { productId: storage.productId, quantity: 1 }]
-                }
-
-                return [...storages, null]
-            },
-            []
-        )
+    //Computer component
+    const computer = useMemo(() => {
+        const computerStorages: Array<Component | null> = generateComputerStorages(storages)
 
         const computer: Computer = {
             cpuId: cpu?.productId ?? null,
@@ -221,9 +104,97 @@ export const useBuilder = (): Builder => {
                 : null
         }
 
-        setComputer(computer)
+        return computer
     }, [cpu, gpu, mobo, ram, psu, chassis, storages, ramQuantity, gpuQuantity])
 
+    // Computer price
+    const price: number = useMemo(
+        () =>
+            generateComputerPrice(
+                cpu,
+                gpu,
+                mobo,
+                ...new Array(ramQuantity).fill(ram),
+                psu,
+                chassis,
+                ...storages
+            ),
+        [cpu, gpu, mobo, ram, psu, chassis, storages, ramQuantity]
+    )
+
+    //GPU Functions
+    const addGPU = useCallback(() => {
+        setGPUQuantity(1)
+    }, [])
+
+    const removeGPU = useCallback(() => {
+        if (!gpuQuantity) return
+
+        if (cpu && !cpu.integratedGraphics) {
+            alert('current CPU has no integrated graphics please choose a diffrent one')
+            setCPU(null)
+        }
+        setGPU(null)
+        setGPUQuantity(0)
+    }, [cpu, gpuQuantity])
+
+    // Storage Functions
+    const addStorage = useCallback(() => {
+        if (!mobo) return
+
+        if (Math.max(mobo.sataPorts, mobo.sataPorts) === storages.length) return
+
+        setStorages(
+            (storages: Array<Storage | null>): Array<Storage | null> => {
+                return [...storages, null]
+            }
+        )
+    }, [mobo, storages.length])
+
+    const removeStorage = useCallback(() => {
+        if (storages.length === 1) return
+
+        setStorages(
+            (storages: Array<Storage | null>): Array<Storage | null> => {
+                return storages.slice(0, -1)
+            }
+        )
+    }, [storages.length])
+
+    const setStorage = useCallback((index: number, storage: Storage | null) => {
+        setStorages(
+            (storages: Array<Storage | null>): Array<Storage | null> => [
+                ...storages.slice(0, index),
+                storage,
+                ...storages.slice(index + 1)
+            ]
+        )
+    }, [])
+
+    // RAM Functions
+    const incrementRam = useCallback(() => {
+        if (!mobo) return
+
+        if (mobo && ramQuantity === mobo.ramSlots) return
+
+        if (cpu && ramQuantity === cpu.ramChannels * 2) return
+
+        if (!ram) return
+
+        if (cpu && ram.capacity * ramQuantity > cpu.ramCapacity) return
+
+        if (mobo && ram.capacity * ramQuantity > mobo.ramCapacity) return
+
+        setRamQuantity((quantity: number): number => quantity + 1)
+    }, [cpu, mobo, ram, ramQuantity])
+
+    const decrementRam = useCallback(() => {
+        if (ramQuantity === 1) return
+
+        setRamQuantity((quantity: number): number => quantity - 1)
+    }, [ramQuantity])
+
+    // Effects
     useEffect(() => {
         setRamQuantity(1)
     }, [ram])
@@ -232,45 +203,13 @@ export const useBuilder = (): Builder => {
         setStorages((storages: Array<Storage | null>): Array<Storage | null> => [storages[0]])
     }, [mobo])
 
-    useEffect(() => {
-        setCPUFilters(generateCPUFilters(ram, ramQuantity, mobo, gpuQuantity))
-    }, [ram, mobo, ramQuantity, gpuQuantity])
-
-    useEffect(() => {
-        setGPUFilters(generateGPUFilters(chassis))
-    }, [chassis])
-
-    useEffect(() => {
-        setChassisFilters(generateCaseFilters(gpu, mobo))
-    }, [gpu, mobo])
-
-    useEffect(() => {
-        setMoboFilters(generateMotherboardFilters(cpu, ram, ramQuantity, chassis, storages))
-    }, [cpu, ram, chassis, storages, ramQuantity])
-
-    useEffect(() => {
-        setRamFilters(generateRamFilters(cpu, mobo))
-    }, [cpu, mobo])
-
-    useEffect(() => {
-        setPSUFilters(
-            generatePSUFilters(cpu, ...new Array(ramQuantity).fill(ram), gpu, mobo, ...storages)
-        )
-    }, [cpu, ram, gpu, mobo, storages, ramQuantity])
-
-    useEffect(() => {
-        setStorageFilters(generateStorageFilters(mobo, storages))
-    }, [mobo, storages])
-
     return {
         cpu: {
-            cpu,
             setCPU,
             cpuFilters
         },
         gpu: {
             state: {
-                gpu,
                 gpuFilters,
                 gpuQuantity
             },
@@ -281,18 +220,15 @@ export const useBuilder = (): Builder => {
             }
         },
         chassis: {
-            chassis,
             setChassis,
             chassisFilters
         },
         mobo: {
-            mobo,
             setMobo,
             moboFilters
         },
         ram: {
             state: {
-                ram,
                 ramQuantity,
                 ramFilters
             },
@@ -303,13 +239,11 @@ export const useBuilder = (): Builder => {
             }
         },
         psu: {
-            psu,
             setPSU,
             psuFilters
         },
         storage: {
             state: {
-                storages,
                 storageFilters
             },
             methods: {

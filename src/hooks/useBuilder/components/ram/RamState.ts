@@ -8,7 +8,6 @@ interface Methods {
 }
 
 interface State {
-    ram: RAM | null
     ramQuantity: number
     ramFilters: RamFilters
 }
