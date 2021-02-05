@@ -28,6 +28,7 @@ const cardStyle: StripeCardElementOptions = {
     style: {
         base: {
             color: '#18293c',
+            backgroundColor: 'white',
             fontFamily: 'Montserrat, sans-serif',
             fontSize: '16px',
             iconColor: '#18293c',

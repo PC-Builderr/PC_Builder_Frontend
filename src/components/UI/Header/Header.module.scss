@@ -1,0 +1,33 @@
+.root {
+    margin: 2rem 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #2e425a;
+    border: 2px solid #e3f4fd;
+    background-color: #f7fcff;
+    padding: 0.8rem 1.2rem;
+    border-radius: 4px;
+    line-height: 1.5;
+
+    &::first-letter {
+        text-transform: capitalize;
+    }
+
+    & > span {
+        color: #9fa8b7;
+        text-align: center;
+    }
+}
+
+@media (max-width: 950px) {
+    .heading {
+        font-size: 1.4rem;
+    }
+}
+
+@media (max-width: 540px) {
+    .root {
+        margin: 0;
+        font-size: 1.2rem;
+    }
+}

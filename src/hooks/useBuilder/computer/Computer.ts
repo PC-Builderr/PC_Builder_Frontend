@@ -1,6 +1,7 @@
 import { Component } from './Component'
 
 export interface Computer {
+    name: string
     cpuId: number | null
     gpu?: Component | null
     ram: Component | null

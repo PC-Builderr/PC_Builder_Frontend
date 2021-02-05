@@ -1,15 +1,23 @@
-import React, { FunctionComponent } from 'react'
+import React, { FunctionComponent, useEffect } from 'react'
 import { SelectComponent } from '../../components/Builder/SelectComponent/SelectComponent'
 import { Button } from '../../components/UI/Button/Button'
+import { Header } from '../../components/UI/Header'
+import { Input } from '../../components/UI/Input'
 import { useFetchCreateComputer } from '../../hooks/HTTP/useFetchCreateComputer'
 import { useBuilder } from '../../hooks/useBuilder'
 import { StorageFilters } from '../../hooks/useBuilder/components/storage/StorageFilters'
+import { useCart } from '../../hooks/useCart'
+import { CartItem } from '../../types/cart/CartEntry'
 import { Storage } from '../../types/components/Storage'
 import styles from './Builder.module.scss'
 
 interface Props {}
 
 export const Builder: FunctionComponent<Props> = props => {
+    const {
+        methods: { addItem }
+    } = useCart()
+
     const {
         cpu: { cpuFilters, setCPU },
         chassis: { chassisFilters, setChassis },
@@ -27,7 +35,7 @@ export const Builder: FunctionComponent<Props> = props => {
             state: { storageFilters },
             methods: { addStorage, removeStorage, setStorage }
         },
-        computer: { price, computer }
+        computer: { price, computer, setName }
     } = useBuilder()
 
     const {
@@ -35,9 +43,17 @@ export const Builder: FunctionComponent<Props> = props => {
         state: { data, error, loading, disabled }
     } = useFetchCreateComputer(computer)
 
+    useEffect(() => {
+        if (!data) return
+
+        const item: CartItem = { id: data.computer.product.id, quantity: 1 }
+        addItem(item)
+    }, [data])
+
     return (
         <div className={styles.root}>
-            <h1>Builder</h1>
+            <Header>Builder</Header>
+            <Input value={computer.name} onChange={e => setName(e.target.value)} />
             <h3>Price: {price}лв.</h3>
             <p>Are you planning on selecting a dedicated Graphics Card?</p>
             <button onClick={removeGPU}>No</button>

@@ -10,17 +10,9 @@
 
     margin-bottom: 1rem;
 
-    & > h2 {
+    & > h3 {
         grid-area: header;
-        margin: 3rem 0 2rem;
-        font-size: 1.5rem;
-        font-weight: 600;
-        color: #2e425a;
-        border: 2px solid #e3f4fd;
-        background-color: #f7fcff;
-        padding: 0.8rem 1.2rem;
-        border-radius: 4px;
-        line-height: 1.5;
+        margin: 2rem 0 2rem;
     }
 
     & > label {

@@ -45,6 +45,8 @@ interface Builder {
 }
 
 export const useBuilder = (): Builder => {
+    const [name, setName] = useState<string>('')
+
     // Components and components quantities
     const [cpu, setCPU] = useState<CPU | null>(null)
     const [gpu, setGPU] = useState<GPU | null>(null)
@@ -82,6 +84,7 @@ export const useBuilder = (): Builder => {
         const computerStorages: Array<Component | null> = generateComputerStorages(storages)
 
         const computer: Computer = {
+            name,
             cpuId: cpu?.productId ?? null,
             caseId: chassis?.productId ?? null,
             motherboardId: mobo?.productId ?? null,
@@ -105,7 +108,7 @@ export const useBuilder = (): Builder => {
         }
 
         return computer
-    }, [cpu, gpu, mobo, ram, psu, chassis, storages, ramQuantity, gpuQuantity])
+    }, [cpu, gpu, mobo, ram, psu, chassis, storages, ramQuantity, gpuQuantity, name])
 
     // Computer price
     const price: number = useMemo(
@@ -253,6 +256,7 @@ export const useBuilder = (): Builder => {
             }
         },
         computer: {
+            setName,
             price,
             computer
         }

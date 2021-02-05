@@ -81,6 +81,10 @@ const validateComputer = (computer: Computer): boolean => {
         return false
     }
 
+    if (!computer.name) {
+        return false
+    }
+
     if (computer.storages.includes(null)) {
         return false
     }

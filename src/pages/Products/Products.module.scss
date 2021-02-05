@@ -1,22 +1,32 @@
 .root {
     display: grid;
     grid-template-columns: 220px auto;
-    column-gap: 0.5rem;
+    gap: 1rem;
 
     grid-template-areas:
+        'header header'
         'filters products'
         'filters pagination';
 
     margin-bottom: 1rem;
+
+    & > h3 {
+        grid-area: header;
+        margin: 1rem 0;
+    }
 }
 
 @media (max-width: 800px) {
     .root {
         grid-template-columns: 1fr;
         grid-template-areas:
+            'header'
             'filters'
             'products'
             'pagination';
-        gap: 1rem;
+
+        & > h3 {
+            margin: 0;
+        }
     }
 }

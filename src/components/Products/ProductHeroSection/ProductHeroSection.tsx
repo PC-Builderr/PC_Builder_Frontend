@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from 'react'
 import { Product } from '../../../types/product/Product'
+import { Header } from '../../UI/Header'
 import { ImageSlider } from '../ImageSlider'
 import { ProductSidebar } from '../ProductSidebar'
 import styles from './ProductHeroSection.module.scss'
@@ -11,7 +12,7 @@ interface Props {
 export const ProductHeroSection: FunctionComponent<Props> = props => {
     return (
         <>
-            <h3 className={styles.heading}>{props.product.name}</h3>
+            <Header>{props.product.name}</Header>
             <div className={styles.root}>
                 <ImageSlider images={props.product.images} />
                 <ProductSidebar price={props.product.price} id={props.product.id} />

@@ -3,6 +3,7 @@ import { loadStripe, Stripe } from '@stripe/stripe-js'
 import React, { FunctionComponent, useEffect, useState } from 'react'
 import { CheckoutForm } from '../../components/Checkout/CheckoutForm'
 import { CheckoutProductCard } from '../../components/Products/ProductCard/CheckoutProductCard'
+import { Header } from '../../components/UI/Header'
 import { Input } from '../../components/UI/Input'
 import { Label } from '../../components/UI/Label'
 import { useCart } from '../../hooks/useCart'
@@ -25,8 +26,7 @@ export const Checkout: FunctionComponent = props => {
 
     return (
         <div className={styles.root}>
-            <h2>Checkout</h2>
-
+            <Header>Checkout</Header>
             <Label className={styles.shippingAddress} htmlFor='shipping-address'>
                 Shipping Address
             </Label>

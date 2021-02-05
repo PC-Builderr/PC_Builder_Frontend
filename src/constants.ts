@@ -24,3 +24,13 @@ export const GET_FULL_COMPONENT_URL = (type: string, id: string): string =>
 
 export const SATA_TYPE: string = 'SATA'
 export const M2_TYPE: string = 'М.2 NVMe'
+
+export const ComponentNames: Map<string, string> = new Map([
+    ['gpu', 'Graphics Cards'],
+    ['cpu', 'Processors'],
+    ['psu', 'Power supplies'],
+    ['ram', 'RAM'],
+    ['case', 'Cases'],
+    ['storage', 'Storages'],
+    ['motherboard', 'Motherboards']
+])
