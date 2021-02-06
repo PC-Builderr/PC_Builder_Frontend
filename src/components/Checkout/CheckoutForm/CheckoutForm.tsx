@@ -9,6 +9,8 @@ import React, {
     useState
 } from 'react'
 import { useHistory } from 'react-router-dom'
+import { AuthContext } from '../../../context/Auth/AuthContext'
+import { AuthContextInterface } from '../../../context/Auth/AuthContext.interface'
 import { CartContextInterface } from '../../../context/Cart/CartContectInterface'
 import { CartContext } from '../../../context/Cart/CartContext'
 import { Button } from '../../UI/Button/Button'
@@ -50,6 +52,8 @@ export const CheckoutForm: FunctionComponent<Props> = ({ setShippingPrice }) => 
     const stripe = useStripe()
     const elements = useElements()
 
+    const { authState } = useContext<AuthContextInterface>(AuthContext)
+
     const history = useHistory()
 
     const { items, setItems } = useContext<CartContextInterface>(CartContext)
@@ -65,7 +69,8 @@ export const CheckoutForm: FunctionComponent<Props> = ({ setShippingPrice }) => 
             {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${authState?.token}`
                 },
                 body: JSON.stringify({ items })
             }
@@ -73,7 +78,7 @@ export const CheckoutForm: FunctionComponent<Props> = ({ setShippingPrice }) => 
         const data: CreatePaymentIntentResponse = await response.json()
         setShippingPrice(data.shippingPrice)
         setClientSecret(data.clientSecret)
-    }, [items, setShippingPrice])
+    }, [items, setShippingPrice, authState])
 
     const handleChange = useCallback(async (event: StripeCardElementChangeEvent) => {
         setDisabled(event.empty)
