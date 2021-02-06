@@ -70,6 +70,10 @@
     & > section {
         grid-area: side;
 
+        & > form {
+            grid-area: form;
+        }
+
         & > .orderLabel {
             grid-area: order-label;
             margin-top: 2rem;
@@ -113,6 +117,45 @@
                     font-size: 0.95rem;
                     flex-grow: 1;
                 }
+            }
+        }
+    }
+}
+
+@media (max-width: 800px) {
+    .root {
+        display: grid;
+        grid-template-columns: auto;
+
+        grid-template-areas:
+            'header'
+            'shipping-address-label '
+            'shipping-address'
+            'side';
+
+        & > section {
+            display: grid;
+            grid-template-columns: auto;
+
+            grid-template-areas:
+                'order-label'
+                'products'
+                'form';
+
+            & > ul {
+                margin-bottom: 2.3rem;
+            }
+        }
+    }
+}
+
+@media (max-width: 380px) {
+    .root {
+        & > div {
+            padding: 1rem;
+
+            & > input {
+                width: 100%;
             }
         }
     }
