@@ -15,7 +15,7 @@ import styles from './Checkout.module.scss'
 
 interface InputState {
     name: string
-    'phome-number': string
+    'phone-number': string
     address: string
 }
 
@@ -31,7 +31,7 @@ export const Checkout: FunctionComponent = props => {
 
     const [inputState, setInputState] = useState<InputState>({
         name: '',
-        'phome-number': '',
+        'phone-number': '',
         address: ''
     })
 
@@ -68,6 +68,7 @@ export const Checkout: FunctionComponent = props => {
     )
 
     const inputChangeHandler = useCallback((event: Change<HTMLInputElement>) => {
+        console.log(event.target.name, event.target.value)
         setInputState((prevState: InputState) => {
             return {
                 ...prevState,
@@ -87,9 +88,16 @@ export const Checkout: FunctionComponent = props => {
                 Shipping Address
             </Label>
             <div id='shipping-address'>
-                <Input onChange={inputChangeHandler} type='text' label='Name*' name='name' />
                 <Input
                     onChange={inputChangeHandler}
+                    value={inputState.name}
+                    type='text'
+                    label='Name*'
+                    name='name'
+                />
+                <Input
+                    onChange={inputChangeHandler}
+                    value={inputState['phone-number']}
                     type='tel'
                     label='Phone Number*'
                     name='phone-number'
@@ -109,14 +117,20 @@ export const Checkout: FunctionComponent = props => {
                     ))}
                 </select>
 
-                <Input onChange={inputChangeHandler} type='text' label='Address*' name='address' />
+                <Input
+                    onChange={inputChangeHandler}
+                    value={inputState.address}
+                    type='text'
+                    label='Address*'
+                    name='address'
+                />
             </div>
             <section>
                 <Elements stripe={promise}>
                     <CheckoutForm
                         name={inputState.name}
                         city={selectState.city}
-                        phoneNumber={inputState['phome-number']}
+                        phoneNumber={inputState['phone-number']}
                         address={inputState.address}
                         postCode={selectState.postCode}
                         setShippingPrice={setShippingPrice}

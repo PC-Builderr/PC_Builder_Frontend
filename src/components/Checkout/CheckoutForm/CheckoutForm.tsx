@@ -106,6 +106,7 @@ export const CheckoutForm: FunctionComponent<Props> = props => {
                 shipping: {
                     phone: props.phoneNumber,
                     name: props.name,
+                    carrier: 'Econt',
                     address: {
                         line1: props.address,
                         city: props.city,
