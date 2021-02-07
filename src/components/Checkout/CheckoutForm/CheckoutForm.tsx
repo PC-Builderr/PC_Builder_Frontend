@@ -19,6 +19,11 @@ import styles from './CheckoutForm.module.scss'
 
 interface Props {
     setShippingPrice: React.Dispatch<React.SetStateAction<number>>
+    phoneNumber: string
+    name: string
+    address: string
+    postCode: string
+    city: string
 }
 
 interface CreatePaymentIntentResponse {
@@ -48,7 +53,9 @@ const cardStyle: StripeCardElementOptions = {
     hidePostalCode: true
 }
 
-export const CheckoutForm: FunctionComponent<Props> = ({ setShippingPrice }) => {
+export const CheckoutForm: FunctionComponent<Props> = props => {
+    const { setShippingPrice } = props
+
     const stripe = useStripe()
     const elements = useElements()
 
@@ -96,6 +103,15 @@ export const CheckoutForm: FunctionComponent<Props> = ({ setShippingPrice }) => 
             setProcessing(true)
 
             const payload = await stripe!.confirmCardPayment(clientSecret, {
+                shipping: {
+                    phone: props.phoneNumber,
+                    name: props.name,
+                    address: {
+                        line1: props.address,
+                        city: props.city,
+                        postal_code: props.postCode
+                    }
+                },
                 payment_method: {
                     card: element
                 }
@@ -110,7 +126,7 @@ export const CheckoutForm: FunctionComponent<Props> = ({ setShippingPrice }) => 
             setItems([])
             history.replace('/')
         },
-        [clientSecret, elements, stripe, setItems, history]
+        [clientSecret, elements, stripe, setItems, history, props]
     )
 
     useEffect(() => {
