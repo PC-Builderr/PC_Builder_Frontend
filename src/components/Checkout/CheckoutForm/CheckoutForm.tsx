@@ -18,7 +18,6 @@ import { Label } from '../../UI/Label'
 import styles from './CheckoutForm.module.scss'
 
 interface Props {
-    setShippingPrice: React.Dispatch<React.SetStateAction<number>>
     phoneNumber: string
     name: string
     address: string
@@ -28,7 +27,6 @@ interface Props {
 
 interface CreatePaymentIntentResponse {
     clientSecret: string
-    shippingPrice: number
 }
 
 const cardStyle: StripeCardElementOptions = {
@@ -54,8 +52,6 @@ const cardStyle: StripeCardElementOptions = {
 }
 
 export const CheckoutForm: FunctionComponent<Props> = props => {
-    const { setShippingPrice } = props
-
     const stripe = useStripe()
     const elements = useElements()
 
@@ -83,9 +79,8 @@ export const CheckoutForm: FunctionComponent<Props> = props => {
             }
         )
         const data: CreatePaymentIntentResponse = await response.json()
-        setShippingPrice(data.shippingPrice)
         setClientSecret(data.clientSecret)
-    }, [items, setShippingPrice, authState])
+    }, [items, authState])
 
     const handleChange = useCallback(async (event: StripeCardElementChangeEvent) => {
         setDisabled(event.empty)
@@ -108,6 +103,7 @@ export const CheckoutForm: FunctionComponent<Props> = props => {
                     name: props.name,
                     carrier: 'Econt',
                     address: {
+                        country: 'BGR',
                         line1: props.address,
                         city: props.city,
                         postal_code: props.postCode

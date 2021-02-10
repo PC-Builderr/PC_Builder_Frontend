@@ -7,6 +7,7 @@ import { Header } from '../../components/UI/Header'
 import { Input } from '../../components/UI/Input'
 import { Label } from '../../components/UI/Label'
 import { useFetchEcontCities } from '../../hooks/HTTP/useFetchEcontCities'
+import { useFetchShippingPrice } from '../../hooks/HTTP/useFetchShippingPrice'
 import { useCart } from '../../hooks/useCart'
 import { City } from '../../types/econt/City'
 import { Change } from '../../types/Events'
@@ -27,7 +28,7 @@ interface SelectState {
 const promise: Promise<Stripe | null> = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY ?? '')
 
 export const Checkout: FunctionComponent = props => {
-    const [shippingPrice, setShippingPrice] = useState<number>(0)
+    const { shippingPrice } = useFetchShippingPrice()
 
     const [inputState, setInputState] = useState<InputState>({
         name: '',
@@ -108,7 +109,7 @@ export const Checkout: FunctionComponent = props => {
                 <Label htmlFor='city'>City*</Label>
                 <select id='city' onChange={selectChangeHandler}>
                     <option value='' defaultChecked>
-                        Choose Component
+                        Choose City
                     </option>
                     {cities.map((city: City) => (
                         <option value={city.id} key={city.id}>
@@ -133,7 +134,6 @@ export const Checkout: FunctionComponent = props => {
                         phoneNumber={inputState['phone-number']}
                         address={inputState.address}
                         postCode={selectState.postCode}
-                        setShippingPrice={setShippingPrice}
                     />
                 </Elements>
                 <Label className={styles.orderLabel} htmlFor='products'>

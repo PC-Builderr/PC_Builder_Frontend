@@ -14,6 +14,8 @@ export const REFRESH_TOKEN_API_URL: string = `${process.env.REACT_APP_API_URL}/a
 export const LOGOUT_API_URL: string = `${process.env.REACT_APP_API_URL}/auth/logout`
 export const BRANDS_API_URL: string = `${process.env.REACT_APP_API_URL}/brand`
 export const COMPUTER_API_URL: string = `${process.env.REACT_APP_API_URL}/computer`
+export const CALCULATE_SHIPPING_API_URL: string = `${process.env.REACT_APP_API_URL}/econt/calculate`
+
 export const ECONT_CITIES_URL: string =
     'http://ee.econt.com/services/Nomenclatures/NomenclaturesService.getCities.json'
 
