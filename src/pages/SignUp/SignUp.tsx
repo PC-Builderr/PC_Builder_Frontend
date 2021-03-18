@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react'
-import { Link, Redirect } from 'react-router-dom'
+import { Link, Redirect, useLocation } from 'react-router-dom'
 import { Button } from '../../components/UI/Button/Button'
 import { Input } from '../../components/UI/Input'
 import { CREDENTIALS_ERROR, SERVER_ERROR, SIGN_UP_API_URL } from '../../constants'
@@ -18,8 +18,17 @@ export const SignUp: FunctionComponent = () => {
         { name: 'confirm-password', value: '' }
     ])
 
+    const { search } = useLocation()
+    const params: URLSearchParams = new URLSearchParams(search)
+
     if (authState) {
-        return <Redirect to='/' />
+        const path: string | null = params.get('to')
+
+        if (!path) {
+            return <Redirect to='/' />
+        }
+
+        return <Redirect to={path} />
     }
 
     if (fetchError === SERVER_ERROR) {
@@ -84,7 +93,8 @@ export const SignUp: FunctionComponent = () => {
                     Sign Up
                 </Button>
                 <p>
-                    Already have an account?<Link to='/sign-in'>Sign in.</Link>
+                    Already have an account?
+                    <Link to={`/sign-in?${params.toString()}`}>Sign in.</Link>
                 </p>
             </form>
         </>

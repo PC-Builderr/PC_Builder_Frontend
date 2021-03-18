@@ -16,7 +16,7 @@ export const CartSideBar: FunctionComponent<Props> = props => {
 
     const routeingHandler = useCallback(() => {
         if (!authState) {
-            history.push('/sign-in')
+            history.push('/sign-in?to=/checkout')
             return
         }
 
