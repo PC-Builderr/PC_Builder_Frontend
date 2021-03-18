@@ -1,2 +1,38 @@
 .root {
+    display: grid;
+    grid-template-columns: auto 22rem;
+    column-gap: 2rem;
+
+    grid-template-areas:
+        'header header'
+        'products side';
+
+    margin-bottom: 1rem;
+
+    & > h3 {
+        grid-area: header;
+    }
+
+    & > ul {
+        grid-area: products;
+
+        & > li {
+            margin-bottom: 0.35rem;
+        }
+    }
+
+    & > div {
+        grid-area: side;
+    }
 }
+
+@media (max-width: 1200px) {
+    .root {
+        grid-template-columns: auto;
+
+        grid-template-areas:
+            'header '
+            'side'
+            'products ';
+    }
+} ;

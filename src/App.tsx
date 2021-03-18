@@ -55,12 +55,10 @@ export const App: FunctionComponent = () => {
                     <Route path='/sign-up' exact>
                         <SignUp />
                     </Route>
-                    {items.length ? (
-                        <Route path='/cart' exact>
-                            <Cart />
-                        </Route>
-                    ) : null}
-                    {items.length ? (
+                    <Route path='/cart' exact>
+                        <Cart />
+                    </Route>
+                    {items.length && authState ? (
                         <Route path='/checkout' exact>
                             <Checkout />
                         </Route>

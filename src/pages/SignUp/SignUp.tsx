@@ -48,7 +48,9 @@ export const SignUp: FunctionComponent = () => {
                     onChange={changeHandler}
                     value={credentials.email}
                     error={
-                        credentialsErrors.includes('email') ? 'Please provide a valid email.' : ''
+                        credentialsErrors.includes('email')
+                            ? 'Please provide a valid email.'
+                            : undefined
                     }
                     onFocus={focusHandler}
                 />
@@ -61,7 +63,7 @@ export const SignUp: FunctionComponent = () => {
                     error={
                         credentialsErrors.includes('password')
                             ? 'Password sould have numbers and letters.'
-                            : ''
+                            : undefined
                     }
                     onFocus={focusHandler}
                 />
@@ -74,7 +76,7 @@ export const SignUp: FunctionComponent = () => {
                     error={
                         credentialsErrors.includes('confirm-password')
                             ? 'Password and Confirm password should match'
-                            : ''
+                            : undefined
                     }
                     onFocus={focusHandler}
                 />

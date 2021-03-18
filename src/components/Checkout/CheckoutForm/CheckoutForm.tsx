@@ -132,7 +132,7 @@ export const CheckoutForm: FunctionComponent<Props> = props => {
 
     return (
         <form className={styles.root} onSubmit={handleSubmit}>
-            <Label error={error || ''} htmlFor='card-info'>
+            <Label error={error || undefined} htmlFor='card-info'>
                 Card Information*
             </Label>
             <CardElement id='card-info' options={cardStyle} onChange={handleChange} />

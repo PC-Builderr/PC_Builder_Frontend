@@ -1,0 +1,100 @@
+.root {
+    & .price {
+        padding: 2rem 2rem;
+        border: 2px solid #e3f4fd;
+        background-color: #f7fcff;
+        border-radius: 4px;
+
+        & > p {
+            font-size: 2.2rem;
+            font-weight: 700;
+            text-align: center;
+            color: #2e425a;
+        }
+    }
+
+    & .action {
+        border: 2px solid #e3f4fd;
+        background-color: #f7fcff;
+        padding: 1.5rem;
+
+        border-top: none;
+
+        & > div {
+            margin-bottom: 1rem;
+            color: #2e425a;
+            display: flex;
+
+            & span:first-of-type {
+                font-size: 0.9rem;
+                font-weight: 500;
+            }
+
+            & span:last-of-type {
+                // font-size: 0.9rem;
+                font-weight: 500;
+            }
+
+            & > button {
+                border: none;
+                background-color: transparent;
+                color: #2e425a;
+
+                &:disabled {
+                    opacity: 0.5;
+                }
+
+                & svg {
+                    font-size: 1rem;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 1200px) {
+    .root {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        margin-bottom: 2rem;
+        gap: 2rem;
+
+        & .price p {
+            font-size: 1.6rem;
+        }
+
+        & > .action {
+            border-top: 2px solid #e3f4fd;
+        }
+
+        & > * {
+            flex-grow: 1;
+        }
+    }
+}
+
+@media (max-width: 540px) {
+    .root {
+        margin-top: 2rem;
+
+        & .price p {
+            font-size: 1.4rem;
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .root {
+        margin-top: 2rem;
+        display: block;
+
+        & > .action {
+            border-top: none;
+        }
+
+        & .price p {
+            font-size: 1.4rem;
+        }
+    }
+}
