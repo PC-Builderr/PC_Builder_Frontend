@@ -1,6 +1,6 @@
 import { Elements } from '@stripe/react-stripe-js'
 import { loadStripe, Stripe } from '@stripe/stripe-js'
-import React, { FunctionComponent, useCallback, useEffect, useState } from 'react'
+import React, { FunctionComponent, useCallback, useEffect, useMemo, useState } from 'react'
 import { CheckoutForm } from '../../components/Checkout/CheckoutForm'
 import { CheckoutProductCard } from '../../components/Products/ProductCard/CheckoutProductCard'
 import { Header } from '../../components/UI/Header'
@@ -47,6 +47,19 @@ export const Checkout: FunctionComponent = props => {
     } = useCart()
 
     const { cities } = useFetchEcontCities()
+
+    const disabled: boolean = useMemo(
+        () =>
+            !inputState.name ||
+            !selectState.city ||
+            !inputState['phone-number'] ||
+            !inputState.address ||
+            !selectState.postCode
+                ? true
+                : false,
+
+        [inputState, selectState]
+    )
 
     const selectChangeHandler = useCallback(
         (event: Change<HTMLSelectElement>) => {
@@ -134,6 +147,7 @@ export const Checkout: FunctionComponent = props => {
                         phoneNumber={inputState['phone-number']}
                         address={inputState.address}
                         postCode={selectState.postCode}
+                        disabled={disabled}
                     />
                 </Elements>
                 <Label className={styles.orderLabel} htmlFor='products'>

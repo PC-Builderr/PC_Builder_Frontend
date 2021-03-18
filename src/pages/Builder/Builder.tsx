@@ -40,7 +40,7 @@ export const Builder: FunctionComponent<Props> = props => {
 
     const {
         methods: { createComputer },
-        state: { data, error, loading, disabled }
+        state: { data, loading, disabled }
     } = useFetchCreateComputer(computer)
 
     useEffect(() => {
@@ -48,7 +48,7 @@ export const Builder: FunctionComponent<Props> = props => {
 
         const item: CartItem = { id: data.computer.product.id, quantity: 1 }
         addItem(item)
-    }, [data])
+    }, [data, addItem])
 
     return (
         <div className={styles.root}>

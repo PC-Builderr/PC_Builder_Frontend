@@ -23,6 +23,7 @@ interface Props {
     address: string
     postCode: string
     city: string
+    disabled: boolean
 }
 
 interface CreatePaymentIntentResponse {
@@ -138,7 +139,7 @@ export const CheckoutForm: FunctionComponent<Props> = props => {
             <CardElement id='card-info' options={cardStyle} onChange={handleChange} />
             {error && <span>{error}</span>}
             <Button
-                disabled={processing || disabled || Boolean(error)}
+                disabled={processing || disabled || Boolean(error) || props.disabled}
                 loading={String(processing)}
                 type='submit'
             >
