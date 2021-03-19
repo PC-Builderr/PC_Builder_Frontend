@@ -10,7 +10,7 @@ export const useGetMinMaxPrice = (type: string): MinMaxPrice | null => {
     const [minMaxPrice, setMinMaxPrice] = useState<MinMaxPrice | null>(null)
 
     const getPrice = useCallback(async () => {
-        const response = await fetch(MIN_MAX_PRICE_API_URL + '/' + type)
+        const response = await fetch(MIN_MAX_PRICE_API_URL + '/' + type + '/price')
 
         if (!response.ok) {
             return

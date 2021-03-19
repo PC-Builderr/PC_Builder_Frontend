@@ -34,9 +34,13 @@ export const CartProductCard: FunctionComponent<Props> = props => {
         <li className={styles.root}>
             <img src={GET_FULL_IMAGE_URL(props.product.images[0].url)} alt={props.product.name} />
 
-            <Link to={`/products/${props.product.type}/${props.product.id}`}>
-                {props.product.name}
-            </Link>
+            {props.product.type === 'computer' ? (
+                <p>{props.product.name}</p>
+            ) : (
+                <Link to={`/products/${props.product.type}/${props.product.id}`}>
+                    {props.product.name}
+                </Link>
+            )}
             <div>
                 <h4>{props.product.price}лв.</h4>
                 <div>

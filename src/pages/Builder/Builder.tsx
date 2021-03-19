@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect } from 'react'
+import React, { FunctionComponent, useCallback } from 'react'
 import { SelectComponent } from '../../components/Builder/SelectComponent/SelectComponent'
 import { Button } from '../../components/UI/Button/Button'
 import { Header } from '../../components/UI/Header'
@@ -42,13 +42,6 @@ export const Builder: FunctionComponent<Props> = props => {
         methods: { createComputer },
         state: { data, loading, disabled }
     } = useFetchCreateComputer(computer)
-
-    useEffect(() => {
-        if (!data) return
-
-        const item: CartItem = { id: data.computer.product.id, quantity: 1 }
-        addItem(item)
-    }, [data, addItem])
 
     return (
         <div className={styles.root}>

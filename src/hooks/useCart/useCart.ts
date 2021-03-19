@@ -93,7 +93,7 @@ export const useCart = (): CartState => {
             setProducts(null)
             return
         }
-
+        console.log(resData)
         setProducts(resData.products)
 
         const cost: number = items.reduce((cost: number, item: CartItem): number => {

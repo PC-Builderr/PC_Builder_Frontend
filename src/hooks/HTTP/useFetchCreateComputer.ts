@@ -4,6 +4,7 @@ import { AuthContext } from '../../context/Auth/AuthContext'
 import { AuthContextInterface } from '../../context/Auth/AuthContext.interface'
 import { Error } from '../../types/Error'
 import { Computer } from '../useBuilder/computer/Computer'
+import { useCart } from '../useCart'
 import { useIsMounted } from '../useIsMounted'
 
 interface State {
@@ -14,7 +15,7 @@ interface State {
 }
 
 interface Methods {
-    createComputer: () => void
+    createComputer: () => Promise<void>
 }
 
 interface CreateComputer {
@@ -29,6 +30,9 @@ export const useFetchCreateComputer = (computer: Computer): CreateComputer => {
     const [disabled, setDisabled] = useState<boolean>(true)
 
     const { authState } = useContext<AuthContextInterface>(AuthContext)
+    const {
+        methods: { addItem }
+    } = useCart()
 
     const isMounted: React.MutableRefObject<boolean> = useIsMounted()
 
@@ -58,7 +62,8 @@ export const useFetchCreateComputer = (computer: Computer): CreateComputer => {
 
         setLoading(false)
         setData(data)
-    }, [isMounted, computer, authState])
+        addItem({ id: data.computer.product.id, quantity: 1 })
+    }, [isMounted, computer, authState, addItem])
 
     useEffect(() => {
         if (validateComputer(computer) && !loading) {

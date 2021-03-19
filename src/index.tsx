@@ -6,13 +6,17 @@ import { App } from './App'
 import { CartContextProvider } from './context/Cart/CartContextProvider'
 import { BrowserRouter } from 'react-router-dom'
 import { AuthContextProvider } from './context/Auth/AuthContextProvider'
+import { ThemeProvider } from '@material-ui/styles'
+import { theme } from './theme'
 
 ReactDOM.render(
     <React.StrictMode>
         <AuthContextProvider>
             <CartContextProvider>
                 <BrowserRouter>
-                    <App />
+                    <ThemeProvider theme={theme}>
+                        <App />
+                    </ThemeProvider>
                 </BrowserRouter>
             </CartContextProvider>
         </AuthContextProvider>

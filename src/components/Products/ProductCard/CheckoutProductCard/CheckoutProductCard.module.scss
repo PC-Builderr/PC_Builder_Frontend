@@ -25,6 +25,14 @@
         padding: 0 0.75rem;
         flex-grow: 1;
     }
+
+    & > p {
+        font-size: 0.9rem;
+        color: #2e425a;
+        padding: 0 0.75rem;
+        flex-grow: 1;
+    }
+
     & > h4 {
         color: #2e425a;
         height: fit-content;

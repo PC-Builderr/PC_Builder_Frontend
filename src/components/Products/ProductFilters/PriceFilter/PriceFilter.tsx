@@ -1,16 +1,19 @@
-import React, { FunctionComponent, useCallback, useState } from 'react'
+import { Button, Slider } from '@material-ui/core'
+import React, { FunctionComponent, useCallback, useEffect, useState } from 'react'
 import { IoIosArrowDown } from 'react-icons/io'
-import { useGetMinMaxPrice, MinMaxPrice } from '../../../../hooks/Filters/useGetMinMaxPrice'
-import { useIsMounted } from '../../../../hooks/useIsMounted'
+import { MinMaxPrice, useGetMinMaxPrice } from '../../../../hooks/Filters/useGetMinMaxPrice'
 import { useWindowSize } from '../../../../hooks/useWindowSize'
-import { Checkbox } from '../../../UI/Checkbox'
-import styles from '../Filter/Filter.module.scss'
+import styles from './PriceFilter.module.scss'
 
 interface Props {
     type: string
+    filters: any
+    onChange: React.Dispatch<React.SetStateAction<{}>>
 }
 
 export const PriceFilter: FunctionComponent<Props> = props => {
+    const { onChange } = props
+
     const { width } = useWindowSize()
 
     const [isOpen, setIsOpen] = useState<boolean>(() => (width > 800 ? true : false))
@@ -21,7 +24,33 @@ export const PriceFilter: FunctionComponent<Props> = props => {
 
     const minMaxPrice: MinMaxPrice | null = useGetMinMaxPrice(props.type)
 
-    const minMaxArr: MinMaxPrice[] = generateArrayFromMinMax(minMaxPrice)
+    const [value, setValue] = useState<number[]>([minMaxPrice?.min ?? 0, minMaxPrice?.max ?? 0])
+
+    const changeHandler = useCallback((event: React.ChangeEvent<{}>, value: number | number[]) => {
+        if (typeof value === 'number') {
+            return
+        }
+
+        setValue(value)
+    }, [])
+
+    const submitHandler = useCallback(() => {
+        onChange(filters => {
+            return {
+                ...filters,
+                minPrice: value[0],
+                maxPrice: value[1]
+            }
+        })
+    }, [value, onChange])
+
+    useEffect(() => {
+        if (!minMaxPrice) {
+            return
+        }
+
+        setValue([minMaxPrice.min, minMaxPrice.max])
+    }, [minMaxPrice])
 
     return (
         <li className={styles.root}>
@@ -35,36 +64,29 @@ export const PriceFilter: FunctionComponent<Props> = props => {
                     />
                 </button>
             </div>
-            {isOpen && minMaxArr && (
-                <ul>
-                    {minMaxArr.map((minMaxPrice: MinMaxPrice) => {
-                        return (
-                            <Checkbox
-                                checked={false}
-                                key={minMaxPrice.min}
-                                id={String(minMaxPrice.min)}
-                                name={`${minMaxPrice.min}лв. <--> ${minMaxPrice.max}лв.`}
-                                onChange={() => {}}
-                                value={minMaxPrice.min}
-                            />
-                        )
-                    })}
-                </ul>
+            {isOpen && minMaxPrice && (
+                <div className={styles.Content}>
+                    <Slider
+                        className={styles.Slider}
+                        value={value}
+                        onChange={changeHandler}
+                        min={minMaxPrice.min}
+                        max={minMaxPrice.max}
+                        valueLabelDisplay='auto'
+                        aria-labelledby='range-slider'
+                    />
+                    <Button
+                        size='small'
+                        className={styles.Button}
+                        variant='contained'
+                        color='primary'
+                        fullWidth
+                        onClick={submitHandler}
+                    >
+                        Filter
+                    </Button>
+                </div>
             )}
         </li>
     )
-}
-
-const generateArrayFromMinMax = (minMaxPrice: MinMaxPrice | null) => {
-    if (!minMaxPrice) {
-        return []
-    }
-
-    const dif: number = minMaxPrice.max - minMaxPrice.min
-
-    return new Array(Math.round(dif / 250)).fill(1).map((_, index: number) => {
-        return Math.round(dif / 250) === index + 1
-            ? { min: minMaxPrice.min + 250 * index, max: minMaxPrice.max }
-            : { min: minMaxPrice.min + 250 * index, max: minMaxPrice.min + 250 * index + 250 }
-    })
 }

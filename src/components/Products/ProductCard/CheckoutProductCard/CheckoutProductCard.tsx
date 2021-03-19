@@ -14,9 +14,13 @@ export const CheckoutProductCard: FunctionComponent<Props> = props => {
         <li className={styles.root}>
             <img src={GET_FULL_IMAGE_URL(props.product.images[0].url)} alt={props.product.name} />
             {props.quantity > 1 && <span>{props.quantity} x</span>}
-            <Link to={`/products/${props.product.type}/${props.product.id}`}>
-                {props.product.name}
-            </Link>
+            {props.product.type === 'computer' ? (
+                <p>{props.product.name}</p>
+            ) : (
+                <Link to={`/products/${props.product.type}/${props.product.id}`}>
+                    {props.product.name}
+                </Link>
+            )}
             <h4>{props.product.price * props.quantity}лв.</h4>
         </li>
     )
