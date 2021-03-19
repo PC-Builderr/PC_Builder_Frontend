@@ -5,6 +5,7 @@ import { ChangeHandler } from '../../../types/Handlers'
 import { Checkbox } from '../../UI/Checkbox'
 import { Filter } from './Filter'
 import styles from './ProductFilters.module.scss'
+import { PriceFilter } from './PriceFilter'
 
 interface Props {
     type: string
@@ -39,6 +40,7 @@ export const ProductFilters: FunctionComponent<Props> = props => {
                         ))
                     }
                 </Filter>
+                <PriceFilter type={props.type} />
             </ul>
         </aside>
     )

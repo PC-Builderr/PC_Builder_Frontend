@@ -16,6 +16,7 @@ export const BRANDS_API_URL: string = `${process.env.REACT_APP_API_URL}/brand`
 export const COMPUTER_API_URL: string = `${process.env.REACT_APP_API_URL}/computer`
 export const CALCULATE_SHIPPING_API_URL: string = `${process.env.REACT_APP_API_URL}/econt/calculate`
 export const SHIPPING_ADDRESS_API_URL: string = `${process.env.REACT_APP_API_URL}/shipping-address`
+export const MIN_MAX_PRICE_API_URL: string = `${process.env.REACT_APP_API_URL}/product`
 
 export const ECONT_CITIES_URL: string =
     'http://ee.econt.com/services/Nomenclatures/NomenclaturesService.getCities.json'
