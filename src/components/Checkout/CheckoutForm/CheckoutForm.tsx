@@ -18,12 +18,7 @@ import { Label } from '../../UI/Label'
 import styles from './CheckoutForm.module.scss'
 
 interface Props {
-    phoneNumber: string
-    name: string
-    address: string
-    postCode: string
-    city: string
-    disabled: boolean
+    shippingAddressId: number | null
 }
 
 interface CreatePaymentIntentResponse {
@@ -52,7 +47,7 @@ const cardStyle: StripeCardElementOptions = {
     hidePostalCode: true
 }
 
-export const CheckoutForm: FunctionComponent<Props> = props => {
+export const CheckoutForm: FunctionComponent<Props> = ({ shippingAddressId }) => {
     const stripe = useStripe()
     const elements = useElements()
 
@@ -94,21 +89,20 @@ export const CheckoutForm: FunctionComponent<Props> = props => {
             setError(null)
 
             const element = elements?.getElement(CardElement)
-            if (!element) return
+            if (!element) {
+                return
+            }
+
+            if (!shippingAddressId) {
+                return
+            }
 
             setProcessing(true)
 
             const payload = await stripe!.confirmCardPayment(clientSecret, {
                 shipping: {
-                    phone: props.phoneNumber,
-                    name: props.name,
-                    carrier: 'Econt',
-                    address: {
-                        country: 'BGR',
-                        line1: props.address,
-                        city: props.city,
-                        postal_code: props.postCode
-                    }
+                    name: 'name',
+                    address: { line1: String(shippingAddressId) }
                 },
                 payment_method: {
                     card: element
@@ -124,7 +118,7 @@ export const CheckoutForm: FunctionComponent<Props> = props => {
             setItems([])
             history.replace('/')
         },
-        [clientSecret, elements, stripe, setItems, history, props]
+        [clientSecret, elements, stripe, setItems, history, shippingAddressId]
     )
 
     useEffect(() => {
@@ -139,7 +133,7 @@ export const CheckoutForm: FunctionComponent<Props> = props => {
             <CardElement id='card-info' options={cardStyle} onChange={handleChange} />
             {error && <span>{error}</span>}
             <Button
-                disabled={processing || disabled || Boolean(error) || props.disabled}
+                disabled={processing || disabled || Boolean(error) || !shippingAddressId}
                 loading={String(processing)}
                 type='submit'
             >

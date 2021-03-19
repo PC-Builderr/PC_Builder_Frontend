@@ -1,0 +1,55 @@
+.root {
+    margin-left: 1rem;
+    max-width: 20rem;
+
+    & > label {
+        margin-top: 1rem;
+    }
+
+    & > input {
+        max-width: 20rem;
+        width: 100%;
+    }
+
+    & > textarea {
+        max-width: 32rem;
+        width: 100%;
+        min-height: 5rem;
+        padding: 0.6rem;
+        font-size: 1rem;
+        border: 1px solid #c8dce6;
+        color: #18293c;
+        border-radius: 4px;
+        resize: vertical;
+        flex-grow: 1;
+
+        &:focus {
+            border-color: #6ea7ec;
+            box-shadow: 0 0 0 1px #6ea7ec;
+        }
+    }
+
+    & > button {
+        margin-top: 2rem;
+    }
+
+    & > select {
+        max-width: 20rem;
+        width: 100%;
+        padding: 0.6rem;
+        font-size: 1rem;
+        background-color: white;
+        border: 1px solid #c8dce6;
+        color: #18293c !important;
+        border-radius: 4px;
+
+        &::placeholder {
+            font-size: 0.5rem;
+        }
+
+        &:focus {
+            border-color: #6ea7ec;
+            box-shadow: 0 0 0 1px #6ea7ec;
+        }
+    }
+}
