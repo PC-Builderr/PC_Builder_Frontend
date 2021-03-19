@@ -1,10 +1,9 @@
-import React, { FunctionComponent, useCallback, useMemo } from 'react'
+import React, { FunctionComponent, useCallback } from 'react'
 import { IoMdRemoveCircleOutline } from 'react-icons/io'
 import { RiAddCircleLine } from 'react-icons/ri'
 import { Link } from 'react-router-dom'
 import { GET_FULL_IMAGE_URL } from '../../../../constants'
 import { useCart } from '../../../../hooks/useCart'
-import { CartItem } from '../../../../types/cart/CartEntry'
 import { Product } from '../../../../types/product/Product'
 import styles from './CartProductCard.module.scss'
 

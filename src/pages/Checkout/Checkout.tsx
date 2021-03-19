@@ -2,15 +2,18 @@ import { Elements } from '@stripe/react-stripe-js'
 import { loadStripe, Stripe } from '@stripe/stripe-js'
 import React, { FunctionComponent, useCallback, useEffect, useMemo, useState } from 'react'
 import { CheckoutForm } from '../../components/Checkout/CheckoutForm'
+import { ShippingAddressCard } from '../../components/Checkout/ShippingAddressCard'
 import { CheckoutProductCard } from '../../components/Products/ProductCard/CheckoutProductCard'
 import { Header } from '../../components/UI/Header'
 import { Input } from '../../components/UI/Input'
 import { Label } from '../../components/UI/Label'
 import { useFetchEcontCities } from '../../hooks/HTTP/useFetchEcontCities'
 import { useFetchShippingPrice } from '../../hooks/HTTP/useFetchShippingPrice'
+import { useShippingAddress } from '../../hooks/HTTP/useShippingAddress'
 import { useCart } from '../../hooks/useCart'
 import { City } from '../../types/econt/City'
 import { Change } from '../../types/Events'
+import { ShippingAddress } from '../../types/order/ShippingAddress'
 import { Product } from '../../types/product/Product'
 import styles from './Checkout.module.scss'
 
@@ -29,6 +32,7 @@ const promise: Promise<Stripe | null> = loadStripe(process.env.REACT_APP_STRIPE_
 
 export const Checkout: FunctionComponent = props => {
     const { shippingPrice } = useFetchShippingPrice()
+    const { getShippingAddresses, shippingAddresses } = useShippingAddress()
 
     const [inputState, setInputState] = useState<InputState>({
         name: '',
@@ -95,6 +99,10 @@ export const Checkout: FunctionComponent = props => {
         populateData()
     }, [populateData])
 
+    useEffect(() => {
+        getShippingAddresses()
+    }, [getShippingAddresses])
+
     return (
         <div className={styles.root}>
             <Header>Checkout</Header>
@@ -102,6 +110,9 @@ export const Checkout: FunctionComponent = props => {
                 Shipping Address
             </Label>
             <div id='shipping-address'>
+                {shippingAddresses?.map((address: ShippingAddress) => (
+                    <ShippingAddressCard address={address} />
+                ))}
                 <Input
                     onChange={inputChangeHandler}
                     value={inputState.name}

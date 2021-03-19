@@ -1,11 +1,4 @@
-import React, {
-    ChangeEvent,
-    FunctionComponent,
-    useCallback,
-    useEffect,
-    useRef,
-    useState
-} from 'react'
+import React, { ChangeEvent, FunctionComponent, useCallback, useEffect } from 'react'
 import { GET_FULL_COMPONENT_URL } from '../../../constants'
 import { useFetchFilteredProducts } from '../../../hooks/HTTP/useFetchFilteredProducts'
 import { useIsMounted } from '../../../hooks/useIsMounted'

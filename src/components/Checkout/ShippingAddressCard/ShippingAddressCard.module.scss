@@ -1,0 +1,28 @@
+.root {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+
+    & > input {
+        padding: 2rem;
+        cursor: pointer;
+    }
+
+    & > div {
+        margin-left: 1rem;
+
+        & > label {
+            cursor: pointer;
+            font-weight: 500;
+            margin-bottom: 0.4rem;
+            display: block;
+            color: #2e425a;
+        }
+
+        & > p {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #9ea9b7;
+        }
+    }
+}
