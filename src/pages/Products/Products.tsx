@@ -23,9 +23,11 @@ export const Products: FunctionComponent = () => {
                 {ComponentNames.get(type)} <span>({total})</span>
             </Header>
             <ProductFilters type={type} filters={filters} onChange={setFilters} />
-            {error && <pre>{JSON.stringify(error, null, 2)}</pre>}
-            {products && !loading && <ProductList products={products} />}
-            {total && <Pagination count={total} />}
+            <div>
+                {error && <pre>{JSON.stringify(error, null, 2)}</pre>}
+                {products && !loading && <ProductList products={products} />}
+                {total && <Pagination count={total} />}
+            </div>
         </div>
     )
 }

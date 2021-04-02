@@ -5,14 +5,17 @@
 
     grid-template-areas:
         'header header'
-        'filters products'
-        'filters pagination';
+        'filters content';
 
     margin-bottom: 1rem;
 
     & > h3 {
         grid-area: header;
         margin: 1rem 0;
+    }
+
+    & > div {
+        grid-area: content;
     }
 }
 
@@ -22,8 +25,7 @@
         grid-template-areas:
             'header'
             'filters'
-            'products'
-            'pagination';
+            'content';
 
         & > h3 {
             margin: 0;

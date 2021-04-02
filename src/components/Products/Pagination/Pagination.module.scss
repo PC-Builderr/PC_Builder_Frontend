@@ -1,6 +1,7 @@
 .root {
     grid-area: pagination;
     margin-top: 2rem;
+    height: fit-content;
 
     &,
     & > a,
