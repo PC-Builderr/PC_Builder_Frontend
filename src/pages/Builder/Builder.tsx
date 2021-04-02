@@ -1,9 +1,12 @@
 import { FormControlLabel, Switch, TextField } from '@material-ui/core'
-import React, { FunctionComponent, useCallback } from 'react'
+import React, { FunctionComponent, useCallback, useContext } from 'react'
+import { Redirect, useLocation } from 'react-router'
 import { SelectComponent } from '../../components/Builder/SelectComponent/SelectComponent'
 import { Button } from '../../components/UI/Button/Button'
 import { Header } from '../../components/UI/Header'
 import { Input } from '../../components/UI/Input'
+import { AuthContext } from '../../context/Auth/AuthContext'
+import { AuthContextInterface } from '../../context/Auth/AuthContext.interface'
 import { useFetchCreateComputer } from '../../hooks/HTTP/useFetchCreateComputer'
 import { useBuilder } from '../../hooks/useBuilder'
 import { StorageFilters } from '../../hooks/useBuilder/components/storage/StorageFilters'
@@ -15,6 +18,8 @@ import styles from './Builder.module.scss'
 interface Props {}
 
 export const Builder: FunctionComponent<Props> = props => {
+    const { authState } = useContext<AuthContextInterface>(AuthContext)
+
     const {
         methods: { addItem }
     } = useCart()
@@ -43,6 +48,10 @@ export const Builder: FunctionComponent<Props> = props => {
         methods: { createComputer },
         state: { data, loading, disabled }
     } = useFetchCreateComputer(computer)
+
+    if (!authState) {
+        return <Redirect to='/sign-in?to=pc-builder' />
+    }
 
     return (
         <div className={styles.root}>

@@ -1,11 +1,13 @@
 import React, { FunctionComponent } from 'react'
-import { BRANDS_API_URL } from '../../../constants'
+import { BRANDS_API_URL, CASE_API_URL } from '../../../constants'
 import { Brand } from '../../../types/product/Brand'
 import { ChangeHandler } from '../../../types/Handlers'
 import { Filter } from './Filter'
 import styles from './ProductFilters.module.scss'
 import { PriceFilter } from './PriceFilter'
 import { Checkbox, FormControlLabel } from '@material-ui/core'
+import { CaseFilter } from './Components/CaseFilter'
+import { CPUFilter } from './Components/CPUFilter'
 
 interface Props {
     type: string
@@ -47,6 +49,8 @@ export const ProductFilters: FunctionComponent<Props> = props => {
                     }
                 </Filter>
                 <PriceFilter filters={props.filters} onChange={props.onChange} type={props.type} />
+                <CaseFilter filters={props.filters} onChange={props.onChange} type={props.type} />
+                <CPUFilter filters={props.filters} onChange={props.onChange} type={props.type} />
             </ul>
         </aside>
     )
