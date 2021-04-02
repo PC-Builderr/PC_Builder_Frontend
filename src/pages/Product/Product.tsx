@@ -17,7 +17,10 @@ export const Product: FunctionComponent = () => {
                 <>
                     <ProductHeroSection product={component.product} />
                     <ProductTable type={type} component={component} />
-                    <SimilarProductsSlider search={component.product.metaData} />
+                    <SimilarProductsSlider
+                        id={component.productId}
+                        search={component.product.metaData}
+                    />
                 </>
             )}
             {error && <pre>{JSON.stringify(error, null, 2)}</pre>}

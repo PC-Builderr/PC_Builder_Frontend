@@ -8,6 +8,7 @@ import { SliderItem } from './SliderItem'
 
 interface Props {
     search: string
+    id: number
 }
 
 const urlSearchParams: URLSearchParams = new URLSearchParams([
@@ -15,7 +16,7 @@ const urlSearchParams: URLSearchParams = new URLSearchParams([
     ['page', '1']
 ])
 
-export const SimilarProductsSlider: FunctionComponent<Props> = ({ search }) => {
+export const SimilarProductsSlider: FunctionComponent<Props> = ({ search, id }) => {
     const rootRef = useRef<HTMLDivElement>(null)
 
     const [disable, setDisable] = useState<boolean>(false)
@@ -34,7 +35,7 @@ export const SimilarProductsSlider: FunctionComponent<Props> = ({ search }) => {
     useEffect(() => {
         setDisable(
             index * (rootRef.current?.firstElementChild?.firstElementChild?.clientWidth || 0) >
-                (products?.length || 0) *
+                ((products?.length || 0) - 1) *
                     (rootRef.current?.firstElementChild?.firstElementChild?.clientWidth || 0) -
                     (rootRef.current?.clientWidth || 0)
         )
@@ -54,9 +55,11 @@ export const SimilarProductsSlider: FunctionComponent<Props> = ({ search }) => {
                         }px)`
                     }}
                 >
-                    {products?.map((product: Product) => (
-                        <SliderItem key={product.id} product={product} />
-                    ))}
+                    {products
+                        ?.filter((product: Product) => product.id !== id)
+                        ?.map((product: Product) => (
+                            <SliderItem key={product.id} product={product} />
+                        ))}
                 </ul>
                 <button disabled={index === 0} onClick={clickHandler.bind(null, -1)}>
                     <MdKeyboardArrowLeft />

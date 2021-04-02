@@ -4,4 +4,5 @@ import { MotherboardFilters } from './MotherboardFilters'
 export interface MotherboardState {
     setMobo: React.Dispatch<React.SetStateAction<Motherboard | null>>
     moboFilters: MotherboardFilters
+    mobo: Motherboard | null
 }

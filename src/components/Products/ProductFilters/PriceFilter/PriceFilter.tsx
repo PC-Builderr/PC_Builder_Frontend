@@ -76,7 +76,7 @@ export const PriceFilter: FunctionComponent<Props> = props => {
                         aria-labelledby='range-slider'
                     />
                     <Button
-                        size='small'
+                        size='medium'
                         className={styles.Button}
                         variant='contained'
                         color='primary'

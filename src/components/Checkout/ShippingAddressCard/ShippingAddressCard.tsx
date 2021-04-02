@@ -1,3 +1,4 @@
+import { Radio } from '@material-ui/core'
 import React, { FunctionComponent } from 'react'
 import { ShippingAddress } from '../../../types/order/ShippingAddress'
 import styles from './ShippingAddressCard.module.scss'
@@ -11,12 +12,12 @@ interface Props {
 export const ShippingAddressCard: FunctionComponent<Props> = props => {
     return (
         <div className={styles.root}>
-            <input
-                type='radio'
+            <Radio
                 name='shipping-address'
                 id={String(props.address.id)}
                 value={props.address.id}
                 checked={props.selected === props.address.id}
+                color='primary'
                 onChange={() => {
                     props.changeHandler(props.address.id)
                 }}

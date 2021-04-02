@@ -9,6 +9,7 @@ interface Methods {
 
 interface State {
     storageFilters: StorageFilters[]
+    storages: Array<Storage | null>
 }
 
 export interface StorageState {

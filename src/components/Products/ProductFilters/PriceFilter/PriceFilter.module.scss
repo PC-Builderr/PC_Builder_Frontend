@@ -32,11 +32,20 @@
     }
 
     & > .Content {
-        padding: 1rem 1rem 0.75rem 1rem;
+        padding: 0.5rem 1rem 0.75rem;
+        display: flex;
+        flex-flow: column;
+
+        & > button {
+            margin-top: 0.5rem;
+        }
     }
 }
 
 .Slider {
     box-sizing: border-box;
-    margin-bottom: 0.3rem;
+    margin-bottom: 0.5rem;
+
+    width: 90%;
+    margin: 0 auto !important;
 }

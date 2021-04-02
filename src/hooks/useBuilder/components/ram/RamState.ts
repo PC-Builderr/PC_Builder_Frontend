@@ -10,6 +10,7 @@ interface Methods {
 interface State {
     ramQuantity: number
     ramFilters: RamFilters
+    ram: RAM | null
 }
 
 export interface RamState {

@@ -1,11 +1,11 @@
+import { TextField } from '@material-ui/core'
+import { Autocomplete, AutocompleteChangeDetails, AutocompleteChangeReason } from '@material-ui/lab'
 import React, { FunctionComponent, useCallback, useMemo, useState } from 'react'
 import { useFetchEcontCities } from '../../../hooks/HTTP/useFetchEcontCities'
 import { City } from '../../../types/econt/City'
 import { Change } from '../../../types/Events'
 import { CreateShippingAddressDto } from '../../../types/order/CreateShippingAddressDto'
 import { Button } from '../../UI/Button/Button'
-import { Input } from '../../UI/Input'
-import { Label } from '../../UI/Label'
 import styles from './CreateShippingAddressForm.module.scss'
 
 interface Props {
@@ -51,23 +51,23 @@ export const CreateShippingAddressForm: FunctionComponent<Props> = props => {
     )
 
     const selectChangeHandler = useCallback(
-        (event: Change<HTMLSelectElement>) => {
-            if (!event.target.value) {
+        (
+            event: React.ChangeEvent<{}>,
+            value: City | null,
+            reason: AutocompleteChangeReason,
+            details?: AutocompleteChangeDetails<City> | undefined
+        ) => {
+            if (!value) {
                 setSelectState({ city: '', postCode: '' })
                 return
             }
-            const city: City | null =
-                cities?.find((city: City) => city.id === Number(event.target.value)) ?? null
-            if (!city) {
-                setSelectState({ city: '', postCode: '' })
-                return
-            }
+
             setSelectState({
-                city: city.name,
-                postCode: city.postCode
+                city: value.name,
+                postCode: value.postCode
             })
         },
-        [cities]
+        []
     )
 
     const inputChangeHandler = useCallback((event: Change<HTMLInputElement>) => {
@@ -95,41 +95,50 @@ export const CreateShippingAddressForm: FunctionComponent<Props> = props => {
                 })
             }}
         >
-            <Input
+            <TextField
                 onChange={inputChangeHandler}
                 value={inputState.name}
                 type='text'
-                label='Name*'
+                label='Name'
                 name='name'
+                fullWidth
+                variant='outlined'
+                className={styles.Input}
             />
-            <Input
+            <TextField
                 onChange={inputChangeHandler}
                 value={inputState['phone-number']}
                 type='tel'
-                label='Phone Number*'
+                label='Phone Number'
                 name='phone-number'
-                minLength={10}
-                maxLength={10}
+                fullWidth
+                variant='outlined'
+                className={styles.Input}
+            />
+            <Autocomplete
+                id='city'
+                options={cities}
+                getOptionLabel={option => `${option.name} (${option.postCode})`}
+                onChange={selectChangeHandler}
+                renderInput={params => (
+                    <TextField
+                        {...params}
+                        label='Choose City'
+                        variant='outlined'
+                        className={styles.Input}
+                    />
+                )}
             />
 
-            <Label htmlFor='city'>City*</Label>
-            <select id='city' onChange={selectChangeHandler}>
-                <option value='' defaultChecked>
-                    Choose City
-                </option>
-                {cities.map((city: City) => (
-                    <option value={city.id} key={city.id}>
-                        {city.name} ({city.postCode})
-                    </option>
-                ))}
-            </select>
-
-            <Input
+            <TextField
                 onChange={inputChangeHandler}
                 value={inputState.address}
                 type='text'
-                label='Address*'
+                label='Address'
                 name='address'
+                fullWidth
+                variant='outlined'
+                className={styles.Input}
             />
             <Button disabled={disabled} type='submit'>
                 Save Address

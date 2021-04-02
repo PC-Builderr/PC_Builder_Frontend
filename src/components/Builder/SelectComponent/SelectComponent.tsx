@@ -1,9 +1,11 @@
-import React, { ChangeEvent, FunctionComponent, useCallback, useEffect } from 'react'
-import { GET_FULL_COMPONENT_URL } from '../../../constants'
+import { TextField } from '@material-ui/core'
+import { Autocomplete, AutocompleteChangeDetails, AutocompleteChangeReason } from '@material-ui/lab'
+import React, { FunctionComponent, useCallback, useEffect, useState } from 'react'
+import { ComponentNames, GET_FULL_COMPONENT_URL } from '../../../constants'
 import { useFetchFilteredProducts } from '../../../hooks/HTTP/useFetchFilteredProducts'
 import { useIsMounted } from '../../../hooks/useIsMounted'
+import { Component } from '../../../types/components/Component'
 import { Product } from '../../../types/product/Product'
-import { Label } from '../../UI/Label'
 import styles from './SelectComponent.module.scss'
 
 interface Props {
@@ -11,6 +13,7 @@ interface Props {
     setComponent: React.Dispatch<React.SetStateAction<any>>
     filters: any
     id: string
+    component: Component | null
 }
 
 export const SelectComponent: FunctionComponent<Props> = props => {
@@ -19,7 +22,7 @@ export const SelectComponent: FunctionComponent<Props> = props => {
     const isMounted: React.MutableRefObject<boolean> = useIsMounted()
 
     const {
-        state: { products, error },
+        state: { products, error, loading },
         methods: { setFilters }
     } = useFetchFilteredProducts(props.type)
 
@@ -34,13 +37,18 @@ export const SelectComponent: FunctionComponent<Props> = props => {
     }, [error, type])
 
     const changeHandler = useCallback(
-        async (event: ChangeEvent<HTMLSelectElement>) => {
-            if (!event.target.value) {
+        async (
+            event: React.ChangeEvent<{}>,
+            value: Product | null,
+            reason: AutocompleteChangeReason,
+            details?: AutocompleteChangeDetails<Product> | undefined
+        ) => {
+            if (!value) {
                 setComponent(null)
                 return
             }
 
-            const response = await fetch(GET_FULL_COMPONENT_URL(type, event.target.value))
+            const response = await fetch(GET_FULL_COMPONENT_URL(type, String(value.id)))
 
             const data = await response.json()
 
@@ -57,17 +65,18 @@ export const SelectComponent: FunctionComponent<Props> = props => {
 
     return (
         <div className={styles.root}>
-            <Label htmlFor={type}>{type}</Label>
-            <select name={type} id={id} onChange={changeHandler}>
-                <option value='' defaultChecked>
-                    Choose Component
-                </option>
-                {products?.map((product: Product) => (
-                    <option value={product.id} key={product.id}>
-                        {product.name}
-                    </option>
-                ))}
-            </select>
+            <Autocomplete
+                id={id}
+                options={products ?? []}
+                getOptionLabel={option => option.name}
+                loading={loading}
+                value={props.component?.product ?? null}
+                onChange={changeHandler}
+                getOptionSelected={(option: Product, value: Product) => option.id === value.id}
+                renderInput={params => (
+                    <TextField {...params} label={ComponentNames.get(type)} variant='outlined' />
+                )}
+            />
         </div>
     )
 }

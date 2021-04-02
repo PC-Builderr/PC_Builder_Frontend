@@ -1,3 +1,4 @@
+import { FormControlLabel, Switch, TextField } from '@material-ui/core'
 import React, { FunctionComponent, useCallback } from 'react'
 import { SelectComponent } from '../../components/Builder/SelectComponent/SelectComponent'
 import { Button } from '../../components/UI/Button/Button'
@@ -19,20 +20,20 @@ export const Builder: FunctionComponent<Props> = props => {
     } = useCart()
 
     const {
-        cpu: { cpuFilters, setCPU },
-        chassis: { chassisFilters, setChassis },
+        cpu: { cpuFilters, setCPU, cpu },
+        chassis: { chassisFilters, setChassis, chassis },
         gpu: {
             methods: { addGPU, removeGPU, setGPU },
-            state: { gpuFilters, gpuQuantity }
+            state: { gpuFilters, gpuQuantity, gpu }
         },
-        mobo: { moboFilters, setMobo },
-        psu: { psuFilters, setPSU },
+        mobo: { moboFilters, setMobo, mobo },
+        psu: { psuFilters, setPSU, psu },
         ram: {
-            state: { ramFilters, ramQuantity },
+            state: { ramFilters, ramQuantity, ram },
             methods: { decrementRam, incrementRam, setRam }
         },
         storage: {
-            state: { storageFilters },
+            state: { storageFilters, storages },
             methods: { addStorage, removeStorage, setStorage }
         },
         computer: { price, computer, setName }
@@ -46,27 +47,66 @@ export const Builder: FunctionComponent<Props> = props => {
     return (
         <div className={styles.root}>
             <Header>Builder</Header>
-            <Input value={computer.name} onChange={e => setName(e.target.value)} />
+            <TextField
+                variant='outlined'
+                value={computer.name}
+                onChange={e => setName(e.target.value)}
+                label='Name'
+            />
             <h3>Price: {price}лв.</h3>
-            <p>Are you planning on selecting a dedicated Graphics Card?</p>
-            <button onClick={removeGPU}>No</button>
-            <button onClick={addGPU}>Yes</button>
-            <SelectComponent id='cpu' filters={cpuFilters} type='cpu' setComponent={setCPU} />
+            <FormControlLabel
+                control={
+                    <Switch
+                        checked={Boolean(gpuQuantity)}
+                        onChange={(_, checked: boolean) => {
+                            if (checked) {
+                                addGPU()
+                                return
+                            }
+                            removeGPU()
+                        }}
+                        name='GPU'
+                        color='primary'
+                    />
+                }
+                label='Graphics card'
+            />
             <SelectComponent
+                component={cpu}
+                id='cpu'
+                filters={cpuFilters}
+                type='cpu'
+                setComponent={setCPU}
+            />
+            <SelectComponent
+                component={mobo}
                 id='motherboard'
                 filters={moboFilters}
                 type='motherboard'
                 setComponent={setMobo}
             />
-            <SelectComponent id='ram' filters={ramFilters} type='ram' setComponent={setRam} />
+            <SelectComponent
+                component={ram}
+                id='ram'
+                filters={ramFilters}
+                type='ram'
+                setComponent={setRam}
+            />
             <button onClick={incrementRam}>Inc.</button>
             <span>{ramQuantity}</span>
             <button onClick={decrementRam}>Dec.</button>
             {gpuQuantity > 0 && (
-                <SelectComponent id='gpu' filters={gpuFilters} type='gpu' setComponent={setGPU} />
+                <SelectComponent
+                    component={gpu}
+                    id='gpu'
+                    filters={gpuFilters}
+                    type='gpu'
+                    setComponent={setGPU}
+                />
             )}
 
             <SelectComponent
+                component={chassis}
                 id='case'
                 filters={chassisFilters}
                 type='case'
@@ -74,6 +114,7 @@ export const Builder: FunctionComponent<Props> = props => {
             />
             {storageFilters?.map((storageFilter: StorageFilters, index: number) => (
                 <SelectComponent
+                    component={storages[index]}
                     key={index}
                     id={`storage${index}`}
                     filters={storageFilter}
@@ -83,7 +124,13 @@ export const Builder: FunctionComponent<Props> = props => {
             ))}
             <button onClick={addStorage}>add</button>
             <button onClick={removeStorage}>remove</button>
-            <SelectComponent id='psu' filters={psuFilters} type='psu' setComponent={setPSU} />
+            <SelectComponent
+                component={psu}
+                id='psu'
+                filters={psuFilters}
+                type='psu'
+                setComponent={setPSU}
+            />
             <Button onClick={createComputer} disabled={disabled} loading={String(loading)}>
                 Save Your Configuration
             </Button>

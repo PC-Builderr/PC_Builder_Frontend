@@ -42,9 +42,9 @@
             align-items: center;
 
             & > span {
-                color: #2e425a;
                 font-size: 0.9rem;
-                font-weight: 600;
+                font-weight: 500;
+                padding: 0.25rem !important;
                 // white-space: nowrap;
             }
         }

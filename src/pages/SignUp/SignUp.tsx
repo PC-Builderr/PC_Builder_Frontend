@@ -1,3 +1,4 @@
+import { TextField } from '@material-ui/core'
 import React, { FunctionComponent } from 'react'
 import { Link, Redirect, useLocation } from 'react-router-dom'
 import { Button } from '../../components/UI/Button/Button'
@@ -43,58 +44,71 @@ export const SignUp: FunctionComponent = () => {
                     <span className={styles.error}>Email already in use.</span>
                 )}
 
-                <Input
+                <TextField
                     type='text'
-                    label='Name*'
+                    label='Name'
                     name='name'
                     onChange={changeHandler}
                     value={credentials.name}
+                    fullWidth
+                    variant='outlined'
+                    className={styles.Input}
                 />
-                <Input
+                <TextField
                     type='text'
-                    label='Email*'
+                    label='Email'
                     name='email'
                     onChange={changeHandler}
                     value={credentials.email}
-                    error={
-                        credentialsErrors.includes('email')
-                            ? 'Please provide a valid email.'
-                            : undefined
+                    error={credentialsErrors.includes('email')}
+                    helperText={
+                        credentialsErrors.includes('email') ? 'Please provide a valid email.' : null
                     }
                     onFocus={focusHandler}
+                    fullWidth
+                    variant='outlined'
+                    className={styles.Input}
                 />
-                <Input
+                <TextField
                     type='password'
-                    label='Password*'
+                    label='Password'
                     name='password'
                     onChange={changeHandler}
                     value={credentials.password}
-                    error={
+                    error={credentialsErrors.includes('password')}
+                    helperText={
                         credentialsErrors.includes('password')
                             ? 'Password sould have numbers and letters.'
-                            : undefined
+                            : null
                     }
                     onFocus={focusHandler}
+                    fullWidth
+                    variant='outlined'
+                    className={styles.Input}
                 />
-                <Input
+                <TextField
                     type='password'
-                    label='Confirm Password*'
+                    label='Confirm Password'
                     name='confirm-password'
                     onChange={changeHandler}
                     value={credentials['confirm-password']}
-                    error={
+                    error={credentialsErrors.includes('confirm-password')}
+                    helperText={
                         credentialsErrors.includes('confirm-password')
                             ? 'Password and Confirm password should match'
-                            : undefined
+                            : null
                     }
                     onFocus={focusHandler}
+                    fullWidth
+                    variant='outlined'
+                    className={styles.Input}
                 />
                 <Button disabled={!canSubmit} loading={String(loading)} type='submit'>
                     Sign Up
                 </Button>
                 <p>
                     Already have an account?
-                    <Link to={`/sign-in?${params.toString()}`}>Sign in.</Link>
+                    <Link to={`/sign-in${search}`}>Sign in.</Link>
                 </p>
             </form>
         </>

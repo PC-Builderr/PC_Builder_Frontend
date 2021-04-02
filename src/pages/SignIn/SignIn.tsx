@@ -1,3 +1,4 @@
+import { TextField } from '@material-ui/core'
 import React, { FunctionComponent } from 'react'
 import { Link, Redirect, useLocation } from 'react-router-dom'
 import { Button } from '../../components/UI/Button/Button'
@@ -41,27 +42,33 @@ export const SignIn: FunctionComponent = () => {
                     <span className={styles.error}> Invalid email or password. </span>
                 )}
 
-                <Input
+                <TextField
                     type='text'
-                    label='Email*'
+                    label='Email'
                     name='email'
                     onChange={changeHandler}
                     value={credentials.email}
                     onFocus={focusHandler}
+                    fullWidth
+                    variant='outlined'
+                    className={styles.Input}
                 />
-                <Input
+                <TextField
                     type='password'
-                    label='Password*'
+                    label='Password'
                     name='password'
                     onChange={changeHandler}
                     value={credentials.password}
                     onFocus={focusHandler}
+                    fullWidth
+                    variant='outlined'
+                    className={styles.Input}
                 />
                 <Button disabled={!canSubmit} loading={String(loading)} type='submit'>
                     Sign In
                 </Button>
                 <p>
-                    Don't have an account?<Link to={`/sign-up?${params.toString()}`}>Sign up.</Link>
+                    Don't have an account?<Link to={`/sign-up${search}`}>Sign up.</Link>
                 </p>
             </form>
         </>

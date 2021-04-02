@@ -1,5 +1,5 @@
 .root {
-    margin-left: 1rem;
+    margin-left: 1.5rem;
     max-width: 20rem;
 
     & > label {
@@ -30,7 +30,7 @@
     }
 
     & > button {
-        margin-top: 2rem;
+        margin-top: 1rem;
     }
 
     & > select {
@@ -52,4 +52,9 @@
             box-shadow: 0 0 0 1px #6ea7ec;
         }
     }
+}
+
+.Input {
+    background: white;
+    margin-top: 1rem !important;
 }

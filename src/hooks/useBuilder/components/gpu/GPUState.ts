@@ -10,6 +10,7 @@ interface Methods {
 interface State {
     gpuFilters: GPUFilters
     gpuQuantity: number
+    gpu: GPU | null
 }
 
 export interface GPUState {

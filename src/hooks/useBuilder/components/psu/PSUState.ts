@@ -4,4 +4,5 @@ import { PSUFilters } from './PSUFilters'
 export interface PSUState {
     setPSU: React.Dispatch<React.SetStateAction<PSU | null>>
     psuFilters: PSUFilters
+    psu: PSU | null
 }

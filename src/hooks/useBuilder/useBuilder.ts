@@ -209,12 +209,14 @@ export const useBuilder = (): Builder => {
     return {
         cpu: {
             setCPU,
-            cpuFilters
+            cpuFilters,
+            cpu
         },
         gpu: {
             state: {
                 gpuFilters,
-                gpuQuantity
+                gpuQuantity,
+                gpu
             },
             methods: {
                 setGPU,
@@ -224,16 +226,19 @@ export const useBuilder = (): Builder => {
         },
         chassis: {
             setChassis,
-            chassisFilters
+            chassisFilters,
+            chassis
         },
         mobo: {
             setMobo,
-            moboFilters
+            moboFilters,
+            mobo
         },
         ram: {
             state: {
                 ramQuantity,
-                ramFilters
+                ramFilters,
+                ram
             },
             methods: {
                 incrementRam,
@@ -243,11 +248,13 @@ export const useBuilder = (): Builder => {
         },
         psu: {
             setPSU,
-            psuFilters
+            psuFilters,
+            psu
         },
         storage: {
             state: {
-                storageFilters
+                storageFilters,
+                storages
             },
             methods: {
                 addStorage,

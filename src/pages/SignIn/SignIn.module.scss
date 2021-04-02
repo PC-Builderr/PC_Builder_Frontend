@@ -1,11 +1,11 @@
 .root {
     display: flex;
     flex-direction: column;
-    max-width: 24rem;
+    max-width: 28rem;
     border: 2px solid #e3f4fd;
     background-color: #f7fcff;
     border-radius: 4px;
-    padding: 2rem 2rem 1.25rem 2rem;
+    padding: 2.5rem 2.5rem 2rem 2.5rem;
     margin: 2rem auto 0;
 
     & > h2 {
@@ -21,7 +21,7 @@
     }
 
     & > p {
-        margin-top: 1.2rem;
+        margin-top: 1.5rem;
         font-size: 0.8rem;
         margin-bottom: 0;
         color: #2e425a;
@@ -56,4 +56,9 @@
             font-size: 0.7rem;
         }
     }
+}
+
+.Input {
+    margin-top: 1.5rem !important;
+    background: white;
 }
