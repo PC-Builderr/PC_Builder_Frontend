@@ -1,0 +1,12 @@
+.root {
+    padding: 8rem 0;
+    & > h1 {
+        font-size: 4rem;
+        margin-bottom: 2rem;
+    }
+
+    & > button {
+        width: fit-content;
+        padding: 1rem 1.5rem;
+    }
+}

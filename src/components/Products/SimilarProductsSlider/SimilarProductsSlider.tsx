@@ -8,7 +8,7 @@ import { SliderItem } from './SliderItem'
 
 interface Props {
     search: string
-    id: number
+    id?: number
 }
 
 const urlSearchParams: URLSearchParams = new URLSearchParams([
@@ -35,11 +35,11 @@ export const SimilarProductsSlider: FunctionComponent<Props> = ({ search, id }) 
     useEffect(() => {
         setDisable(
             index * (rootRef.current?.firstElementChild?.firstElementChild?.clientWidth || 0) >
-                ((products?.length || 0) - 1) *
+                ((products?.length || 0) - (id ? 1 : 0)) *
                     (rootRef.current?.firstElementChild?.firstElementChild?.clientWidth || 0) -
                     (rootRef.current?.clientWidth || 0)
         )
-    }, [index, rootRef, products])
+    }, [index, rootRef, products, id])
 
     return (
         <div className={styles.root} ref={rootRef}>

@@ -1,2 +1,7 @@
 .root {
+    // margin-top: 4rem;
+
+    & > div {
+        margin-bottom: 0;
+    }
 }

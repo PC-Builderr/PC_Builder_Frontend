@@ -6,12 +6,10 @@ import { ProductList } from '../../components/Products/ProductList'
 import { Header } from '../../components/UI/Header'
 import { ITEMS_PER_PAGE } from '../../constants'
 import { useFetchSearchResult } from '../../hooks/HTTP/useFetchSearchResult'
-import styles from '../Products/Products.module.scss'
+import styles from './SearchResult.module.scss'
 
 export const SearchResult: FunctionComponent = () => {
     const { search } = useLocation<Location>()
-
-    const [filters, setFilters] = useState({})
 
     const searchParams: URLSearchParams = useMemo(() => {
         const params = new URLSearchParams(search)
@@ -33,10 +31,11 @@ export const SearchResult: FunctionComponent = () => {
             <Header>
                 {searchParams.get('search')} <span>({total})</span>
             </Header>
-            <ProductFilters type={''} filters={filters} onChange={setFilters} />
-            {error && <pre>{JSON.stringify(error, null, 2)}</pre>}
-            {products && !loading && <ProductList products={products} />}
-            {total && <Pagination count={total} />}
+            <div>
+                {error && <pre>{JSON.stringify(error, null, 2)}</pre>}
+                {products && !loading && <ProductList products={products} />}
+                {total && <Pagination count={total} />}
+            </div>
         </div>
     )
 }

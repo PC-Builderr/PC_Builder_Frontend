@@ -1,0 +1,28 @@
+.root {
+    display: grid;
+    grid-template-columns: auto;
+    gap: 1rem;
+
+    grid-template-areas:
+        'header'
+        'content';
+
+    margin-bottom: 1rem;
+
+    & > h3 {
+        grid-area: header;
+        margin: 1rem 0;
+    }
+
+    & > div {
+        grid-area: content;
+    }
+}
+
+@media (max-width: 800px) {
+    .root {
+        & > h3 {
+            margin: 0;
+        }
+    }
+}

@@ -20,7 +20,7 @@ export const Products: FunctionComponent = () => {
     return (
         <div className={styles.root}>
             <Header>
-                {ComponentNames.get(type)} <span>({total})</span>
+                {ComponentNames.get(type)} <span>({total ?? 0})</span>
             </Header>
             <ProductFilters type={type} filters={filters} onChange={setFilters} />
             <div>

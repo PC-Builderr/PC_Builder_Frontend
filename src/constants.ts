@@ -36,11 +36,11 @@ export const SATA_TYPE: string = 'SATA'
 export const M2_TYPE: string = 'М.2 NVMe'
 
 export const ComponentNames: Map<string, string> = new Map([
-    ['gpu', 'Graphics Cards'],
     ['cpu', 'Processors'],
-    ['psu', 'Power supplies'],
+    ['gpu', 'Graphics Cards'],
+    ['motherboard', 'Motherboards'],
     ['ram', 'RAM'],
     ['case', 'Cases'],
-    ['storage', 'Storages'],
-    ['motherboard', 'Motherboards']
+    ['psu', 'Power supplies'],
+    ['storage', 'Storages']
 ])

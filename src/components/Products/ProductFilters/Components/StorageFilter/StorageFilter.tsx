@@ -73,7 +73,7 @@ export const StorageFilter: FunctionComponent<Props> = props => {
                                     color='primary'
                                 />
                             }
-                            label={capacity}
+                            label={capacity + 'GB'}
                         />
                     ))
                 }
