@@ -4,7 +4,7 @@ import { RiAddCircleLine } from 'react-icons/ri'
 import { GiCheckMark } from 'react-icons/gi'
 import styles from './ProductSidebar.module.scss'
 import { useCart } from '../../../hooks/useCart'
-import { Button } from '../../UI/Button/Button'
+import { PrimaryButton } from '../../UI/PrimaryButton/PrimaryButton'
 
 interface Props {
     price: number
@@ -48,9 +48,9 @@ export const ProductSidebar: FunctionComponent<Props> = props => {
                         <RiAddCircleLine />
                     </button>
                 </div>
-                <Button onClick={addItem.bind(null, { id, quantity })}>
+                <PrimaryButton onClick={addItem.bind(null, { id, quantity })}>
                     <IoMdCart /> ADD TO CART
-                </Button>
+                </PrimaryButton>
             </div>
         </div>
     )

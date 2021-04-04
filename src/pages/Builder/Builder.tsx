@@ -2,7 +2,7 @@ import { FormControlLabel, Switch, TextField } from '@material-ui/core'
 import React, { FunctionComponent, useCallback, useContext } from 'react'
 import { Redirect, useLocation } from 'react-router'
 import { SelectComponent } from '../../components/Builder/SelectComponent/SelectComponent'
-import { Button } from '../../components/UI/Button/Button'
+import { PrimaryButton } from '../../components/UI/PrimaryButton/PrimaryButton'
 import { Header } from '../../components/UI/Header'
 import { Input } from '../../components/UI/Input'
 import { AuthContext } from '../../context/Auth/AuthContext'
@@ -140,9 +140,9 @@ export const Builder: FunctionComponent<Props> = props => {
                 type='psu'
                 setComponent={setPSU}
             />
-            <Button onClick={createComputer} disabled={disabled} loading={String(loading)}>
+            <PrimaryButton onClick={createComputer} disabled={disabled} loading={loading}>
                 Save Your Configuration
-            </Button>
+            </PrimaryButton>
         </div>
     )
 }

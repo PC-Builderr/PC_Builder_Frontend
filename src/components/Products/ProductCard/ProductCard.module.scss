@@ -1,57 +1,43 @@
 .root {
     width: 15rem;
-    border-radius: 8px;
-    position: relative;
-    border: 2px solid transparent;
+    height: 100%;
     margin: auto;
-
-    &:hover {
-        &:hover {
-            border: 2px solid #e3f4fd;
-            background-color: #f7fcff;
-        }
-    }
-
-    & a {
-        padding: 1rem 1rem 0rem;
-        display: flex;
-        flex-flow: column;
-        justify-content: space-between;
-        min-height: 16rem;
-    }
+    display: flex;
+    flex-flow: column;
+    border: none !important;
 
     & img {
-        width: 100%;
+        padding: 0.5rem;
     }
+}
+
+.actionArea {
+    flex-grow: 1;
+
+    &:hover {
+        a {
+            text-decoration: underline;
+        }
+    }
+}
+
+.content {
+    padding-bottom: 1rem !important;
 
     & p {
-        font-size: 1rem;
-        font-weight: 500;
-        color: #2d86ff;
         flex-grow: 0.6;
-        padding-top: 0.3rem;
     }
+}
 
-    & div {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 1rem;
-        padding-top: 0.25rem;
-
-        & h3 {
-            color: #172f4e;
-            padding: 0;
+.actions {
+    & > div {
+        & > h6 {
+            font-size: 1.2rem !important;
+            margin-left: 0.5rem;
         }
 
-        & button {
-            border: none;
-            background-color: transparent;
-            font-size: 0.85rem;
-            font-weight: 500;
-            padding: 0rem;
-            color: #2d86ff;
-            border-radius: 4px;
+        & > button {
+            padding: 6px 8px !important;
         }
     }
 }

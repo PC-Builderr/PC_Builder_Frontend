@@ -1,3 +1,4 @@
+import { Card, CardContent, IconButton, Typography } from '@material-ui/core'
 import React, { FunctionComponent, useCallback, useEffect, useState } from 'react'
 import { IoIosArrowDown } from 'react-icons/io'
 import { useIsMounted } from '../../../../hooks/useIsMounted'
@@ -75,18 +76,20 @@ export const Filter: FunctionComponent<Props> = props => {
     )
 
     return (
-        <li className={styles.root}>
-            <div>
-                <p>{props.name}</p>
-                <button onClick={toggleHandler}>
-                    <IoIosArrowDown
-                        style={{
-                            transform: isOpen ? 'rotate(180deg)' : ''
-                        }}
-                    />
-                </button>
-            </div>
-            {isOpen && data && <ul>{props.children(data, changeHandler)}</ul>}
-        </li>
+        <Card className={styles.root} variant='outlined'>
+            <CardContent>
+                <Typography variant='subtitle1' color='textPrimary'>
+                    {props.name}
+                    <IconButton onClick={toggleHandler}>
+                        <IoIosArrowDown
+                            style={{
+                                transform: isOpen ? 'rotate(180deg)' : ''
+                            }}
+                        />
+                    </IconButton>
+                </Typography>
+            </CardContent>
+            <ul>{isOpen && data && props.children(data, changeHandler)}</ul>
+        </Card>
     )
 }

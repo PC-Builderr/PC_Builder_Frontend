@@ -5,13 +5,14 @@ import { CheckoutForm } from '../../components/Checkout/CheckoutForm'
 import { CreateShippingAddressForm } from '../../components/Checkout/CreateShippingAddressForm'
 import { OrderSummary } from '../../components/Checkout/OrderSummary'
 import { ShippingAddressCard } from '../../components/Checkout/ShippingAddressCard'
-import { Button } from '../../components/UI/Button/Button'
+import { PrimaryButton } from '../../components/UI/PrimaryButton/PrimaryButton'
 import { Header } from '../../components/UI/Header'
 import { Label } from '../../components/UI/Label'
 import { useShippingAddress } from '../../hooks/HTTP/useShippingAddress'
 import { CreateShippingAddressDto } from '../../types/order/CreateShippingAddressDto'
 import { ShippingAddress } from '../../types/order/ShippingAddress'
 import styles from './Checkout.module.scss'
+import { Typography } from '@material-ui/core'
 
 const promise: Promise<Stripe | null> = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY ?? '')
 
@@ -40,6 +41,9 @@ export const Checkout: FunctionComponent = props => {
             <Label className={styles.shippingAddress} htmlFor='shipping-address'>
                 Shipping Address
             </Label>
+            <Typography variant='subtitle2' color='textSecondary'>
+                Shipping Address
+            </Typography>
             <div id='shipping-address'>
                 {shippingAddresses?.map((address: ShippingAddress) => (
                     <ShippingAddressCard
@@ -52,13 +56,13 @@ export const Checkout: FunctionComponent = props => {
                 {open ? (
                     <CreateShippingAddressForm onSubmit={submitHandler} />
                 ) : (
-                    <Button
+                    <PrimaryButton
                         onClick={() => {
                             setOpen(true)
                         }}
                     >
                         Add Address
-                    </Button>
+                    </PrimaryButton>
                 )}
             </div>
             <section>

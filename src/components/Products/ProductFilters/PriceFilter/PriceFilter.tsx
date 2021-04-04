@@ -1,4 +1,4 @@
-import { Button, Slider } from '@material-ui/core'
+import { Button, Card, CardContent, IconButton, Slider, Typography } from '@material-ui/core'
 import React, { FunctionComponent, useCallback, useEffect, useState } from 'react'
 import { IoIosArrowDown } from 'react-icons/io'
 import { MinMaxPrice, useGetMinMaxPrice } from '../../../../hooks/Filters/useGetMinMaxPrice'
@@ -53,40 +53,45 @@ export const PriceFilter: FunctionComponent<Props> = props => {
     }, [minMaxPrice])
 
     return (
-        <li className={styles.root}>
-            <div>
-                <p>Price</p>
-                <button onClick={toggleHandler}>
-                    <IoIosArrowDown
-                        style={{
-                            transform: isOpen ? 'rotate(180deg)' : ''
-                        }}
-                    />
-                </button>
+        <Card className={styles.root} variant='outlined'>
+            <CardContent>
+                <Typography variant='subtitle1' color='textPrimary'>
+                    Price
+                    <IconButton onClick={toggleHandler}>
+                        <IoIosArrowDown
+                            style={{
+                                transform: isOpen ? 'rotate(180deg)' : ''
+                            }}
+                        />
+                    </IconButton>
+                </Typography>
+            </CardContent>
+
+            <div className={styles.Content}>
+                {isOpen && minMaxPrice && (
+                    <>
+                        <Slider
+                            className={styles.Slider}
+                            value={value}
+                            onChange={changeHandler}
+                            min={minMaxPrice.min}
+                            max={minMaxPrice.max}
+                            valueLabelDisplay='auto'
+                            aria-labelledby='range-slider'
+                        />
+                        <Button
+                            size='small'
+                            className={styles.Button}
+                            variant='contained'
+                            color='primary'
+                            fullWidth
+                            onClick={submitHandler}
+                        >
+                            Filter
+                        </Button>
+                    </>
+                )}
             </div>
-            {isOpen && minMaxPrice && (
-                <div className={styles.Content}>
-                    <Slider
-                        className={styles.Slider}
-                        value={value}
-                        onChange={changeHandler}
-                        min={minMaxPrice.min}
-                        max={minMaxPrice.max}
-                        valueLabelDisplay='auto'
-                        aria-labelledby='range-slider'
-                    />
-                    <Button
-                        size='medium'
-                        className={styles.Button}
-                        variant='contained'
-                        color='primary'
-                        fullWidth
-                        onClick={submitHandler}
-                    >
-                        Filter
-                    </Button>
-                </div>
-            )}
-        </li>
+        </Card>
     )
 }

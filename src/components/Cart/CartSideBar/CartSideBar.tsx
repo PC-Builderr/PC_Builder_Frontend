@@ -1,8 +1,9 @@
+import { Card, Divider, Typography } from '@material-ui/core'
 import React, { FunctionComponent, useCallback, useContext } from 'react'
 import { useHistory } from 'react-router'
 import { AuthContext } from '../../../context/Auth/AuthContext'
 import { AuthContextInterface } from '../../../context/Auth/AuthContext.interface'
-import { Button } from '../../UI/Button/Button'
+import { PrimaryButton } from '../../UI/PrimaryButton/PrimaryButton'
 import styles from './CartSideBar.module.scss'
 
 interface Props {
@@ -15,24 +16,27 @@ export const CartSideBar: FunctionComponent<Props> = props => {
     const { authState } = useContext<AuthContextInterface>(AuthContext)
 
     const routeingHandler = useCallback(() => {
+        if (props.disabled) {
+            return
+        }
+
         if (!authState) {
             history.push('/sign-in?to=/checkout')
             return
         }
 
         history.push('/checkout')
-    }, [history, authState])
+    }, [history, authState, props.disabled])
 
     return (
-        <div className={styles.root}>
+        <Card className={styles.root} variant='outlined'>
             <div className={styles.price}>
-                <p>{props.price}лв.</p>
+                <Typography variant='h6'>{props.price}лв.</Typography>
             </div>
+            <Divider />
             <div className={styles.action}>
-                <Button disabled={props.disabled} onClick={routeingHandler}>
-                    CHECKOUT
-                </Button>
+                <PrimaryButton onClick={routeingHandler}>checkout</PrimaryButton>
             </div>
-        </div>
+        </Card>
     )
 }

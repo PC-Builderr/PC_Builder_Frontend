@@ -1,16 +1,25 @@
+.header {
+    padding: 1.1rem 0.5rem 1rem 1rem;
+    background-color: #1e88e5;
+
+    & > a {
+        color: white !important;
+    }
+
+    & svg {
+        color: white;
+    }
+}
+
 .root {
-    width: 100%;
+    width: 80vw;
+
+    max-width: 300px;
+    min-width: 200px;
 
     padding: 1rem;
 
-    & > div:first-of-type {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
     & > div {
-        width: 250px;
         margin-bottom: 1rem;
     }
 }

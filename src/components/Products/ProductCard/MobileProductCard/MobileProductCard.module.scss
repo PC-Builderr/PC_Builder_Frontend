@@ -1,6 +1,7 @@
 .root {
     height: 8rem;
     padding-bottom: 0.75rem !important;
+    width: 100% !important;
 
     & > a {
         display: flex;
@@ -14,9 +15,6 @@
         }
 
         & > div {
-            display: flex;
-            flex-flow: column;
-            justify-content: space-between;
             flex-grow: 1;
             height: 100%;
             padding-left: 0.5rem;

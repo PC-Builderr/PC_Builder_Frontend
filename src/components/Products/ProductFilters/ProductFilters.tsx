@@ -37,7 +37,6 @@ export const ProductFilters: FunctionComponent<Props> = props => {
                     {(data: Data, changeHandler: ChangeHandler<HTMLInputElement>) =>
                         data?.brands.map((brand: Brand) => (
                             <FormControlLabel
-                                className={styles.Checkbox}
                                 key={brand.id}
                                 control={
                                     <Checkbox

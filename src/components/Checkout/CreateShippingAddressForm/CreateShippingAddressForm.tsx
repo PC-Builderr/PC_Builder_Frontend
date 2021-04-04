@@ -5,7 +5,7 @@ import { useFetchEcontCities } from '../../../hooks/HTTP/useFetchEcontCities'
 import { City } from '../../../types/econt/City'
 import { Change } from '../../../types/Events'
 import { CreateShippingAddressDto } from '../../../types/order/CreateShippingAddressDto'
-import { Button } from '../../UI/Button/Button'
+import { PrimaryButton } from '../../UI/PrimaryButton/PrimaryButton'
 import styles from './CreateShippingAddressForm.module.scss'
 
 interface Props {
@@ -86,6 +86,10 @@ export const CreateShippingAddressForm: FunctionComponent<Props> = props => {
             onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
                 event.preventDefault()
 
+                if (disabled) {
+                    return
+                }
+
                 props.onSubmit({
                     address: inputState['address'],
                     city: selectState['city'],
@@ -140,9 +144,7 @@ export const CreateShippingAddressForm: FunctionComponent<Props> = props => {
                 variant='outlined'
                 className={styles.Input}
             />
-            <Button disabled={disabled} type='submit'>
-                Save Address
-            </Button>
+            <PrimaryButton type='submit'>Save Address</PrimaryButton>
         </form>
     )
 }

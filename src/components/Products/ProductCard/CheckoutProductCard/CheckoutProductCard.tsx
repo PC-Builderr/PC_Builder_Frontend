@@ -1,5 +1,6 @@
+import { Card, CardContent, CardMedia, Grid, Typography, Link } from '@material-ui/core'
 import React, { FunctionComponent } from 'react'
-import { Link } from 'react-router-dom'
+import { Link as RouterLink } from 'react-router-dom'
 import { GET_FULL_IMAGE_URL } from '../../../../constants'
 import { Product } from '../../../../types/product/Product'
 import styles from './CheckoutProductCard.module.scss'
@@ -11,17 +12,29 @@ interface Props {
 
 export const CheckoutProductCard: FunctionComponent<Props> = props => {
     return (
-        <li className={styles.root}>
-            <img src={GET_FULL_IMAGE_URL(props.product.images[0].url)} alt={props.product.name} />
-            {props.quantity > 1 && <span>{props.quantity} x</span>}
-            {props.product.type === 'computer' ? (
-                <p>{props.product.name}</p>
-            ) : (
-                <Link to={`/products/${props.product.type}/${props.product.id}`}>
-                    {props.product.name}
-                </Link>
-            )}
-            <h4>{props.product.price * props.quantity}лв.</h4>
-        </li>
+        <Card className={styles.root} variant='outlined'>
+            <CardMedia
+                component='img'
+                image={GET_FULL_IMAGE_URL(props.product.images[0].url)}
+                alt={props.product.name}
+            />
+            <CardContent>
+                {props.quantity > 1 && <Typography variant='body2'>{props.quantity} x</Typography>}
+                {props.product.type === 'computer' ? (
+                    <Typography variant='subtitle2' className={styles.computer}>
+                        {props.product.name}
+                    </Typography>
+                ) : (
+                    <Link
+                        component={RouterLink}
+                        to={`/products/${props.product.type}/${props.product.id}`}
+                        variant='body2'
+                    >
+                        {props.product.name}
+                    </Link>
+                )}
+                <h4>{props.product.price * props.quantity}лв.</h4>
+            </CardContent>
+        </Card>
     )
 }

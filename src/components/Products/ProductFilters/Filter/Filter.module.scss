@@ -1,41 +1,38 @@
 .root {
-    padding: 0.75rem 0.5rem 0.4rem 1rem;
-    border: 2px solid #e3f4fd;
-    background-color: #f7fcff;
-    border-radius: 4px;
+    margin-bottom: 1rem;
 
     & > div {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 0.25rem;
+        padding: 0.75rem 0.75rem 0 0.75rem !important;
 
-        & > p {
-            color: #2e425a;
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
+        & > h6 {
+            position: relative;
 
-        & > button {
-            border: none;
-            padding: 0 0.5rem;
-            margin: 0;
-            background-color: transparent;
+            display: flex;
+            align-items: center;
 
-            & > svg {
-                color: #2e425a;
-                margin-top: 0.1rem;
-                transition: 100ms;
-                font-size: 1rem;
+            & > button {
+                position: absolute;
+
+                right: 0;
+
+                padding: 0.25rem;
+                margin-bottom: 0.1rem;
+
+                opacity: 0.9;
+
+                & svg {
+                    color: rgba(0, 0, 0, 0.87) !important;
+
+                    transition: 125ms;
+
+                    font-size: 1.1rem;
+                }
             }
         }
     }
 
     & > ul {
-        transition: 1s;
-        margin: 0;
-        margin-left: 0.75rem;
-        padding: 0.25rem;
+        margin: 0.2rem 0 0.5rem 1.5rem;
 
         & > label {
             display: flex;
@@ -43,9 +40,7 @@
 
             & > span {
                 font-size: 0.9rem;
-                font-weight: 500;
                 padding: 0.25rem !important;
-                // white-space: nowrap;
             }
         }
     }

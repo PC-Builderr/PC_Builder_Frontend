@@ -13,7 +13,7 @@ import { AuthContext } from '../../../context/Auth/AuthContext'
 import { AuthContextInterface } from '../../../context/Auth/AuthContext.interface'
 import { CartContextInterface } from '../../../context/Cart/CartContectInterface'
 import { CartContext } from '../../../context/Cart/CartContext'
-import { Button } from '../../UI/Button/Button'
+import { PrimaryButton } from '../../UI/PrimaryButton/PrimaryButton'
 import { Label } from '../../UI/Label'
 import styles from './CheckoutForm.module.scss'
 
@@ -86,6 +86,11 @@ export const CheckoutForm: FunctionComponent<Props> = ({ shippingAddressId }) =>
     const handleSubmit = useCallback(
         async (event: FormEvent<HTMLFormElement>) => {
             event.preventDefault()
+
+            if (processing || disabled || Boolean(error) || !shippingAddressId) {
+                return
+            }
+
             setError(null)
 
             const element = elements?.getElement(CardElement)
@@ -132,13 +137,9 @@ export const CheckoutForm: FunctionComponent<Props> = ({ shippingAddressId }) =>
             </Label>
             <CardElement id='card-info' options={cardStyle} onChange={handleChange} />
             {error && <span>{error}</span>}
-            <Button
-                disabled={processing || disabled || Boolean(error) || !shippingAddressId}
-                loading={String(processing)}
-                type='submit'
-            >
+            <PrimaryButton loading={processing} type='submit'>
                 Pay Now
-            </Button>
+            </PrimaryButton>
         </form>
     )
 }

@@ -1,17 +1,18 @@
-import { TextField } from '@material-ui/core'
+import { TextField, Typography, Link } from '@material-ui/core'
 import React, { FunctionComponent } from 'react'
-import { Link, Redirect, useLocation } from 'react-router-dom'
-import { Button } from '../../components/UI/Button/Button'
+import { Link as RouterLink, Redirect, useLocation } from 'react-router-dom'
+import { PrimaryButton } from '../../components/UI/PrimaryButton/PrimaryButton'
 import { Input } from '../../components/UI/Input'
 import { SERVER_ERROR, SIGN_IN_API_URL, CREDENTIALS_ERROR } from '../../constants'
 import { useUserAuth } from '../../hooks/Auth/useUserAuth'
 import { SignInCredentials } from '../../types/credentials/SignInCredentials'
 import styles from './SignIn.module.scss'
+import { Alert } from '@material-ui/lab'
 
 export const SignIn: FunctionComponent = () => {
     const {
         methods: { changeHandler, authenticate, focusHandler },
-        state: { canSubmit, credentials, authState, fetchError, loading }
+        state: { credentials, authState, fetchError, loading, credentialsErrors }
     } = useUserAuth<SignInCredentials>(SIGN_IN_API_URL, [
         { name: 'email', value: '' },
         { name: 'password', value: '' }
@@ -37,9 +38,11 @@ export const SignIn: FunctionComponent = () => {
     return (
         <>
             <form className={styles.root} onSubmit={authenticate}>
-                <h2>Sign In.</h2>
+                <Typography variant='h4'>Sign In.</Typography>
                 {fetchError === CREDENTIALS_ERROR && (
-                    <span className={styles.error}> Invalid email or password. </span>
+                    <Alert className={styles.error} variant='outlined' severity='error'>
+                        Invalid email or password.
+                    </Alert>
                 )}
 
                 <TextField
@@ -64,12 +67,15 @@ export const SignIn: FunctionComponent = () => {
                     variant='outlined'
                     className={styles.Input}
                 />
-                <Button disabled={!canSubmit} loading={String(loading)} type='submit'>
+                <PrimaryButton loading={loading} type='submit'>
                     Sign In
-                </Button>
-                <p>
-                    Don't have an account?<Link to={`/sign-up${search}`}>Sign up.</Link>
-                </p>
+                </PrimaryButton>
+                <Typography variant='body2'>
+                    Don't have an account?
+                    <Link variant='subtitle2' component={RouterLink} to={`/sign-up${search}`}>
+                        Sign up.
+                    </Link>
+                </Typography>
             </form>
         </>
     )

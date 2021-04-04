@@ -3,7 +3,6 @@ import React, { FunctionComponent } from 'react'
 import { STORAGE_API_URL } from '../../../../../constants'
 import { ChangeHandler } from '../../../../../types/Handlers'
 import { Filter } from '../../Filter'
-import styles from '../../ProductFilters.module.scss'
 
 interface Props {
     type: string
@@ -36,7 +35,6 @@ export const StorageFilter: FunctionComponent<Props> = props => {
                 {(data: Types, changeHandler: ChangeHandler<HTMLInputElement>) =>
                     data?.types.map((t: string) => (
                         <FormControlLabel
-                            className={styles.Checkbox}
                             key={t}
                             control={
                                 <Checkbox
@@ -62,7 +60,6 @@ export const StorageFilter: FunctionComponent<Props> = props => {
                 {(data: Capacities, changeHandler: ChangeHandler<HTMLInputElement>) =>
                     data?.capacity.map((capacity: number) => (
                         <FormControlLabel
-                            className={styles.Checkbox}
                             key={capacity}
                             control={
                                 <Checkbox

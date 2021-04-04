@@ -11,8 +11,12 @@ export const Header: FunctionComponent<Props> = props => {
     return (
         <Card className={styles.root} variant='outlined'>
             <CardContent>
-                <Typography variant='h6'>{props.children}</Typography>
-                {props.count && <Typography color='textSecondary'>({props.count})</Typography>}
+                <Typography variant='h4'>{props.children}</Typography>
+                {props.count && (
+                    <Typography color='textSecondary' variant='h5'>
+                        ({props.count})
+                    </Typography>
+                )}
             </CardContent>
         </Card>
     )

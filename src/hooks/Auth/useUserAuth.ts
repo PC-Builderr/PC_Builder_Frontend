@@ -72,9 +72,13 @@ export const useUserAuth = <T>(url: string, initialCredentials: Credential[]): U
 
     const authenticate = useCallback(
         async (event: Submit) => {
-            setLoading(true)
-
             event.preventDefault()
+
+            if (!canSubmit) {
+                return
+            }
+
+            setLoading(true)
 
             if (url === SIGN_UP_API_URL) {
                 const errors: string[] = validateCredentials(credentials)

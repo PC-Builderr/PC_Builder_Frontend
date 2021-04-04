@@ -6,7 +6,6 @@ interface Props {
     minWidth?: number
     maxHeight?: number
     minHeight?: number
-    children: React.ReactElement
 }
 
 export const WithMediaQuery: FunctionComponent<Props> = props => {
@@ -17,5 +16,5 @@ export const WithMediaQuery: FunctionComponent<Props> = props => {
     if (props.maxHeight && props.maxHeight >= height) return null
     if (props.minHeight && props.minHeight < height) return null
 
-    return props.children
+    return <>{props.children}</>
 }

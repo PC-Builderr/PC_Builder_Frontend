@@ -1,12 +1,12 @@
-import { TextField } from '@material-ui/core'
+import { TextField, Typography, Link } from '@material-ui/core'
 import React, { FunctionComponent } from 'react'
-import { Link, Redirect, useLocation } from 'react-router-dom'
-import { Button } from '../../components/UI/Button/Button'
-import { Input } from '../../components/UI/Input'
+import { Link as RouterLink, Redirect, useLocation } from 'react-router-dom'
+import { PrimaryButton } from '../../components/UI/PrimaryButton/PrimaryButton'
 import { CREDENTIALS_ERROR, SERVER_ERROR, SIGN_UP_API_URL } from '../../constants'
 import { useUserAuth } from '../../hooks/Auth/useUserAuth'
 import { SignUpCredentials } from '../../types/credentials/SignUpCredentials'
 import styles from '../SignIn/SignIn.module.scss'
+import { Alert } from '@material-ui/lab'
 
 export const SignUp: FunctionComponent = () => {
     const {
@@ -39,9 +39,11 @@ export const SignUp: FunctionComponent = () => {
     return (
         <>
             <form className={styles.root} onSubmit={authenticate}>
-                <h2>Sign Up.</h2>
+                <Typography variant='h4'>Sign Up.</Typography>
                 {fetchError === CREDENTIALS_ERROR && (
-                    <span className={styles.error}>Email already in use.</span>
+                    <Alert className={styles.error} variant='outlined' severity='error'>
+                        Email already in use.
+                    </Alert>
                 )}
 
                 <TextField
@@ -103,13 +105,15 @@ export const SignUp: FunctionComponent = () => {
                     variant='outlined'
                     className={styles.Input}
                 />
-                <Button disabled={!canSubmit} loading={String(loading)} type='submit'>
+                <PrimaryButton loading={loading} type='submit'>
                     Sign Up
-                </Button>
-                <p>
+                </PrimaryButton>
+                <Typography variant='body2'>
                     Already have an account?
-                    <Link to={`/sign-in${search}`}>Sign in.</Link>
-                </p>
+                    <Link variant='subtitle2' component={RouterLink} to={`/sign-in${search}`}>
+                        Sign in.
+                    </Link>
+                </Typography>
             </form>
         </>
     )

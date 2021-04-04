@@ -3,7 +3,6 @@ import React, { FunctionComponent } from 'react'
 import { CASE_API_URL } from '../../../../../constants'
 import { ChangeHandler } from '../../../../../types/Handlers'
 import { Filter } from '../../Filter'
-import styles from '../../ProductFilters.module.scss'
 
 interface Props {
     type: string
@@ -31,7 +30,6 @@ export const CaseFilter: FunctionComponent<Props> = props => {
             {(data: CaseFilters, changeHandler: ChangeHandler<HTMLInputElement>) =>
                 data?.formats.map((format: string) => (
                     <FormControlLabel
-                        className={styles.Checkbox}
                         key={format}
                         control={
                             <Checkbox

@@ -2,7 +2,6 @@ import React, { FunctionComponent, useCallback, useEffect, useState } from 'reac
 import { NavBar } from './NavBar'
 import styles from './Layout.module.scss'
 import { SideDrawer } from './SideDrawer/SideDrawer'
-import { Backdrop } from '../UI/Backdrop'
 import { useLocation } from 'react-router-dom'
 import { WithMediaQuery } from '../../hoc/WithMediaQuery'
 import { Container } from '@material-ui/core'
@@ -32,10 +31,7 @@ export const Layout: FunctionComponent<Props> = props => {
         <>
             <NavBar openSideDrawerHandler={openSideDrawer} />
             <WithMediaQuery minWidth={1000}>
-                <>
-                    <Backdrop isOpen={isOpen} onClose={closeSideDrawer} />
-                    <SideDrawer isOpen={isOpen} onClose={closeSideDrawer} />
-                </>
+                <SideDrawer isOpen={isOpen} onClose={closeSideDrawer} />
             </WithMediaQuery>
             <Container className={styles.root} maxWidth='lg'>
                 {props.children}

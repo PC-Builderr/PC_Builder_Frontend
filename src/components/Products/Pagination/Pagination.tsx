@@ -2,7 +2,6 @@ import { Pagination as Pagin } from '@material-ui/lab'
 import React, { FunctionComponent, useCallback, useMemo } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
 import { ITEMS_PER_PAGE } from '../../../constants'
-import { WithMediaQuery } from '../../../hoc/WithMediaQuery'
 import { useWindowSize } from '../../../hooks/useWindowSize'
 import styles from './Pagination.module.scss'
 
@@ -28,15 +27,14 @@ export const Pagination: FunctionComponent<Props> = props => {
     )
 
     return (
-        <div className={styles.root}>
-            <Pagin
-                color='primary'
-                count={pagesCount}
-                size={width < 470 ? undefined : 'large'}
-                siblingCount={width < 470 ? 0 : undefined}
-                page={activePage}
-                onChange={pageChangeHandler}
-            />
-        </div>
+        <Pagin
+            className={styles.root}
+            color='primary'
+            count={pagesCount}
+            size={width < 470 ? undefined : 'large'}
+            siblingCount={width < 470 ? 0 : undefined}
+            page={activePage}
+            onChange={pageChangeHandler}
+        />
     )
 }

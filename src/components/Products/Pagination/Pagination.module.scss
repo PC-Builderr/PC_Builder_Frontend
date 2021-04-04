@@ -1,64 +1,10 @@
 .root {
     grid-area: pagination;
-    margin-top: 2rem;
+    margin-top: 3rem;
     height: fit-content;
 
-    &,
-    & > a,
-    & > span {
+    & > ul {
         display: flex;
         justify-content: center;
-        align-items: center;
     }
-
-    & > a,
-    & > p,
-    & > span,
-    & svg {
-        color: #2e425a;
-    }
-
-    & > a,
-    & > span {
-        border: 1px solid rgba(0, 0, 0, 0.15);
-        border-radius: 4px;
-        height: 2.5rem;
-        font-weight: 500;
-        margin: 0.3rem;
-    }
-
-    & > a {
-        width: 2.5rem;
-        font-size: 0.8rem;
-
-        &:hover {
-            background-color: #2e425a;
-
-            &,
-            & > svg {
-                color: white;
-            }
-        }
-
-        & > svg {
-            font-size: 1.1rem;
-        }
-    }
-
-    & > p {
-        margin: 0.6rem;
-        font-weight: 600;
-        align-self: flex-end;
-        white-space: nowrap;
-    }
-
-    & > span {
-        font-size: 0.9rem;
-        padding: 0 0.75rem;
-    }
-}
-
-.active {
-    background-color: #2e425a;
-    color: white !important;
 }

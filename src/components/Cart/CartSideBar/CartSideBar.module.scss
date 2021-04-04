@@ -1,53 +1,20 @@
 .root {
+    height: fit-content;
+
     & .price {
         padding: 2rem 2rem;
-        border: 2px solid #e3f4fd;
-        background-color: #f7fcff;
-        border-radius: 4px;
 
-        & > p {
+        & > h6 {
             font-size: 2rem;
-            font-weight: 700;
             text-align: center;
-            color: #2e425a;
         }
     }
 
     & .action {
-        border: 2px solid #e3f4fd;
-        background-color: #f7fcff;
-        padding: 1.5rem;
-
-        border-top: none;
+        padding: 2rem;
 
         & > div {
-            margin-bottom: 1rem;
-            color: #2e425a;
             display: flex;
-
-            & span:first-of-type {
-                font-size: 0.9rem;
-                font-weight: 500;
-            }
-
-            & span:last-of-type {
-                // font-size: 0.9rem;
-                font-weight: 500;
-            }
-
-            & > button {
-                border: none;
-                background-color: transparent;
-                color: #2e425a;
-
-                &:disabled {
-                    opacity: 0.5;
-                }
-
-                & svg {
-                    font-size: 1rem;
-                }
-            }
         }
     }
 }

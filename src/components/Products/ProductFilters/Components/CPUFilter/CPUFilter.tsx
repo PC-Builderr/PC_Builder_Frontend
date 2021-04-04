@@ -3,7 +3,6 @@ import React, { FunctionComponent } from 'react'
 import { CPU_API_URL } from '../../../../../constants'
 import { ChangeHandler } from '../../../../../types/Handlers'
 import { Filter } from '../../Filter'
-import styles from '../../ProductFilters.module.scss'
 
 interface Props {
     type: string
@@ -31,7 +30,6 @@ export const CPUFilter: FunctionComponent<Props> = props => {
             {(data: Generations, changeHandler: ChangeHandler<HTMLInputElement>) =>
                 data?.generations.map((generation: string) => (
                     <FormControlLabel
-                        className={styles.Checkbox}
                         key={generation}
                         control={
                             <Checkbox

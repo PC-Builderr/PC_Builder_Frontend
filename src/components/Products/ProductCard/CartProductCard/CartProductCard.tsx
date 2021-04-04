@@ -1,7 +1,8 @@
+import { Card, CardActions, CardMedia, Grid, IconButton, Link, Typography } from '@material-ui/core'
 import React, { FunctionComponent, useCallback } from 'react'
 import { IoMdRemoveCircleOutline } from 'react-icons/io'
 import { RiAddCircleLine } from 'react-icons/ri'
-import { Link } from 'react-router-dom'
+import { Link as RouterLink } from 'react-router-dom'
 import { GET_FULL_IMAGE_URL } from '../../../../constants'
 import { useCart } from '../../../../hooks/useCart'
 import { Product } from '../../../../types/product/Product'
@@ -31,35 +32,41 @@ export const CartProductCard: FunctionComponent<Props> = props => {
     }, [props.product.id, addItem])
 
     return (
-        <li className={styles.root}>
+        <Card className={styles.root} variant='outlined'>
             <div className={styles.main}>
-                <img
-                    src={GET_FULL_IMAGE_URL(props.product.images[0].url)}
+                <CardMedia
+                    component='img'
+                    image={GET_FULL_IMAGE_URL(props.product.images[0].url)}
                     alt={props.product.name}
                 />
 
                 {props.product.type === 'computer' ? (
-                    <p>{props.product.name}</p>
+                    <Typography variant='subtitle2' className={styles.computer}>
+                        {props.product.name}
+                    </Typography>
                 ) : (
-                    <Link to={`/products/${props.product.type}/${props.product.id}`}>
+                    <Link
+                        component={RouterLink}
+                        to={`/products/${props.product.type}/${props.product.id}`}
+                        variant='body2'
+                    >
                         {props.product.name}
                     </Link>
                 )}
             </div>
-
-            <div>
-                <h4>{props.product.price}лв.</h4>
+            <CardActions className={styles.actionArea}>
+                <Typography variant='h6'>{props.product.price}лв.</Typography>
                 <div>
-                    <button onClick={decrement}>
+                    <IconButton color='inherit' onClick={decrement}>
                         <IoMdRemoveCircleOutline />
-                    </button>
-                    <span>{props.quantity}</span>
-                    <button onClick={increment}>
+                    </IconButton>
+                    <Typography variant='subtitle2'>{props.quantity}</Typography>
+                    <IconButton color='inherit' onClick={increment}>
                         <RiAddCircleLine />
-                    </button>
+                    </IconButton>
                 </div>
-                <h4>{props.product.price * props.quantity}лв.</h4>
-            </div>
-        </li>
+                <Typography variant='h6'>{props.product.price * props.quantity}лв.</Typography>
+            </CardActions>
+        </Card>
     )
 }
