@@ -12,10 +12,10 @@ export const Home: FunctionComponent = () => {
         <div className={styles.root}>
             <HeroSection />
             {cmpArray.map((value: string) => (
-                <>
+                <div key={value}>
                     <Header>{ComponentNames.get(value)}</Header>
                     <SimilarProductsSlider search={value} />
-                </>
+                </div>
             ))}
         </div>
     )

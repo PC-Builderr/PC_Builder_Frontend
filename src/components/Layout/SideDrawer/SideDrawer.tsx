@@ -1,3 +1,13 @@
+import {
+    Card,
+    CardContent,
+    Drawer,
+    IconButton,
+    List,
+    ListItem,
+    ListItemText,
+    Typography
+} from '@material-ui/core'
 import React, { FunctionComponent } from 'react'
 import { VscChromeClose } from 'react-icons/vsc'
 import { Link } from 'react-router-dom'
@@ -18,74 +28,88 @@ export const SideDrawer: FunctionComponent<Props> = props => {
 
     return (
         <>
-            <aside className={props.isOpen ? styles.root : [styles.root, styles.open].join(' ')}>
-                <button onClick={props.onClose}>
-                    <VscChromeClose />
-                </button>
-                <Link to='/'>PC Builder</Link>
+            <Drawer open={props.isOpen} anchor='left' onClose={props.onClose}>
+                <div className={styles.root}>
+                    <div>
+                        <Typography variant='h6' color='primary' component={Link} to='/'>
+                            PC Builder
+                        </Typography>
+                        <IconButton onClick={props.onClose}>
+                            <VscChromeClose className={styles.close} />
+                        </IconButton>
+                    </div>
+                    <Typography color='textSecondary' variant='caption'>
+                        Services
+                    </Typography>
+                    <Card variant='outlined'>
+                        <ListItem component={Link} to='/pc-builder' button>
+                            <ListItemText primary='Build your PC' />
+                        </ListItem>
+                    </Card>
+                    <Typography color='textSecondary' variant='caption'>
+                        Products
+                    </Typography>
+                    <Card variant='outlined'>
+                        <ListItem component={Link} to='/products/cpu' button>
+                            <ListItemText primary='CPU' />
+                        </ListItem>
+                        <ListItem component={Link} to='/products/gpu' button>
+                            <ListItemText primary='Graphics Card' />
+                        </ListItem>
+                        <ListItem component={Link} to='/products/case' button>
+                            <ListItemText primary='Case' />
+                        </ListItem>
+                        <ListItem component={Link} to='/products/motherboard' button>
+                            <ListItemText primary='Motherboard' />
+                        </ListItem>
+                        <ListItem component={Link} to='/products/psu' button>
+                            <ListItemText primary='Power Supply' />
+                        </ListItem>
+                        <ListItem component={Link} to='/products/ram' button>
+                            <ListItemText primary='RAM' />
+                        </ListItem>
+                        <ListItem component={Link} to='/products/storage' button>
+                            <ListItemText primary='Storage' />
+                        </ListItem>
+                    </Card>
 
-                <label htmlFor='services'>Services</label>
-                <ul id='services'>
-                    <li>
-                        <Link to='/pc-builder'>Build your PC</Link>
-                    </li>
-                </ul>
-                <label htmlFor='products'>Products</label>
-                <ul id='products'>
-                    <li>
-                        <Link to='/products/cpu'>CPU</Link>
-                    </li>
-                    <li>
-                        <Link to='/products/gpu'>Graphics Card</Link>
-                    </li>
-                    <li>
-                        <Link to='/products/case'>Case</Link>
-                    </li>
-                    <li>
-                        <Link to='/products/motherboard'>Motherboard</Link>
-                    </li>
-                    <li>
-                        <Link to='/products/psu'>Power Supply</Link>
-                    </li>
-                    <li>
-                        <Link to='/products/ram'>RAM</Link>
-                    </li>
-                    <li>
-                        <Link to='/products/storage'>Storage</Link>
-                    </li>
-                </ul>
-                <WithMediaQuery minWidth={580}>
-                    <>
-                        <label htmlFor='profile'>Profile</label>
-                        <ul id='profile'>
-                            {authState?.userId ? (
+                    <WithMediaQuery minWidth={580}>
+                        <>
+                            <Typography color='textSecondary' variant='caption'>
+                                Profile
+                            </Typography>
+                            <Card variant='outlined'>
+                                {authState?.userId ? (
+                                    <>
+                                        <ListItem component={Link} to='/profile' button>
+                                            <ListItemText primary='Profile' />
+                                        </ListItem>
+                                        <ListItem onClick={logout} button>
+                                            <ListItemText primary='Logout' />
+                                        </ListItem>
+                                    </>
+                                ) : (
+                                    <ListItem component={Link} to='/sign-in' button>
+                                        <ListItemText primary='Sign in' />
+                                    </ListItem>
+                                )}
+                            </Card>
+                            {items.length ? (
                                 <>
-                                    <li>
-                                        <Link to='/profile'>Profile</Link>
-                                    </li>
-                                    <li>
-                                        <button onClick={logout}>Logout</button>
-                                    </li>
+                                    <Typography color='textSecondary' variant='caption'>
+                                        Cart
+                                    </Typography>
+                                    <Card variant='outlined'>
+                                        <ListItem component={Link} to='/cart' button>
+                                            <ListItemText primary='Cart' />
+                                        </ListItem>
+                                    </Card>
                                 </>
-                            ) : (
-                                <li>
-                                    <Link to='/sign-in'>Sign In</Link>
-                                </li>
-                            )}
-                        </ul>
-                        {items.length ? (
-                            <>
-                                <label htmlFor='cart'>Cart</label>
-                                <ul id='cart'>
-                                    <li>
-                                        <Link to='/cart'>Cart</Link>
-                                    </li>
-                                </ul>
-                            </>
-                        ) : null}
-                    </>
-                </WithMediaQuery>
-            </aside>
+                            ) : null}
+                        </>
+                    </WithMediaQuery>
+                </div>
+            </Drawer>
         </>
     )
 }

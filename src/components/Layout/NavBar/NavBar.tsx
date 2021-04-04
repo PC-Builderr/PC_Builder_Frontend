@@ -2,7 +2,6 @@ import React, { FunctionComponent, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { RiShoppingCartLine } from 'react-icons/ri'
 import { HiOutlineMenuAlt2 } from 'react-icons/hi'
-
 import { SearchInput } from '../../UI/Search'
 import styles from './NavBar.module.scss'
 import { DropDown } from '../../UI/DropDown'
@@ -11,6 +10,8 @@ import { CartContext } from '../../../context/Cart/CartContext'
 import { CartContextInterface } from '../../../context/Cart/CartContectInterface'
 import { useLogout } from '../../../hooks/Auth/useLogout'
 import { CartItem } from '../../../types/cart/CartEntry'
+import { AppBar, Badge, Button, Container, IconButton, Typography } from '@material-ui/core'
+import { IconRouterLink, RouterLink } from '../../UI/RouterLink'
 
 interface Props {
     openSideDrawerHandler: () => void
@@ -27,29 +28,43 @@ export const NavBar: FunctionComponent<Props> = props => {
     )
 
     return (
-        <header className={[styles.root].join(' ')}>
-            <nav>
+        <AppBar className={styles.root} color='primary' variant='outlined' position='fixed'>
+            <Container maxWidth='lg' component='nav'>
                 <WithMediaQuery minWidth={1000}>
-                    <button className={styles.burger} onClick={props.openSideDrawerHandler}>
+                    <IconButton className={styles.burger} onClick={props.openSideDrawerHandler}>
                         <HiOutlineMenuAlt2 />
-                    </button>
+                    </IconButton>
                 </WithMediaQuery>
                 <WithMediaQuery maxWidth={1000}>
                     <ul>
                         <li>
-                            <Link to='/'>Home</Link>
+                            <RouterLink to='/'>Home</RouterLink>
                         </li>
                         <DropDown label='Products'>
-                            <Link to='/products/cpu'>CPU</Link>
-                            <Link to='/products/gpu'>Graphics Card</Link>
-                            <Link to='/products/case'>Case</Link>
-                            <Link to='/products/motherboard'>Motherboard</Link>
-                            <Link to='/products/psu'>Power Supply</Link>
-                            <Link to='/products/ram'>RAM</Link>
-                            <Link to='/products/storage'>Storage</Link>
+                            <Button component={Link} to='/products/cpu'>
+                                CPU
+                            </Button>
+                            <Button component={Link} to='/products/gpu'>
+                                Graphics Card
+                            </Button>
+                            <Button component={Link} to='/products/case'>
+                                Case
+                            </Button>
+                            <Button component={Link} to='/products/motherboard'>
+                                Motherboard
+                            </Button>
+                            <Button component={Link} to='/products/psu'>
+                                Power Supply
+                            </Button>
+                            <Button component={Link} to='/products/ram'>
+                                RAM
+                            </Button>
+                            <Button component={Link} to='/products/storage'>
+                                Storage
+                            </Button>
                         </DropDown>
                         <li>
-                            <Link to='/pc-builder'>Build your PC</Link>
+                            <RouterLink to='/pc-builder'>Build your PC</RouterLink>
                         </li>
                     </ul>
                 </WithMediaQuery>
@@ -58,25 +73,28 @@ export const NavBar: FunctionComponent<Props> = props => {
                     <ul>
                         {quantity ? (
                             <li className={styles.cartContainer}>
-                                <Link className={styles.cart} to='/cart'>
-                                    <RiShoppingCartLine />
-                                    <span>{quantity}</span>
-                                </Link>
+                                <IconRouterLink to='/cart'>
+                                    <Badge badgeContent={quantity} color='secondary'>
+                                        <RiShoppingCartLine />
+                                    </Badge>
+                                </IconRouterLink>
                             </li>
                         ) : null}
                         {authState ? (
                             <DropDown label='Profile'>
-                                <Link to='/profile'>Profile</Link>
-                                <button onClick={logout}>Logout</button>
+                                <Button component={Link} to='/profile'>
+                                    Profile
+                                </Button>
+                                <Button onClick={logout}>Logout</Button>
                             </DropDown>
                         ) : (
-                            <li className={styles.signIn}>
-                                <Link to='/sign-in'>Sign In</Link>
+                            <li>
+                                <RouterLink to='/sign-in'>Sign In</RouterLink>
                             </li>
                         )}
                     </ul>
                 </WithMediaQuery>
-            </nav>
-        </header>
+            </Container>
+        </AppBar>
     )
 }

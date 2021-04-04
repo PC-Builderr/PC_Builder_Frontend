@@ -1,34 +1,48 @@
-import React, { FunctionComponent } from 'react'
+import { Button, Popover } from '@material-ui/core'
+import React, { FunctionComponent, useRef, useState } from 'react'
 import { IoIosArrowDown } from 'react-icons/io'
-import { useClickAway } from '../../../hooks/useClickAway'
 import styles from './DropDown.module.scss'
 
 interface Props {
-    open?: boolean
     label: string
-    children: React.ReactNode[]
 }
 
 export const DropDown: FunctionComponent<Props> = props => {
-    const { isOpen, close, open } = useClickAway(props.open)
+    const [isOpen, setIsOpen] = useState<boolean>(false)
+    const ref = useRef<HTMLButtonElement | null>(null)
 
     return (
         <li className={styles.root}>
-            <button onClick={isOpen ? close : open}>
+            <Button
+                ref={ref}
+                onClick={() => {
+                    setIsOpen((f: boolean) => !f)
+                }}
+            >
                 {props.label}
                 <IoIosArrowDown
                     style={{
                         transform: isOpen ? 'rotate(180deg)' : ''
                     }}
                 />
-            </button>
-            {isOpen && (
-                <ul onClick={close}>
-                    {props.children.map((child: React.ReactNode, index: number) => (
-                        <li key={index}>{child}</li>
-                    ))}
-                </ul>
-            )}
+            </Button>
+            <Popover
+                open={isOpen}
+                anchorEl={ref.current}
+                onClose={() => {
+                    setIsOpen(false)
+                }}
+                anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left'
+                }}
+                transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'left'
+                }}
+            >
+                <div className={styles.popover}>{props.children}</div>
+            </Popover>
         </li>
     )
 }

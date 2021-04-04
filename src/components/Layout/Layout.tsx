@@ -5,6 +5,7 @@ import { SideDrawer } from './SideDrawer/SideDrawer'
 import { Backdrop } from '../UI/Backdrop'
 import { useLocation } from 'react-router-dom'
 import { WithMediaQuery } from '../../hoc/WithMediaQuery'
+import { Container } from '@material-ui/core'
 
 interface Props {
     children: React.ReactElement
@@ -36,7 +37,9 @@ export const Layout: FunctionComponent<Props> = props => {
                     <SideDrawer isOpen={isOpen} onClose={closeSideDrawer} />
                 </>
             </WithMediaQuery>
-            <main className={styles.root}>{props.children}</main>
+            <Container className={styles.root} maxWidth='lg'>
+                {props.children}
+            </Container>
         </>
     )
 }
