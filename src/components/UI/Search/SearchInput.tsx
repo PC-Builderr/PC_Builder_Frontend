@@ -1,3 +1,4 @@
+import { InputBase, TextField } from '@material-ui/core'
 import React, { FunctionComponent, useCallback, useEffect, useState } from 'react'
 import { BiLoaderAlt } from 'react-icons/bi'
 import { IoSearchSharp } from 'react-icons/io5'
@@ -55,15 +56,14 @@ export const SearchInput: FunctionComponent = () => {
 
     return (
         <div className={styles.root}>
-            <IoSearchSharp />
-            <input
-                type='text'
-                placeholder='Search...'
+            <InputBase
                 value={search}
                 onChange={searchProductsHandler}
                 onClick={inputClickHandler}
+                placeholder='Search...'
+                startAdornment={<IoSearchSharp />}
+                endAdornment={loading ? <BiLoaderAlt className={styles.spinner} /> : null}
             />
-            {loading && <BiLoaderAlt className={styles.spinner} />}
             {isOpen && (
                 <ul onClick={close}>
                     {products?.map((product: Product) => (
