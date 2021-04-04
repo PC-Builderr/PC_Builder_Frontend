@@ -1,15 +1,10 @@
 .root {
-    width: 100%;
     height: 8rem;
-    border: 1px solid #e3f4fd;
-    background-color: #f7fcff;
-    margin: 0;
-    border-radius: 4px;
+    padding-bottom: 0.75rem !important;
 
     & > a {
         display: flex;
         align-items: center;
-        padding: 0.5rem;
         height: 100%;
 
         & > img {
@@ -21,19 +16,13 @@
         & > div {
             display: flex;
             flex-flow: column;
-            justify-content: flex-end;
-            padding: 0.5rem;
+            justify-content: space-between;
             flex-grow: 1;
             height: 100%;
+            padding-left: 0.5rem;
+            padding-top: 0.5rem;
 
-            & > p {
-                font-weight: 500;
-                color: #2d86ff;
-                flex-grow: 0.9;
-            }
-
-            & > h3 {
-                color: #2e425a;
+            & > h6 {
                 align-self: flex-end;
                 margin-right: 0.2rem;
             }

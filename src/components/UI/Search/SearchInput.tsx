@@ -1,4 +1,4 @@
-import { InputBase, TextField } from '@material-ui/core'
+import { Card, CardContent, InputBase, TextField, Typography } from '@material-ui/core'
 import React, { FunctionComponent, useCallback, useEffect, useState } from 'react'
 import { BiLoaderAlt } from 'react-icons/bi'
 import { IoSearchSharp } from 'react-icons/io5'
@@ -72,9 +72,17 @@ export const SearchInput: FunctionComponent = () => {
                         </li>
                     ))}
                     {total && (
-                        <li className={styles.allProducts}>
-                            <Link to={`/products?search=${search}`}>See all {total} results.</Link>
-                        </li>
+                        <Card variant='outlined'>
+                            <CardContent className={styles.allProducts}>
+                                <Typography
+                                    color='textPrimary'
+                                    component={Link}
+                                    to={`/products?search=${search}`}
+                                >
+                                    See all {total} results.
+                                </Typography>
+                            </CardContent>
+                        </Card>
                     )}
                     {error && <NotFound />}
                 </ul>

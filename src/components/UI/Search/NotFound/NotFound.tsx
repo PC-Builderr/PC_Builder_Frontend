@@ -1,10 +1,13 @@
+import { Card, CardContent, Typography } from '@material-ui/core'
 import React, { FunctionComponent } from 'react'
 import styles from './NotFound.module.scss'
 
 export const NotFound: FunctionComponent = () => {
     return (
-        <li className={styles.root}>
-            <p>No Products Found</p>
-        </li>
+        <Card variant='outlined'>
+            <CardContent className={styles.root}>
+                <Typography>No Products Found</Typography>
+            </CardContent>
+        </Card>
     )
 }
