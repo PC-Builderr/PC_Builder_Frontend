@@ -1,3 +1,4 @@
+import { Card, Divider, Typography } from '@material-ui/core'
 import React, { FunctionComponent, useEffect } from 'react'
 import { useFetchShippingPrice } from '../../../hooks/HTTP/useFetchShippingPrice'
 import { useCart } from '../../../hooks/useCart'
@@ -22,32 +23,38 @@ export const OrderSummary: FunctionComponent<Props> = props => {
 
     return (
         <>
-            <Label className={styles.orderLabel} htmlFor='products'>
+            <Typography className={styles.orderLabel} variant='subtitle2' color='textSecondary'>
                 Your Order
-            </Label>
-            <ul id='products' className={styles.root}>
+            </Typography>
+
+            <Card className={styles.root} variant='outlined'>
                 {products?.map((product: Product) => {
                     return (
-                        <CheckoutProductCard
-                            key={product.id}
-                            quantity={getItemQuantityById(product.id)}
-                            product={product}
-                        />
+                        <>
+                            <CheckoutProductCard
+                                key={product.id}
+                                quantity={getItemQuantityById(product.id)}
+                                product={product}
+                            />
+                            <Divider />
+                        </>
                     )
                 })}
                 <li className={styles.total}>
-                    <span>Products Price:</span>
+                    <Typography variant='body2'>Products Price:</Typography>
                     <h4>{total}лв.</h4>
                 </li>
+                <Divider />
                 <li className={styles.total}>
-                    <span>Shipping Price:</span>
+                    <Typography variant='body2'>Shipping Price:</Typography>
                     <h4>{shippingPrice}лв.</h4>
                 </li>
+                <Divider />
                 <li className={styles.total}>
-                    <span>Total Price:</span>
+                    <Typography variant='body2'>Total Price:</Typography>
                     <h4>{total + shippingPrice}лв.</h4>
                 </li>
-            </ul>
+            </Card>
         </>
     )
 }

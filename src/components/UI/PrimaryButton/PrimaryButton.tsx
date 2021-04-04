@@ -7,22 +7,27 @@ interface Props extends ButtonProps {
     loading?: boolean
 }
 
-export const PrimaryButton: FunctionComponent<Props> = props => {
+export const PrimaryButton: FunctionComponent<Props> = ({
+    className,
+    loading,
+    children,
+    ...props
+}) => {
     return (
         <Button
             size='large'
             color='primary'
             variant='contained'
-            className={[styles.root, props.className].join(' ')}
+            className={[styles.root, className].join(' ')}
             fullWidth
             {...props}
         >
-            {props.loading ? (
+            {loading ? (
                 <>
                     Processing <BiLoaderAlt className={styles.spinner} />
                 </>
             ) : (
-                props.children
+                children
             )}
         </Button>
     )

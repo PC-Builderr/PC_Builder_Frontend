@@ -24,6 +24,11 @@
 .error {
     margin-top: 0.65rem;
 }
+
+.inputError {
+    position: absolute;
+}
+
 @media (max-width: 540px) {
     .root {
         border: none;

@@ -96,9 +96,11 @@ export const SignUp: FunctionComponent = () => {
                     value={credentials['confirm-password']}
                     error={credentialsErrors.includes('confirm-password')}
                     helperText={
-                        credentialsErrors.includes('confirm-password')
-                            ? 'Password and Confirm password should match'
-                            : null
+                        <Typography variant='caption'>
+                            {credentialsErrors.includes('confirm-password')
+                                ? 'Password and Confirm password should match'
+                                : null}
+                        </Typography>
                     }
                     onFocus={focusHandler}
                     fullWidth

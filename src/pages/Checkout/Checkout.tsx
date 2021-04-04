@@ -12,7 +12,7 @@ import { useShippingAddress } from '../../hooks/HTTP/useShippingAddress'
 import { CreateShippingAddressDto } from '../../types/order/CreateShippingAddressDto'
 import { ShippingAddress } from '../../types/order/ShippingAddress'
 import styles from './Checkout.module.scss'
-import { Typography } from '@material-ui/core'
+import { Card, Typography } from '@material-ui/core'
 
 const promise: Promise<Stripe | null> = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY ?? '')
 
@@ -38,13 +38,14 @@ export const Checkout: FunctionComponent = props => {
     return (
         <div className={styles.root}>
             <Header>Checkout</Header>
-            <Label className={styles.shippingAddress} htmlFor='shipping-address'>
-                Shipping Address
-            </Label>
-            <Typography variant='subtitle2' color='textSecondary'>
+            <Typography
+                className={styles.shippingAddress}
+                variant='subtitle2'
+                color='textSecondary'
+            >
                 Shipping Address
             </Typography>
-            <div id='shipping-address'>
+            <Card variant='outlined'>
                 {shippingAddresses?.map((address: ShippingAddress) => (
                     <ShippingAddressCard
                         key={address.id}
@@ -64,7 +65,14 @@ export const Checkout: FunctionComponent = props => {
                         Add Address
                     </PrimaryButton>
                 )}
-            </div>
+            </Card>
+            <Typography
+                className={styles.cardInformation}
+                variant='subtitle2'
+                color='textSecondary'
+            >
+                Card Information
+            </Typography>
             <section>
                 <Elements stripe={promise}>
                     <CheckoutForm shippingAddressId={selected} />

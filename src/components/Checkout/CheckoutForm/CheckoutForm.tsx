@@ -16,6 +16,7 @@ import { CartContext } from '../../../context/Cart/CartContext'
 import { PrimaryButton } from '../../UI/PrimaryButton/PrimaryButton'
 import { Label } from '../../UI/Label'
 import styles from './CheckoutForm.module.scss'
+import { Card, TextField, Typography } from '@material-ui/core'
 
 interface Props {
     shippingAddressId: number | null
@@ -28,14 +29,14 @@ interface CreatePaymentIntentResponse {
 const cardStyle: StripeCardElementOptions = {
     style: {
         base: {
-            color: '#18293c',
+            color: 'rgba(0, 0, 0, 0.87)',
             backgroundColor: 'white',
             fontFamily: 'Montserrat, sans-serif',
             fontSize: '16px',
             iconColor: '#18293c',
 
             '::placeholder': {
-                color: '#9ea9b7',
+                color: 'rgba(0, 0, 0, 0.57)',
                 fontSize: '16px'
             }
         },
@@ -84,7 +85,7 @@ export const CheckoutForm: FunctionComponent<Props> = ({ shippingAddressId }) =>
     }, [])
 
     const handleSubmit = useCallback(
-        async (event: FormEvent<HTMLFormElement>) => {
+        async (event: FormEvent<HTMLDivElement>) => {
             event.preventDefault()
 
             if (processing || disabled || Boolean(error) || !shippingAddressId) {
@@ -123,7 +124,17 @@ export const CheckoutForm: FunctionComponent<Props> = ({ shippingAddressId }) =>
             setItems([])
             history.replace('/')
         },
-        [clientSecret, elements, stripe, setItems, history, shippingAddressId]
+        [
+            clientSecret,
+            elements,
+            stripe,
+            setItems,
+            disabled,
+            error,
+            processing,
+            history,
+            shippingAddressId
+        ]
     )
 
     useEffect(() => {
@@ -131,15 +142,16 @@ export const CheckoutForm: FunctionComponent<Props> = ({ shippingAddressId }) =>
     }, [getClientSecret])
 
     return (
-        <form className={styles.root} onSubmit={handleSubmit}>
-            <Label error={error || undefined} htmlFor='card-info'>
-                Card Information*
-            </Label>
+        <Card component='form' variant='outlined' className={styles.root} onSubmit={handleSubmit}>
             <CardElement id='card-info' options={cardStyle} onChange={handleChange} />
-            {error && <span>{error}</span>}
+            {error && (
+                <Typography className={styles.error} variant='caption' color='secondary'>
+                    {error}
+                </Typography>
+            )}
             <PrimaryButton loading={processing} type='submit'>
                 Pay Now
             </PrimaryButton>
-        </form>
+        </Card>
     )
 }

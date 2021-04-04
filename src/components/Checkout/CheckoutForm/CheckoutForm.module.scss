@@ -1,27 +1,15 @@
 .root {
     grid-area: checkout-form;
-    border: 2px solid #e3f4fd;
-    background-color: #f7fcff;
     padding: 2rem;
-    border-radius: 4px;
-
-    & > label {
-        font-size: 0.8rem;
-        font-weight: 500;
-        color: #9ea9b7;
-        display: block;
-        margin-bottom: 0.1rem;
-    }
-
-    & > span {
-        font-size: 0.8rem;
-        color: red;
-        margin-top: 0.1rem;
-    }
 
     & > button {
-        margin-top: 1rem;
+        margin-top: 1.7rem;
     }
+}
+
+.error {
+    position: absolute;
+    margin-left: 0.5rem;
 }
 
 @media (max-width: 380px) {
