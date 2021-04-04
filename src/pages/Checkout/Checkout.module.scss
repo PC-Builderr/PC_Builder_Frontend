@@ -10,8 +10,7 @@
 
     margin-bottom: 1rem;
 
-    & > h3 {
-        grid-area: header;
+    & > div:first-of-type {
         margin: 2rem 0 2rem;
     }
 
@@ -26,7 +25,7 @@
         grid-area: shipping-address-label;
     }
 
-    & > div {
+    & > div:last-of-type {
         grid-area: shipping-address;
         display: flex;
         flex-direction: column;

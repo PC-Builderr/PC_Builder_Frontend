@@ -19,9 +19,7 @@ export const Products: FunctionComponent = () => {
 
     return (
         <div className={styles.root}>
-            <Header>
-                {ComponentNames.get(type)} <span>({total ?? 0})</span>
-            </Header>
+            <Header count={total ?? 0}>{ComponentNames.get(type)}</Header>
             <ProductFilters type={type} filters={filters} onChange={setFilters} />
             <div>
                 {error && <pre>{JSON.stringify(error, null, 2)}</pre>}
