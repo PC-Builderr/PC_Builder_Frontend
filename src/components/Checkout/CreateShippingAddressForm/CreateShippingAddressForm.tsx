@@ -1,4 +1,4 @@
-import { TextField } from '@material-ui/core'
+import { Button, Card, Dialog, Grid, TextField, Typography, useMediaQuery } from '@material-ui/core'
 import { Autocomplete, AutocompleteChangeDetails, AutocompleteChangeReason } from '@material-ui/lab'
 import React, { FunctionComponent, useCallback, useMemo, useState } from 'react'
 import { useFetchEcontCities } from '../../../hooks/HTTP/useFetchEcontCities'
@@ -10,6 +10,8 @@ import styles from './CreateShippingAddressForm.module.scss'
 
 interface Props {
     onSubmit: (createShippingAddressDto: CreateShippingAddressDto) => Promise<void>
+    open: boolean
+    onClose: () => void
 }
 
 interface InputState {
@@ -24,6 +26,8 @@ interface SelectState {
 }
 
 export const CreateShippingAddressForm: FunctionComponent<Props> = props => {
+    const matches = useMediaQuery('(max-width:800px)')
+
     const [inputState, setInputState] = useState<InputState>({
         name: '',
         'phone-number': '',
@@ -70,6 +74,25 @@ export const CreateShippingAddressForm: FunctionComponent<Props> = props => {
         []
     )
 
+    const submitHandler = useCallback(
+        (event: React.FormEvent<HTMLFormElement>) => {
+            event.preventDefault()
+
+            if (disabled) {
+                return
+            }
+
+            props.onSubmit({
+                address: inputState['address'],
+                city: selectState['city'],
+                name: inputState['name'],
+                phone: inputState['phone-number'],
+                postCode: selectState['postCode']
+            })
+        },
+        [disabled, props, inputState, selectState]
+    )
+
     const inputChangeHandler = useCallback((event: Change<HTMLInputElement>) => {
         console.log(event.target.name, event.target.value)
         setInputState((prevState: InputState) => {
@@ -81,70 +104,69 @@ export const CreateShippingAddressForm: FunctionComponent<Props> = props => {
     }, [])
 
     return (
-        <form
-            className={styles.root}
-            onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
-                event.preventDefault()
+        <Dialog open={props.open} onClose={props.onClose} fullScreen={matches}>
+            <form className={styles.root} onSubmit={submitHandler}>
+                <Typography variant='h5'>Add Address</Typography>
+                <TextField
+                    onChange={inputChangeHandler}
+                    value={inputState.name}
+                    type='text'
+                    label='Name'
+                    name='name'
+                    fullWidth
+                    variant='outlined'
+                />
+                <TextField
+                    onChange={inputChangeHandler}
+                    value={inputState['phone-number']}
+                    type='tel'
+                    label='Phone Number'
+                    name='phone-number'
+                    fullWidth
+                    variant='outlined'
+                    className={styles.Input}
+                />
+                <Autocomplete
+                    id='city'
+                    options={cities}
+                    getOptionLabel={option => `${option.name} (${option.postCode})`}
+                    onChange={selectChangeHandler}
+                    renderInput={params => (
+                        <TextField
+                            {...params}
+                            label='Choose City'
+                            variant='outlined'
+                            className={styles.Input}
+                        />
+                    )}
+                />
 
-                if (disabled) {
-                    return
-                }
-
-                props.onSubmit({
-                    address: inputState['address'],
-                    city: selectState['city'],
-                    name: inputState['name'],
-                    phone: inputState['phone-number'],
-                    postCode: selectState['postCode']
-                })
-            }}
-        >
-            <TextField
-                onChange={inputChangeHandler}
-                value={inputState.name}
-                type='text'
-                label='Name'
-                name='name'
-                fullWidth
-                variant='outlined'
-                className={styles.Input}
-            />
-            <TextField
-                onChange={inputChangeHandler}
-                value={inputState['phone-number']}
-                type='tel'
-                label='Phone Number'
-                name='phone-number'
-                fullWidth
-                variant='outlined'
-                className={styles.Input}
-            />
-            <Autocomplete
-                id='city'
-                options={cities}
-                getOptionLabel={option => `${option.name} (${option.postCode})`}
-                onChange={selectChangeHandler}
-                renderInput={params => (
-                    <TextField
-                        {...params}
-                        label='Choose City'
-                        variant='outlined'
-                        className={styles.Input}
-                    />
-                )}
-            />
-
-            <TextField
-                onChange={inputChangeHandler}
-                value={inputState.address}
-                type='text'
-                label='Address'
-                name='address'
-                fullWidth
-                variant='outlined'
-                className={styles.Input}
-            />
-            <PrimaryButton type='submit'>Save Address</PrimaryButton>
-        </form>
+                <TextField
+                    onChange={inputChangeHandler}
+                    value={inputState.address}
+                    type='text'
+                    label='Address'
+                    name='address'
+                    fullWidth
+                    variant='outlined'
+                    className={styles.Input}
+                />
+                <div className={styles.actions}>
+                    <PrimaryButton type='submit'>save {matches ? '' : 'Address'}</PrimaryButton>
+                    {matches && (
+                        <Button
+                            color='secondary'
+                            variant='contained'
+                            onClick={props.onClose}
+                            size='large'
+                            type='button'
+                            fullWidth
+                        >
+                            Close
+                        </Button>
+                    )}
+                </div>
+            </form>
+        </Dialog>
     )
 }

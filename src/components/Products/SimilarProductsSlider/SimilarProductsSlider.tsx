@@ -1,3 +1,4 @@
+import { Button, Card } from '@material-ui/core'
 import React, { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md'
 import { ITEMS_PER_SLIDER } from '../../../constants'
@@ -28,9 +29,22 @@ export const SimilarProductsSlider: FunctionComponent<Props> = ({ search, id }) 
 
     const { products } = useFetchSearchResult(urlSearchParams.toString())
 
-    const clickHandler = useCallback((index: number) => {
-        setIndex((currentIndex: number) => currentIndex + index)
-    }, [])
+    const clickHandler = useCallback(
+        (index: number) => {
+            setIndex((currentIndex: number) => {
+                if (currentIndex === 0 && index === -1) {
+                    return currentIndex
+                }
+
+                if (disable && index === 1) {
+                    return currentIndex
+                }
+
+                return currentIndex + index
+            })
+        },
+        [disable]
+    )
 
     useEffect(() => {
         setDisable(
@@ -42,7 +56,7 @@ export const SimilarProductsSlider: FunctionComponent<Props> = ({ search, id }) 
     }, [index, rootRef, products, id])
 
     return (
-        <div className={styles.root} ref={rootRef}>
+        <Card className={styles.root} ref={rootRef} variant='outlined'>
             <>
                 <ul
                     style={{
@@ -61,13 +75,13 @@ export const SimilarProductsSlider: FunctionComponent<Props> = ({ search, id }) 
                             <SliderItem key={product.id} product={product} />
                         ))}
                 </ul>
-                <button disabled={index === 0} onClick={clickHandler.bind(null, -1)}>
+                <Button onClick={clickHandler.bind(null, -1)}>
                     <MdKeyboardArrowLeft />
-                </button>
-                <button disabled={disable} onClick={clickHandler.bind(null, 1)}>
+                </Button>
+                <Button onClick={clickHandler.bind(null, 1)}>
                     <MdKeyboardArrowRight />
-                </button>
+                </Button>
             </>
-        </div>
+        </Card>
     )
 }

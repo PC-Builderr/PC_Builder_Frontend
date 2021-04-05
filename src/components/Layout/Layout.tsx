@@ -31,7 +31,7 @@ export const Layout: FunctionComponent<Props> = props => {
         <>
             <NavBar openSideDrawerHandler={openSideDrawer} />
             <WithMediaQuery minWidth={1000}>
-                <SideDrawer isOpen={isOpen} onClose={closeSideDrawer} />
+                <SideDrawer isOpen={isOpen} onClose={closeSideDrawer} onOpen={openSideDrawer} />
             </WithMediaQuery>
             <Container className={styles.root} maxWidth='lg'>
                 {props.children}

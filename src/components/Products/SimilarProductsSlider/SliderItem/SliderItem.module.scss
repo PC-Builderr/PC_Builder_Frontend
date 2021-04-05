@@ -1,41 +1,28 @@
 .root {
     width: 13rem;
+    border: none !important;
 
-    &:hover {
-        & p {
-            text-decoration: underline;
-        }
-    }
-
-    & > a {
-        display: block;
-        width: 12rem;
-
-        & > img {
+    & > button {
+        & img {
             display: block;
             width: 100%;
+            padding: 0.5rem;
         }
 
-        & > div {
-            padding: 0.25rem;
+        & .content {
+            padding-bottom: 0.5rem !important;
             height: 7rem;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+
+            & > div {
+                height: 100%;
+            }
         }
 
-        & p {
-            font-weight: 500;
-            color: #2d86ff;
-            font-size: 0.9rem;
-            line-height: 1.5;
-            flex-grow: 1;
-            display: flex;
-            align-items: center;
-        }
-
-        & h4 {
-            color: #2e425a;
+        & h6 {
+            font-size: 1.2rem !important;
         }
     }
 }

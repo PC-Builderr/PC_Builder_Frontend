@@ -1,6 +1,7 @@
 import { TextField } from '@material-ui/core'
 import { Autocomplete, AutocompleteChangeDetails, AutocompleteChangeReason } from '@material-ui/lab'
-import React, { FunctionComponent, useCallback, useEffect, useState } from 'react'
+import { SnackbarKey, useSnackbar } from 'notistack'
+import React, { FunctionComponent, useCallback, useEffect } from 'react'
 import { ComponentNames, GET_FULL_COMPONENT_URL } from '../../../constants'
 import { useFetchFilteredProducts } from '../../../hooks/HTTP/useFetchFilteredProducts'
 import { useIsMounted } from '../../../hooks/useIsMounted'
@@ -19,6 +20,8 @@ interface Props {
 export const SelectComponent: FunctionComponent<Props> = props => {
     const { setComponent, type, id, filters } = props
 
+    const { closeSnackbar, enqueueSnackbar } = useSnackbar()
+
     const isMounted: React.MutableRefObject<boolean> = useIsMounted()
 
     const {
@@ -32,9 +35,17 @@ export const SelectComponent: FunctionComponent<Props> = props => {
 
     useEffect(() => {
         if (error) {
-            alert(`Whith your current config there are no maching ${type} components`)
+            const key: SnackbarKey = enqueueSnackbar(
+                `With your current config there are no maching ${type} components`,
+                {
+                    variant: 'error',
+                    onClick: () => {
+                        closeSnackbar(key)
+                    }
+                }
+            )
         }
-    }, [error, type])
+    }, [error, type, enqueueSnackbar, closeSnackbar])
 
     const changeHandler = useCallback(
         async (

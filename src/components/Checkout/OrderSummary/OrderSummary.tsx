@@ -4,7 +4,6 @@ import { useFetchShippingPrice } from '../../../hooks/HTTP/useFetchShippingPrice
 import { useCart } from '../../../hooks/useCart'
 import { Product } from '../../../types/product/Product'
 import { CheckoutProductCard } from '../../Products/ProductCard/CheckoutProductCard'
-import { Label } from '../../UI/Label'
 import styles from './OrderSummary.module.scss'
 
 interface Props {}

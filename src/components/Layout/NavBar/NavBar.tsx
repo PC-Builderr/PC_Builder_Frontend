@@ -28,7 +28,7 @@ export const NavBar: FunctionComponent<Props> = props => {
     )
 
     return (
-        <AppBar className={styles.root} color='primary' variant='outlined' position='fixed'>
+        <AppBar className={styles.root} color='primary' variant='elevation' position='fixed'>
             <Container maxWidth='lg' component='nav'>
                 <WithMediaQuery minWidth={1000}>
                     <IconButton className={styles.burger} onClick={props.openSideDrawerHandler}>

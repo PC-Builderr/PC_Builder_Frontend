@@ -1,3 +1,12 @@
+import {
+    Card,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableRow,
+    Typography
+} from '@material-ui/core'
 import React, { FunctionComponent } from 'react'
 import { RAM } from '../../../../types/components/RAM'
 import styles from '../index.module.scss'
@@ -8,41 +17,59 @@ interface Props {
 
 export const RAMProductTable: FunctionComponent<Props> = ({ component }) => {
     return (
-        <table className={styles.root}>
-            <tbody>
-                <tr>
-                    <th>Series:</th>
-                    <td>{component.series}</td>
-                </tr>
-                <tr>
-                    <th>Brand:</th>
-                    <td>{component.product.brand.name}</td>
-                </tr>
-                <tr>
-                    <th>Type:</th>
-                    <td>{component.type}</td>
-                </tr>
-                <tr>
-                    <th>Speed:</th>
-                    <td>{component.speed} MHz</td>
-                </tr>
-                <tr>
-                    <th>Capacity:</th>
-                    <td>{component.capacity} GB</td>
-                </tr>
-                <tr>
-                    <th>Voltage:</th>
-                    <td>{component.voltage} V</td>
-                </tr>
-                <tr>
-                    <th>Conumption:</th>
-                    <td>{component.consumption} Watt</td>
-                </tr>
-                <tr>
-                    <th>Description:</th>
-                    <td>{component.product.description}</td>
-                </tr>
-            </tbody>
-        </table>
+        <TableContainer className={styles.root} component={Card} variant='outlined'>
+            <Table>
+                <TableBody>
+                    <TableRow>
+                        <TableCell>
+                            <Typography variant='subtitle2'>Series:</Typography>
+                        </TableCell>
+                        <TableCell>{component.series}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell>
+                            <Typography variant='subtitle2'>Brand:</Typography>
+                        </TableCell>
+                        <TableCell>{component.product.brand.name}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell>
+                            <Typography variant='subtitle2'>Type:</Typography>
+                        </TableCell>
+                        <TableCell>{component.type}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell>
+                            <Typography variant='subtitle2'>Speed:</Typography>
+                        </TableCell>
+                        <TableCell>{component.speed} MHz</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell>
+                            <Typography variant='subtitle2'>Capacity:</Typography>
+                        </TableCell>
+                        <TableCell>{component.capacity} GB</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell>
+                            <Typography variant='subtitle2'>Voltage:</Typography>
+                        </TableCell>
+                        <TableCell>{component.voltage} V</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell>
+                            <Typography variant='subtitle2'>Conumption:</Typography>
+                        </TableCell>
+                        <TableCell>{component.consumption} Watt</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell>
+                            <Typography variant='subtitle2'>Description:</Typography>
+                        </TableCell>
+                        <TableCell>{component.product.description}</TableCell>
+                    </TableRow>
+                </TableBody>
+            </Table>
+        </TableContainer>
     )
 }

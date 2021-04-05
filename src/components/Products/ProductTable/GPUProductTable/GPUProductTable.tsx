@@ -1,3 +1,12 @@
+import {
+    Card,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableRow,
+    Typography
+} from '@material-ui/core'
 import React, { FunctionComponent } from 'react'
 import { GPU } from '../../../../types/components/GPU'
 import styles from '../index.module.scss'
@@ -8,45 +17,65 @@ interface Props {
 
 export const GPUProductTable: FunctionComponent<Props> = ({ component }) => {
     return (
-        <table className={styles.root}>
-            <tbody>
-                <tr>
-                    <th>Series:</th>
-                    <td>{component.series}</td>
-                </tr>
-                <tr>
-                    <th>Brand:</th>
-                    <td>{component.product.brand.name}</td>
-                </tr>
-                <tr>
-                    <th>Speed:</th>
-                    <td>{component.speed} MHz</td>
-                </tr>
-                <tr>
-                    <th>Memory:</th>
-                    <td>{component.memory} GB</td>
-                </tr>
-                <tr>
-                    <th>Memory type:</th>
-                    <td>{component.memoryType}</td>
-                </tr>
-                <tr>
-                    <th>Bus width:</th>
-                    <td>{component.busWidth}-bit</td>
-                </tr>
-                <tr>
-                    <th>Size:</th>
-                    <td>For {component.format} Case</td>
-                </tr>
-                <tr>
-                    <th>Conumption:</th>
-                    <td>{component.consumption} Watt</td>
-                </tr>
-                <tr>
-                    <th>Description:</th>
-                    <td>{component.product.description}</td>
-                </tr>
-            </tbody>
-        </table>
+        <TableContainer className={styles.root} component={Card} variant='outlined'>
+            <Table>
+                <TableBody>
+                    <TableRow>
+                        <TableCell>
+                            <Typography variant='subtitle2'>Series:</Typography>
+                        </TableCell>
+                        <TableCell>{component.series}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell>
+                            <Typography variant='subtitle2'>Brand:</Typography>
+                        </TableCell>
+                        <TableCell>{component.product.brand.name}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell>
+                            <Typography variant='subtitle2'>Speed:</Typography>
+                        </TableCell>
+                        <TableCell>{component.speed} MHz</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell>
+                            <Typography variant='subtitle2'>Memory:</Typography>
+                        </TableCell>
+                        <TableCell>{component.memory} GB</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell>
+                            <Typography variant='subtitle2'>Memory type:</Typography>
+                        </TableCell>
+                        <TableCell>{component.memoryType}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell>
+                            <Typography variant='subtitle2'>Bus width:</Typography>
+                        </TableCell>
+                        <TableCell>{component.busWidth}-bit</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell>
+                            <Typography variant='subtitle2'>Size:</Typography>
+                        </TableCell>
+                        <TableCell>For {component.format} Case</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell>
+                            <Typography variant='subtitle2'>Conumption:</Typography>
+                        </TableCell>
+                        <TableCell>{component.consumption} Watt</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell>
+                            <Typography variant='subtitle2'>Description:</Typography>
+                        </TableCell>
+                        <TableCell>{component.product.description}</TableCell>
+                    </TableRow>
+                </TableBody>
+            </Table>
+        </TableContainer>
     )
 }

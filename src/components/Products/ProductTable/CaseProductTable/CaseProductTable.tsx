@@ -1,3 +1,12 @@
+import {
+    Card,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableRow,
+    Typography
+} from '@material-ui/core'
 import React, { FunctionComponent } from 'react'
 import { Case } from '../../../../types/components/Case'
 import styles from '../index.module.scss'
@@ -8,25 +17,35 @@ interface Props {
 
 export const CaseProductTable: FunctionComponent<Props> = ({ component }) => {
     return (
-        <table className={styles.root}>
-            <tbody>
-                <tr>
-                    <th>Series:</th>
-                    <td>{component.series}</td>
-                </tr>
-                <tr>
-                    <th>Format:</th>
-                    <td>{component.format}</td>
-                </tr>
-                <tr>
-                    <th>Brand:</th>
-                    <td>{component.product.brand.name}</td>
-                </tr>
-                <tr>
-                    <th>Description:</th>
-                    <td>{component.product.description}</td>
-                </tr>
-            </tbody>
-        </table>
+        <TableContainer className={styles.root} component={Card} variant='outlined'>
+            <Table>
+                <TableBody>
+                    <TableRow>
+                        <TableCell>
+                            <Typography variant='subtitle2'>Series:</Typography>
+                        </TableCell>
+                        <TableCell>{component.series}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell>
+                            <Typography variant='subtitle2'>Format:</Typography>
+                        </TableCell>
+                        <TableCell>{component.format}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell>
+                            <Typography variant='subtitle2'>Brand:</Typography>
+                        </TableCell>
+                        <TableCell>{component.product.brand.name}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell>
+                            <Typography variant='subtitle2'>Description:</Typography>
+                        </TableCell>
+                        <TableCell>{component.product.description}</TableCell>
+                    </TableRow>
+                </TableBody>
+            </Table>
+        </TableContainer>
     )
 }

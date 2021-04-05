@@ -1,18 +1,17 @@
-import { TextField, Typography, Link } from '@material-ui/core'
+import { Link, TextField, Typography } from '@material-ui/core'
+import { Alert } from '@material-ui/lab'
 import React, { FunctionComponent } from 'react'
 import { Link as RouterLink, Redirect, useLocation } from 'react-router-dom'
 import { PrimaryButton } from '../../components/UI/PrimaryButton/PrimaryButton'
-import { Input } from '../../components/UI/Input'
-import { SERVER_ERROR, SIGN_IN_API_URL, CREDENTIALS_ERROR } from '../../constants'
+import { CREDENTIALS_ERROR, SERVER_ERROR, SIGN_IN_API_URL } from '../../constants'
 import { useUserAuth } from '../../hooks/Auth/useUserAuth'
 import { SignInCredentials } from '../../types/credentials/SignInCredentials'
 import styles from './SignIn.module.scss'
-import { Alert } from '@material-ui/lab'
 
 export const SignIn: FunctionComponent = () => {
     const {
         methods: { changeHandler, authenticate, focusHandler },
-        state: { credentials, authState, fetchError, loading, credentialsErrors }
+        state: { credentials, authState, fetchError, loading }
     } = useUserAuth<SignInCredentials>(SIGN_IN_API_URL, [
         { name: 'email', value: '' },
         { name: 'password', value: '' }

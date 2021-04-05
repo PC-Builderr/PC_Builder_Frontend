@@ -1,17 +1,14 @@
 .root {
     display: grid;
-    grid-template-columns: auto 22rem;
-    column-gap: 2rem;
+    grid-template-columns: auto 23rem;
+    column-gap: 3.3rem;
+    row-gap: 1.3rem;
 
     grid-template-areas:
         'header header'
         'products side';
 
     margin-bottom: 1rem;
-
-    & > h3 {
-        grid-area: header;
-    }
 
     & > ul {
         grid-area: products;
@@ -35,4 +32,10 @@
             'side'
             'products ';
     }
-} ;
+}
+
+@media (max-width: 800px) {
+    .root {
+        row-gap: 1rem;
+    }
+}

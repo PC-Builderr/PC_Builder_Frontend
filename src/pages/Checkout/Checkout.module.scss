@@ -1,7 +1,7 @@
 .root {
     display: grid;
     grid-template-columns: auto 23rem;
-    column-gap: 4rem;
+    column-gap: 3.3rem;
 
     grid-template-areas:
         'header header'
@@ -9,10 +9,6 @@
         'shipping-address side';
 
     margin-bottom: 1rem;
-
-    & > div:first-of-type {
-        margin: 2rem 0 2rem;
-    }
 
     & > .shippingAddressLabel {
         grid-area: shipping-address-label;
@@ -26,13 +22,11 @@
         grid-area: shipping-address;
         display: flex;
         flex-direction: column;
-        padding: 1rem 2rem 2rem;
+        padding-bottom: 0.5rem;
         height: fit-content;
-
-        & > button {
-            margin-top: 1rem;
-            margin-left: 1.5rem;
-            max-width: 15rem;
+        & > div {
+            max-width: 16rem;
+            padding: 0.5rem 1.5rem 1rem;
         }
     }
 
@@ -54,31 +48,22 @@
             'header'
             'shipping-address-label '
             'shipping-address'
+            'card-information'
             'side';
 
-        & > section {
-            display: grid;
-            grid-template-columns: auto;
+        & h6 {
+            margin-top: 1rem !important;
+        }
 
-            grid-template-areas:
-                'order-label'
-                'products'
-                'form';
-
-            & > ul {
-                margin-bottom: 2.3rem;
+        & > div:last-of-type {
+            & > div {
+                max-width: none;
             }
         }
-    }
-}
 
-@media (max-width: 380px) {
-    .root {
-        & > div {
-            padding: 1rem;
-
-            & > input {
-                width: 100%;
+        & > section {
+            & > ul {
+                margin-bottom: 2.3rem;
             }
         }
     }

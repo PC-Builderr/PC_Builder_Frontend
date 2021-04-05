@@ -1,22 +1,19 @@
 .root {
+    max-width: 20rem;
+    width: 100% !important;
     & .price {
-        padding: 2rem 6rem;
-        border: 2px solid #e3f4fd;
-        background-color: #f7fcff;
-        border-radius: 4px;
+        padding: 2rem 0rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: auto;
 
-        & > p {
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: #2e425a;
+        & > h6 {
+            font-size: 2rem;
         }
     }
 
     & .shipping {
-        border-left: 2px solid #e3f4fd;
-        border-right: 2px solid #e3f4fd;
-
-        background-color: #f7fcff;
         padding: 2rem 1.75rem;
         display: grid;
         grid-template-columns: 2.5rem auto;
@@ -27,49 +24,30 @@
             font-size: 2rem;
 
             grid-area: check;
+
+            align-self: center;
         }
 
-        & span:first-of-type {
+        & h6 {
             color: #5dbf39;
-            font-weight: 500;
 
             grid-area: heading;
         }
 
-        & span:last-of-type {
-            font-size: 0.75rem;
-            color: #5b5f61;
+        & span {
             grid-area: sub;
         }
     }
     & .action {
-        border: 2px solid #e3f4fd;
-        background-color: #f7fcff;
-        padding: 1.5rem;
+        padding: 1rem 1.5rem 1.5rem;
 
         & > div {
-            margin-bottom: 1rem;
-            color: #2e425a;
             display: flex;
-
-            & span:first-of-type {
-                font-size: 0.9rem;
-                font-weight: 500;
-            }
-
-            & span:last-of-type {
-                // font-size: 0.9rem;
-                font-weight: 500;
-            }
+            align-items: center;
+            margin-bottom: 0.25rem;
 
             & > button {
-                border: none;
-                background-color: transparent;
-                color: #2e425a;
-
-                &:disabled {
-                    opacity: 0.5;
-                }
+                padding: 0.5rem;
 
                 & svg {
                     font-size: 1rem;
@@ -81,19 +59,14 @@
 
 @media (max-width: 800px) {
     .root {
-        margin-top: 2rem;
+        margin-top: 1rem;
         width: 80%;
-
-        & .price {
-            text-align: center;
-            font-size: 2rem;
-        }
+        max-width: none;
     }
 }
 
 @media (max-width: 600px) {
     .root {
-        margin-top: 2rem;
         width: 90%;
 
         & .price p {
@@ -104,7 +77,6 @@
 
 @media (max-width: 540px) {
     .root {
-        margin-top: 2rem;
         width: 90%;
 
         & .price p {

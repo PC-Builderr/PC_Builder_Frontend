@@ -8,6 +8,7 @@
         "@stripe/react-stripe-js": "^1.2.0",
         "@stripe/stripe-js": "^1.11.0",
         "jwt-decode": "^3.1.2",
+        "notistack": "^1.0.5",
         "react": "^17.0.1",
         "react-dom": "^17.0.1",
         "react-icons": "^4.1.0",

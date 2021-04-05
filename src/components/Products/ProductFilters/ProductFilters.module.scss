@@ -1,3 +1,7 @@
 .root {
     grid-area: filters;
+
+    & > ul > div:last-of-type {
+        margin: 0;
+    }
 }

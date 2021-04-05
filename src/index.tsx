@@ -1,12 +1,15 @@
+import { IconButton } from '@material-ui/core'
+import { ThemeProvider } from '@material-ui/styles'
+import { SnackbarProvider } from 'notistack'
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { VscChromeClose } from 'react-icons/vsc'
+import { BrowserRouter } from 'react-router-dom'
+import { App } from './App'
+import { AuthContextProvider } from './context/Auth/AuthContextProvider'
+import { CartContextProvider } from './context/Cart/CartContextProvider'
 import './index.scss'
 import reportWebVitals from './reportWebVitals'
-import { App } from './App'
-import { CartContextProvider } from './context/Cart/CartContextProvider'
-import { BrowserRouter } from 'react-router-dom'
-import { AuthContextProvider } from './context/Auth/AuthContextProvider'
-import { ThemeProvider } from '@material-ui/styles'
 import { theme } from './theme'
 
 ReactDOM.render(
@@ -14,9 +17,23 @@ ReactDOM.render(
         <AuthContextProvider>
             <CartContextProvider>
                 <BrowserRouter>
-                    <ThemeProvider theme={theme}>
-                        <App />
-                    </ThemeProvider>
+                    <SnackbarProvider
+                        maxSnack={3}
+                        autoHideDuration={4000}
+                        action={key => (
+                            <IconButton
+                                className='snackbar__close-btn'
+                                aria-label='close'
+                                color='inherit'
+                            >
+                                <VscChromeClose />
+                            </IconButton>
+                        )}
+                    >
+                        <ThemeProvider theme={theme}>
+                            <App />
+                        </ThemeProvider>
+                    </SnackbarProvider>
                 </BrowserRouter>
             </CartContextProvider>
         </AuthContextProvider>

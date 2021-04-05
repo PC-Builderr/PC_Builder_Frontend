@@ -1,3 +1,4 @@
+import { Card, Dialog, List, Typography } from '@material-ui/core'
 import { Elements } from '@stripe/react-stripe-js'
 import { loadStripe, Stripe } from '@stripe/stripe-js'
 import React, { FunctionComponent, useCallback, useEffect, useState } from 'react'
@@ -5,14 +6,12 @@ import { CheckoutForm } from '../../components/Checkout/CheckoutForm'
 import { CreateShippingAddressForm } from '../../components/Checkout/CreateShippingAddressForm'
 import { OrderSummary } from '../../components/Checkout/OrderSummary'
 import { ShippingAddressCard } from '../../components/Checkout/ShippingAddressCard'
-import { PrimaryButton } from '../../components/UI/PrimaryButton/PrimaryButton'
 import { Header } from '../../components/UI/Header'
-import { Label } from '../../components/UI/Label'
+import { PrimaryButton } from '../../components/UI/PrimaryButton/PrimaryButton'
 import { useShippingAddress } from '../../hooks/HTTP/useShippingAddress'
 import { CreateShippingAddressDto } from '../../types/order/CreateShippingAddressDto'
 import { ShippingAddress } from '../../types/order/ShippingAddress'
 import styles from './Checkout.module.scss'
-import { Card, Typography } from '@material-ui/core'
 
 const promise: Promise<Stripe | null> = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY ?? '')
 
@@ -22,6 +21,14 @@ export const Checkout: FunctionComponent = props => {
     const [selected, setSelected] = useState<number | null>(null)
 
     const [open, setOpen] = useState<boolean>(false)
+
+    const openHendler = useCallback(() => {
+        setOpen(true)
+    }, [])
+
+    const closeHandler = useCallback(() => {
+        setOpen(false)
+    }, [])
 
     const submitHandler = useCallback(
         async (createShippingAddressDto: CreateShippingAddressDto) => {
@@ -46,25 +53,24 @@ export const Checkout: FunctionComponent = props => {
                 Shipping Address
             </Typography>
             <Card variant='outlined'>
-                {shippingAddresses?.map((address: ShippingAddress) => (
-                    <ShippingAddressCard
-                        key={address.id}
-                        changeHandler={setSelected}
-                        selected={selected}
-                        address={address}
-                    />
-                ))}
-                {open ? (
-                    <CreateShippingAddressForm onSubmit={submitHandler} />
-                ) : (
-                    <PrimaryButton
-                        onClick={() => {
-                            setOpen(true)
-                        }}
-                    >
-                        Add Address
-                    </PrimaryButton>
-                )}
+                <List>
+                    {shippingAddresses?.map((address: ShippingAddress) => (
+                        <ShippingAddressCard
+                            key={address.id}
+                            changeHandler={setSelected}
+                            selected={selected}
+                            address={address}
+                        />
+                    ))}
+                </List>
+                <div>
+                    <PrimaryButton onClick={openHendler}>Add Address</PrimaryButton>
+                </div>
+                <CreateShippingAddressForm
+                    open={open}
+                    onClose={closeHandler}
+                    onSubmit={submitHandler}
+                />
             </Card>
             <Typography
                 className={styles.cardInformation}

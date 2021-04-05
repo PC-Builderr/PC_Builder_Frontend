@@ -1,15 +1,11 @@
 .root {
-    border: 2px solid #e3f4fd;
-    background-color: #f7fcff;
     overflow: hidden;
     margin-bottom: 3rem;
     position: relative;
-    min-height: 18rem;
-    border-radius: 4px;
 
     & > ul {
         display: flex;
-        padding: 1rem 1rem 0.5rem 1rem;
+        padding: 0 1rem;
         flex-wrap: nowrap;
         width: max-content;
         transition: 300ms;
@@ -30,15 +26,21 @@
             right: 0;
         }
 
-        & > svg {
+        & svg {
             font-size: 3rem;
-            color: #2e425a;
+            color: rgba(0, 0, 0, 0.57);
         }
 
         &:disabled {
             opacity: 0.5;
             cursor: not-allowed;
         }
+    }
+}
+
+@media (max-width: 800px) {
+    .root {
+        margin-bottom: 1rem;
     }
 }
 

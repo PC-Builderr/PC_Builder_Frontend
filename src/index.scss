@@ -80,3 +80,11 @@ button {
 .MuiButton-text {
     padding: 6px 16px !important;
 }
+
+.snackbar__close-btn {
+    padding: 0.5rem !important;
+
+    & svg {
+        font-size: 1.3rem !important;
+    }
+}

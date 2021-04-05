@@ -1,3 +1,4 @@
+import { Card, Typography } from '@material-ui/core'
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js'
 import { StripeCardElementChangeEvent, StripeCardElementOptions } from '@stripe/stripe-js'
 import React, {
@@ -14,9 +15,7 @@ import { AuthContextInterface } from '../../../context/Auth/AuthContext.interfac
 import { CartContextInterface } from '../../../context/Cart/CartContectInterface'
 import { CartContext } from '../../../context/Cart/CartContext'
 import { PrimaryButton } from '../../UI/PrimaryButton/PrimaryButton'
-import { Label } from '../../UI/Label'
 import styles from './CheckoutForm.module.scss'
-import { Card, TextField, Typography } from '@material-ui/core'
 
 interface Props {
     shippingAddressId: number | null

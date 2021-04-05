@@ -1,5 +1,5 @@
 import { Button, Popover } from '@material-ui/core'
-import React, { FunctionComponent, useEffect, useRef, useState } from 'react'
+import React, { FunctionComponent, useCallback, useEffect, useRef, useState } from 'react'
 import { IoIosArrowDown } from 'react-icons/io'
 import { useLocation } from 'react-router'
 import styles from './DropDown.module.scss'
@@ -14,18 +14,21 @@ export const DropDown: FunctionComponent<Props> = props => {
 
     const { pathname } = useLocation()
 
+    const toggleHandler = useCallback(() => {
+        setIsOpen((f: boolean) => !f)
+    }, [])
+
+    const closeHandler = useCallback(() => {
+        setIsOpen(false)
+    }, [])
+
     useEffect(() => {
         setIsOpen(false)
     }, [pathname])
 
     return (
         <li className={styles.root}>
-            <Button
-                ref={ref}
-                onClick={() => {
-                    setIsOpen((f: boolean) => !f)
-                }}
-            >
+            <Button ref={ref} onClick={toggleHandler}>
                 {props.label}
                 <IoIosArrowDown
                     style={{
@@ -36,9 +39,7 @@ export const DropDown: FunctionComponent<Props> = props => {
             <Popover
                 open={isOpen}
                 anchorEl={ref.current}
-                onClose={() => {
-                    setIsOpen(false)
-                }}
+                onClose={closeHandler}
                 anchorOrigin={{
                     vertical: 'bottom',
                     horizontal: 'left'

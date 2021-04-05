@@ -28,9 +28,7 @@ export const SearchResult: FunctionComponent = () => {
 
     return (
         <div className={styles.root}>
-            <Header>
-                {searchParams.get('search')} <span>({total})</span>
-            </Header>
+            <Header count={total ?? 0}>{searchParams.get('search')}</Header>
             <div>
                 {error && <pre>{JSON.stringify(error, null, 2)}</pre>}
                 {products && !loading && <ProductList products={products} />}

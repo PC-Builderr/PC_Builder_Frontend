@@ -1,13 +1,11 @@
 import {
-    Box,
     Card,
-    CardContent,
-    Drawer,
     Grid,
     IconButton,
     List,
     ListItem,
     ListItemText,
+    SwipeableDrawer,
     Typography
 } from '@material-ui/core'
 import React, { FunctionComponent } from 'react'
@@ -21,6 +19,7 @@ import styles from './SideDrawer.module.scss'
 interface Props {
     isOpen: boolean
     onClose: () => void
+    onOpen: () => void
 }
 
 export const SideDrawer: FunctionComponent<Props> = props => {
@@ -30,7 +29,13 @@ export const SideDrawer: FunctionComponent<Props> = props => {
 
     return (
         <>
-            <Drawer open={props.isOpen} anchor='left' onClose={props.onClose}>
+            <SwipeableDrawer
+                open={props.isOpen}
+                anchor='left'
+                onOpen={props.onOpen}
+                onClose={props.onClose}
+                disableBackdropTransition
+            >
                 <Grid
                     className={styles.header}
                     direction='row'
@@ -117,7 +122,7 @@ export const SideDrawer: FunctionComponent<Props> = props => {
                         ) : null}
                     </WithMediaQuery>
                 </div>
-            </Drawer>
+            </SwipeableDrawer>
         </>
     )
 }

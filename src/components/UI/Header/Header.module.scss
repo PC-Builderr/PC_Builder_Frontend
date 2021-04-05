@@ -8,18 +8,25 @@
 
         padding: 1rem !important;
 
-        & > h6 {
-            margin-top: 0.1rem;
-
-            &::first-letter {
-                text-transform: capitalize;
-            }
-        }
-
         & > h5 {
             margin-top: 0.2rem;
             margin-left: 0.25rem;
         }
+    }
+}
+
+@media (max-width: 960px) {
+    .root {
+        & h6 {
+            margin-top: 0.2rem;
+            margin-left: 0.25rem;
+        }
+    }
+}
+
+@media (max-width: 800px) {
+    .root {
+        margin: 0 !important;
     }
 }
 

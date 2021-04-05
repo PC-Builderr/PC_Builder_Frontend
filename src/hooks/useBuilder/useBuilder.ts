@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { Case } from '../../types/components/Case'
 import { CPU } from '../../types/components/CPU'
 import { GPU } from '../../types/components/GPU'
@@ -23,6 +23,7 @@ import { PSUFilters } from './components/psu/PSUFilters'
 import { PSUState } from './components/psu/PSUState'
 import { generateRamFilters } from './components/ram/generateRamFilters'
 import { RamFilters } from './components/ram/RamFilters'
+import { SnackbarKey, useSnackbar } from 'notistack'
 import { RamState } from './components/ram/RamState'
 import { generateComputerStorages } from './components/storage/generateComputerStorages'
 import { generateStorageFilters } from './components/storage/generateStorageFilters'
@@ -32,6 +33,8 @@ import { Component } from './computer/Component'
 import { Computer } from './computer/Computer'
 import { ComputerState } from './computer/ComputerState'
 import { generateComputerPrice } from './computer/generateComputerPrice'
+import { AuthContextInterface } from '../../context/Auth/AuthContext.interface'
+import { AuthContext } from '../../context/Auth/AuthContext'
 
 interface Builder {
     cpu: CPUState
@@ -45,6 +48,8 @@ interface Builder {
 }
 
 export const useBuilder = (): Builder => {
+    const { closeSnackbar, enqueueSnackbar } = useSnackbar()
+
     const [name, setName] = useState<string>('')
 
     // Components and components quantities
@@ -134,12 +139,20 @@ export const useBuilder = (): Builder => {
         if (!gpuQuantity) return
 
         if (cpu && !cpu.integratedGraphics) {
-            alert('current CPU has no integrated graphics please choose a diffrent one')
+            const key: SnackbarKey = enqueueSnackbar(
+                'Current CPU has no integrated graphics please choose a diffrent one',
+                {
+                    variant: 'error',
+                    onClick: () => {
+                        closeSnackbar(key)
+                    }
+                }
+            )
             setCPU(null)
         }
         setGPU(null)
         setGPUQuantity(0)
-    }, [cpu, gpuQuantity])
+    }, [cpu, gpuQuantity, enqueueSnackbar, closeSnackbar])
 
     // Storage Functions
     const addStorage = useCallback(() => {

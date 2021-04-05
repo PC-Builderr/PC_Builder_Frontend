@@ -1,7 +1,9 @@
 import {
+    Backdrop,
     Card,
     CardActionArea,
     CardContent,
+    Divider,
     InputBase,
     TextField,
     Typography
@@ -62,40 +64,45 @@ export const SearchInput: FunctionComponent = () => {
     }, [location])
 
     return (
-        <div className={styles.root}>
-            <InputBase
-                value={search}
-                onChange={searchProductsHandler}
-                onClick={inputClickHandler}
-                placeholder='Search...'
-                startAdornment={<IoSearchSharp />}
-                endAdornment={loading ? <BiLoaderAlt className={styles.spinner} /> : null}
-            />
-            {isOpen && (
-                <ul onClick={close}>
-                    {products?.map((product: Product) => (
-                        <li key={product.id}>
-                            <MobileProductCard product={product} />
-                        </li>
-                    ))}
-                    {total && (
-                        <Card variant='outlined'>
-                            <CardActionArea>
-                                <CardContent
-                                    component={Link}
-                                    to={`/products?search=${search}`}
-                                    className={styles.allProducts}
-                                >
-                                    <Typography color='textPrimary'>
-                                        See all {total} results.
-                                    </Typography>
-                                </CardContent>
-                            </CardActionArea>
-                        </Card>
-                    )}
-                    {error && <NotFound />}
-                </ul>
-            )}
-        </div>
+        <>
+            <Backdrop className={styles.backdrop} open={loading || isOpen} />
+            <div className={styles.root}>
+                <InputBase
+                    value={search}
+                    onChange={searchProductsHandler}
+                    onClick={inputClickHandler}
+                    placeholder='Search...'
+                    startAdornment={<IoSearchSharp />}
+                    endAdornment={loading ? <BiLoaderAlt className={styles.spinner} /> : null}
+                />
+
+                {isOpen && (
+                    <Card variant='outlined' component='ul' onClick={close}>
+                        {products?.map((product: Product) => (
+                            <li key={product.id}>
+                                <MobileProductCard product={product} />
+                                <Divider />
+                            </li>
+                        ))}
+                        {total && (
+                            <Card variant='outlined'>
+                                <CardActionArea>
+                                    <CardContent
+                                        component={Link}
+                                        to={`/products?search=${search}`}
+                                        className={styles.allProducts}
+                                    >
+                                        <Typography color='textPrimary'>
+                                            See all {total} results.
+                                        </Typography>
+                                    </CardContent>
+                                </CardActionArea>
+                            </Card>
+                        )}
+                        {error && <NotFound />}
+                    </Card>
+                )}
+            </div>
+        </>
     )
 }
