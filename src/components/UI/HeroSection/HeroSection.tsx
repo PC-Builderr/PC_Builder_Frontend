@@ -45,9 +45,7 @@ export const HeroSection: FunctionComponent<Props> = props => {
                     {tablet || <br />} has never been easier!
                 </Typography>
                 <Typography variant='body1' color='textSecondary'>
-                    Building computers has never been easier!
-                    {tablet || <br />}
-                    Change, customize or add anything to your computer.
+                    Together We Can Create a High Performance Custom Designed PC.
                 </Typography>
                 <Grid direction='row' alignItems='center' container>
                     <PrimaryButton onClick={goToBuilderHandler}>Build your pc</PrimaryButton>

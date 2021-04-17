@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useContext } from 'react'
+import React, { FunctionComponent, useCallback, useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { RiShoppingCartLine } from 'react-icons/ri'
 import { HiOutlineMenuAlt2 } from 'react-icons/hi'
@@ -19,7 +19,6 @@ interface Props {
 
 export const NavBar: FunctionComponent<Props> = props => {
     const { items } = useContext<CartContextInterface>(CartContext)
-
     const { authState, logout } = useLogout()
 
     const quantity: number = items.reduce(
@@ -27,8 +26,27 @@ export const NavBar: FunctionComponent<Props> = props => {
         0
     )
 
+    const [hasScrolled, setHasScrolled] = useState<boolean>()
+
+    const scrollHandler = useCallback((event: Event) => {
+        setHasScrolled(Boolean(window.scrollY))
+    }, [])
+
+    useEffect(() => {
+        window.addEventListener('scroll', scrollHandler)
+
+        return () => {
+            window.removeEventListener('scroll', scrollHandler)
+        }
+    }, [scrollHandler])
+
     return (
-        <AppBar className={styles.root} color='primary' variant='elevation' position='fixed'>
+        <AppBar
+            className={styles.root}
+            color='primary'
+            variant={hasScrolled ? 'elevation' : 'outlined'}
+            position='fixed'
+        >
             <Container maxWidth='lg' component='nav'>
                 <WithMediaQuery minWidth={1000}>
                     <IconButton className={styles.burger} onClick={props.openSideDrawerHandler}>

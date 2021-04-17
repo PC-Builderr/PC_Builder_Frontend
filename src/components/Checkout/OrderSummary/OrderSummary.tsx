@@ -29,14 +29,13 @@ export const OrderSummary: FunctionComponent<Props> = props => {
             <Card className={styles.root} variant='outlined'>
                 {products?.map((product: Product) => {
                     return (
-                        <>
+                        <span key={product.id}>
                             <CheckoutProductCard
-                                key={product.id}
                                 quantity={getItemQuantityById(product.id)}
                                 product={product}
                             />
                             <Divider />
-                        </>
+                        </span>
                     )
                 })}
                 <li className={styles.total}>

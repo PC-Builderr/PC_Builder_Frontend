@@ -5,13 +5,14 @@ import styles from './Header.module.scss'
 interface Props {
     children: React.ReactNode
     count?: number
+    className?: string
 }
 
 export const Header: FunctionComponent<Props> = props => {
     const medium = useMediaQuery('(max-width:960px)')
 
     return (
-        <Card className={styles.root} variant='outlined'>
+        <Card className={[styles.root, props.className].join(' ')} variant='outlined'>
             <CardContent>
                 <Typography variant={medium ? 'h5' : 'h4'}>{props.children}</Typography>
                 {props.count ? (

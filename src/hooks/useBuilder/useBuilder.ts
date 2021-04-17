@@ -35,6 +35,7 @@ import { ComputerState } from './computer/ComputerState'
 import { generateComputerPrice } from './computer/generateComputerPrice'
 import { AuthContextInterface } from '../../context/Auth/AuthContext.interface'
 import { AuthContext } from '../../context/Auth/AuthContext'
+import { useUser } from '../User'
 
 interface Builder {
     cpu: CPUState
@@ -49,6 +50,7 @@ interface Builder {
 
 export const useBuilder = (): Builder => {
     const { closeSnackbar, enqueueSnackbar } = useSnackbar()
+    const { user } = useUser()
 
     const [name, setName] = useState<string>('')
 
@@ -218,6 +220,12 @@ export const useBuilder = (): Builder => {
     useEffect(() => {
         setStorages((storages: Array<Storage | null>): Array<Storage | null> => [storages[0]])
     }, [mobo])
+
+    useEffect(() => {
+        if (user) {
+            setName(`${user.name}'s PC`)
+        }
+    }, [user])
 
     return {
         cpu: {

@@ -1,4 +1,5 @@
 import { useCallback, useContext, useEffect, useState } from 'react'
+import { useHistory } from 'react-router'
 import { COMPUTER_API_URL } from '../../constants'
 import { AuthContext } from '../../context/Auth/AuthContext'
 import { AuthContextInterface } from '../../context/Auth/AuthContext.interface'
@@ -11,11 +12,10 @@ interface State {
     error: Error | null
     loading: boolean
     data: any
-    disabled: boolean
 }
 
 interface Methods {
-    createComputer: () => Promise<void>
+    createComputer: (toCart: boolean) => Promise<void>
 }
 
 interface CreateComputer {
@@ -24,6 +24,7 @@ interface CreateComputer {
 }
 
 export const useFetchCreateComputer = (computer: Computer): CreateComputer => {
+    const history = useHistory()
     const [data, setData] = useState<any>()
     const [error, setError] = useState<Error | null>(null)
     const [loading, setLoading] = useState<boolean>(false)
@@ -36,34 +37,47 @@ export const useFetchCreateComputer = (computer: Computer): CreateComputer => {
 
     const isMounted: React.MutableRefObject<boolean> = useIsMounted()
 
-    const createComputer = useCallback(async () => {
-        setError(null)
-        setLoading(true)
+    const createComputer = useCallback(
+        async (toCart: boolean) => {
+            if (disabled) {
+                return
+            }
 
-        const response = await fetch(COMPUTER_API_URL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${authState?.token}`
-            },
-            body: JSON.stringify(computer)
-        })
+            setError(null)
+            setLoading(true)
 
-        const data = await response.json()
+            const response = await fetch(COMPUTER_API_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${authState?.token}`
+                },
+                body: JSON.stringify(computer)
+            })
 
-        if (!isMounted.current) return
+            const data = await response.json()
 
-        if (!response.ok) {
-            setError(data)
-            setData(null)
+            if (!isMounted.current) return
+
+            if (!response.ok) {
+                setError(data)
+                setData(null)
+                setLoading(false)
+                return
+            }
+
             setLoading(false)
-            return
-        }
+            setData(data)
+            if (!toCart) {
+                history.push('/profile')
 
-        setLoading(false)
-        setData(data)
-        addItem({ id: data.computer.product.id, quantity: 1 })
-    }, [isMounted, computer, authState, addItem])
+                return
+            }
+            addItem({ id: data.computer.product.id, quantity: 1 })
+            history.push('/cart')
+        },
+        [isMounted, history, computer, authState, addItem, disabled]
+    )
 
     useEffect(() => {
         if (validateComputer(computer) && !loading) {
@@ -77,7 +91,7 @@ export const useFetchCreateComputer = (computer: Computer): CreateComputer => {
         methods: {
             createComputer
         },
-        state: { error, loading, data, disabled }
+        state: { error, loading, data }
     }
 }
 

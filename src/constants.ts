@@ -22,6 +22,8 @@ export const CALCULATE_SHIPPING_API_URL: string = `${process.env.REACT_APP_API_U
 export const SHIPPING_ADDRESS_API_URL: string = `${process.env.REACT_APP_API_URL}/shipping-address`
 export const MIN_MAX_PRICE_API_URL: string = `${process.env.REACT_APP_API_URL}/product`
 
+export const USER_DATA_URL: string = `${process.env.REACT_APP_API_URL}/user/account`
+
 export const ECONT_CITIES_URL: string =
     'http://ee.econt.com/services/Nomenclatures/NomenclaturesService.getCities.json'
 
@@ -36,11 +38,11 @@ export const SATA_TYPE: string = 'SATA'
 export const M2_TYPE: string = 'М.2 NVMe'
 
 export const ComponentNames: Map<string, string> = new Map([
-    ['cpu', 'Processors'],
-    ['gpu', 'Graphics Cards'],
-    ['motherboard', 'Motherboards'],
+    ['cpu', 'Processor'],
+    ['gpu', 'Graphics Card'],
+    ['motherboard', 'Motherboard'],
     ['ram', 'RAM'],
-    ['case', 'Cases'],
-    ['psu', 'Power supplies'],
-    ['storage', 'Storages']
+    ['case', 'Case'],
+    ['psu', 'Power supply'],
+    ['storage', 'Storage']
 ])
