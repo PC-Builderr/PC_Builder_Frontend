@@ -37,7 +37,7 @@ export const Layout: FunctionComponent<Props> = props => {
             <Container className={styles.root} maxWidth='lg'>
                 {props.children}
             </Container>
-            <Footer />
+            {/* <Footer /> */}
         </>
     )
 }
