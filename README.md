@@ -58,16 +58,7 @@ compatibility between components the application ensurses that components are co
 </div>
 
 <br/>
-<br/>
 
-## PC Builder Repos
-### [PC Builder Front End](https://github.com/valentin30/PC_Builder_Frontend)
-
-### [PC Builder Back End](https://github.com/valentin30/PC_Builder_Backend)
-
-### [PC Builder Admin](https://github.com/valentin30/PC_Builder_Admin)
-
-### [PC Builder Products](https://github.com/valentin30/PC_Builder_Products)
 
 <br/>
 
@@ -100,3 +91,14 @@ This is the client application part of the project here you can buy computer com
 
 #### Check Out Page:
 <image src="https://user-images.githubusercontent.com/57724836/139489423-177ffadc-ae2f-4690-9883-8217da4f26b6.png" width="1000"/>
+
+<br/>
+
+## PC Builder Repos
+### [PC Builder Front End](https://github.com/valentin30/PC_Builder_Frontend)
+
+### [PC Builder Back End](https://github.com/valentin30/PC_Builder_Backend)
+
+### [PC Builder Admin](https://github.com/valentin30/PC_Builder_Admin)
+
+### [PC Builder Products](https://github.com/valentin30/PC_Builder_Products)
