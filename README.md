@@ -1,46 +1,102 @@
-# Getting Started with Create React App
+# PC Builder
+<br/>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Description
 
-## Available Scripts
+High-school thesis. 
+Online shop for computer components and configuring custom PC builds where users don't need to worry about the 
+compatibility between components the application ensurses that components are compatible
+<br/>
+<br/>
 
-In the project directory, you can run:
 
-### `yarn start`
+## Technologies, Libraries and APIs
+<div>
+  <img src="https://user-images.githubusercontent.com/57724836/139492400-e5854f38-8700-4c9a-ac63-5589d79d7d8e.png" 
+       alt="TypeScript Logo" 
+       width="90" 
+       height="90">
+  <img height="75" hspace="10"/>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/React.svg/512px-React.svg.png" 
+       alt="React Logo" 
+       width="90" 
+       height="84">
+  <img height="75" hspace="10"/>
+  <img src="https://seeklogo.com/images/N/nestjs-logo-09342F76C0-seeklogo.com.png" 
+       alt="NestJS Logo" 
+       width="90" 
+       height="86">
+  <img height="75" hspace="10"/>
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Postgresql_elephant.svg/1200px-Postgresql_elephant.svg.png" 
+       alt="PostgreSQL Logo" 
+       width="84" 
+       height="90">
+  <br/>
+  <br/>
+  <img src="https://image.opencart.com/cache/5bd71c18719f4-resize-710x380.jpg" 
+       alt="Econt Logo" 
+       width="142" 
+       height="75">  
+  <img height="75" hspace="20"/>
+  <img src="https://www.pngkey.com/png/full/87-873276_1524532051-stripe-logo-stripe-payments.png" 
+       alt="Stripe Logo" 
+       style="border-radius: 8px;"
+       width="180" 
+       height="75"> 
+  <br/>
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7qvkwyXoEp63-8fLF6wm3bzxqypXoVGXCxaovfVezQNX5SVZVxluRocCTioU5PGtE3IA&usqp=CAU" 
+       alt="MUI Logo" 
+       style="border-radius: 8px;"
+       width="75" 
+       height="63"> 
+  <img height="75" hspace="20"/>
+  <img src="https://raw.githubusercontent.com/chakra-ui/chakra-ui/main/logo/logo-colored@2x.png?raw=true" 
+       alt="MUI Logo" 
+       style="border-radius: 8px;"
+       width="252" 
+       height="65"> 
+</div>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+<br/>
+<br/>
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## PC Builder Repos
+### [PC Builder Front End](https://github.com/valentin30/PC_Builder_Frontend)
 
-### `yarn test`
+### [PC Builder Back End](https://github.com/valentin30/PC_Builder_Backend)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### [PC Builder Admin](https://github.com/valentin30/PC_Builder_Admin)
 
-### `yarn build`
+### [PC Builder Products](https://github.com/valentin30/PC_Builder_Products)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+<br/>
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## PC Builder Front End
+<br/>
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Description
 
-### `yarn eject`
+This is the client application part of the project here you can buy computer components and configure a custop PC with ease.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Pages
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+#### Landing Page:
+<image src="https://user-images.githubusercontent.com/57724836/139489117-3958f2cb-e4c0-442d-8355-ab7ebf54bae6.png" width="1000"/>
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+#### Products Page:
+<image src="https://user-images.githubusercontent.com/57724836/139489239-bbe6926d-4a50-45fa-af8a-f75cd0490ba7.png" width="1000"/>
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+#### Single Product Page:
+<image src="https://user-images.githubusercontent.com/57724836/139489335-3bea5b63-0da6-42ef-b5bf-3206ad9aa927.png" width="1000"/>
+<image src="https://user-images.githubusercontent.com/57724836/139489343-ac04ed1d-5a87-49cc-a07e-b2df7462e196.png" width="1000"/>
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+#### Builder Page:
+<image src="https://user-images.githubusercontent.com/57724836/139489264-752fa4b9-a4a1-4da6-8161-f5f3eea16f9b.png" width="1000"/>
+
+#### Cart Page:
+<image src="https://user-images.githubusercontent.com/57724836/139489292-f5e7b3b7-8e2b-4f5b-9e91-4f7a49c8c202.png" width="1000"/>
+
+#### Check Out Page:
+<image src="https://user-images.githubusercontent.com/57724836/139489423-177ffadc-ae2f-4690-9883-8217da4f26b6.png" width="1000"/>
